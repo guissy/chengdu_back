@@ -24,6 +24,11 @@ export async function buildApp(options: FastifyServerOptions = {}): Promise<Fast
   // 配置插件
   await configurePlugins(app);
 
+  // 注册根路由
+  app.get('/', async (request, reply) => {
+    return { message: 'Hello, Vercel!' };
+  });
+
   // 注册路由
   // routes()
   await app.register(routes);

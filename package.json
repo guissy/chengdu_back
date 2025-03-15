@@ -1,6 +1,6 @@
 {
   "name": "chengdu01",
-  "module": "src/server.ts",
+  "module": "src/index.ts",
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest",
@@ -30,9 +30,9 @@
     "zod-to-json-schema": "^3.24.3"
   },
   "scripts": {
-    "dev": "bun --watch src/server.ts",
+    "dev": "bun --watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/index.js",
     "clean": "rm -rf dist/*",
     "seed": "bun src/seed/seed.ts"
   },

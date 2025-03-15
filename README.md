@@ -27,7 +27,7 @@
 business-system/
 ├── src/                           # 源代码目录
 │   ├── app.ts                     # Fastify 应用主入口
-│   ├── server.ts                  # 服务器启动
+│   ├── index.ts                  # 服务器启动
 │   ├── config/                    # 配置文件
 │   ├── plugins/                   # Fastify 插件
 │   ├── routes/                    # API 路由
