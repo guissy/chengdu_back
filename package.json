@@ -31,7 +31,7 @@
   },
   "scripts": {
     "dev": "bun --watch src/server.ts",
-    "build": "bun run clean && tsc",
+    "build": "tsc",
     "start": "bun dist/index.js",
     "clean": "rm -rf dist/*",
     "seed": "bun src/seed/seed.ts"
