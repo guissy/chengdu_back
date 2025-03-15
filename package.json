@@ -32,7 +32,7 @@
   "scripts": {
     "dev": "bun --watch src/server.ts",
     "build": "tsc",
-    "start": "bun dist/index.js",
+    "start": "node dist/server.js",
     "clean": "rm -rf dist/*",
     "seed": "bun src/seed/seed.ts"
   },
