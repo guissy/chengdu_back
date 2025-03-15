@@ -5,10 +5,10 @@ import { ErrorWithName, ShopWithSpaces } from '@/app/lib/types/prisma'
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
-    const id = params.id
+    const id = context.params.id
 
     // 查询数据库，找出商家详情
     const shop = await prisma.shop.findUnique({
