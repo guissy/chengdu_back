@@ -2,9 +2,10 @@ import { prisma } from '@/app/lib/prisma'
 import { shopResponseSchema } from '@/app/lib/schemas/shop'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName, ShopWithSpaces } from '@/app/lib/types/prisma'
+import { NextRequest } from 'next/server';
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   context: { params: { id: string } }
 ) {
   try {
