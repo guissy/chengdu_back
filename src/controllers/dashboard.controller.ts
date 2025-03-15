@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { zodToJsonSchema } from 'zod-to-json-schema';
+import { ShopType } from '@prisma/client';
 
 // Dashboard Statistics Schema
 export default class DashboardController {
@@ -161,7 +162,7 @@ export default class DashboardController {
     reply: FastifyReply
   ) {
     try {
-      const shopTypes = Object.values(this.fastify.prisma.shopType);
+      const shopTypes = Object.values(ShopType);
       const typeCounts = [];
 
       for (const type of shopTypes) {

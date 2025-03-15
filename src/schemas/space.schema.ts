@@ -17,7 +17,7 @@ export const spaceAddSchema = z.object({
   setting: z.record(z.string(), z.any()).describe('广告位设置'),
   count: z.number().int().positive().default(1).describe('广告位数量'),
   state: z.string().describe('状态 1-启用 2-禁用'),
-  priceFactor: z.number().positive().default(1.0).describe('价格因子'),
+  price_factor: z.number().positive().default(1.0).describe('价格因子'),
   tag: z.string().optional().describe('分类标签'),
   site: z.string().optional().describe(
     '位置，1-主客区/大堂 2-商家入口 3-入口通道 4-独立房间/包间 5-通往洗手间过道 6-洗手间 7-商家外摆区/店外公共区 8-店外墙面(非临街) 9-店外墙面(临街)'
@@ -53,7 +53,7 @@ export const spaceResponseSchema = z.object({
   count: z.number(),
   state: z.string(),
   photo: z.array(z.string()),
-  priceFactor: z.number().positive().default(1.0).describe('价格因子'),
+  price_factor: z.number().positive().default(1.0).describe('价格因子'),
   updatedAt: z.string(),
   shopId: z.string(),
   shop: z.object({

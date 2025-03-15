@@ -6,6 +6,16 @@ import {
   ShopDeleteRequest, ShopDetailRequest,
 } from '../schemas/shop.schema.js';
 import { formatSuccess } from '../utils/response-formatter.js';
+import {
+  BusinessType,
+  ContactType,
+  Gender,
+  OperationDuration,
+  PeakTime,
+  RestDay,
+  Season,
+  ShopType
+} from '@prisma/client';
 
 export class ShopController {
   constructor(private fastify: FastifyInstance) {}
@@ -29,7 +39,7 @@ export class ShopController {
       ...shop,
       shopId: shop.id,
       total_space: shop.spaces?.length,
-      put_space: shop.spaces?.filter((space) => space.state === 1).length,
+      put_space: shop.spaces?.filter((space) => space.state === "ENABLED").length,
       photo: shop.environment_photo.concat(shop.building_photo),
     }));
 
@@ -64,7 +74,7 @@ export class ShopController {
       ...shop,
       shopId: shop.id,
       total_space: shop.spaces?.length,
-      put_space: shop.spaces?.filter((space) => space.state === 1).length,
+      put_space: shop.spaces?.filter((space) => space.state === "ENABLED").length,
       photo: shop.environment_photo.concat(shop.building_photo),
     }));
 
@@ -79,7 +89,9 @@ export class ShopController {
    * 获取商家详情
    */
   async getShopDetail(
-    request: FastifyRequest<ShopDetailRequest>,
+    request: FastifyRequest<{
+      Params: ShopDetailRequest
+    }>,
     reply: FastifyReply
   ) {
     const { id } = request.params;
@@ -106,7 +118,7 @@ export class ShopController {
       ...shop,
       shopId: shop.id,
       total_space: shop.spaces?.length,
-      put_space: shop.spaces?.filter((space) => space.state === 1).length,
+      put_space: shop.spaces?.filter((space) => space.state === "ENABLED").length,
       photo: shop.environment_photo.concat(shop.building_photo),
     };
     return reply.send(
@@ -221,17 +233,17 @@ export class ShopController {
         shop_no,
         cbdId: cbdId,
         partId: partId,
-        type,
+        type: type as unknown as ShopType,
         type_tag,
-        business_type: business_type,
+        business_type: business_type as unknown as BusinessType,
         trademark,
         branch,
         location,
         verified: verified || false,
-        duration,
+        duration: duration as unknown as OperationDuration,
         consume_display: consume_display || true,
         average_expense,
-        sex: sex || 1,
+        sex: sex as unknown as Gender,
         age,
         id_tag,
         sign_photo,
@@ -241,14 +253,14 @@ export class ShopController {
         brand_photo: brand_photo || [],
         contact_name,
         contact_phone,
-        contact_type,
+        contact_type: contact_type as unknown as ContactType,
         total_area,
         customer_area,
         clerk_count,
         business_hours,
-        rest_days,
-        volume_peak,
-        season,
+        rest_days: rest_days as unknown as RestDay[],
+        volume_peak: volume_peak as unknown as PeakTime[],
+        season: season as unknown as Season[],
         shop_description,
         put_description,
         displayed: displayed || true,
@@ -335,17 +347,17 @@ export class ShopController {
     await this.fastify.prisma.shop.update({
       where: { id },
       data: {
-        type,
+        type: type as unknown as ShopType,
         type_tag,
-        business_type: business_type,
+        business_type: business_type as unknown as BusinessType,
         trademark,
         branch,
         location,
         verified,
-        duration,
+        duration: duration as unknown as OperationDuration,
         consume_display,
         average_expense,
-        sex,
+        sex: sex as unknown as Gender,
         age,
         id_tag,
         sign_photo,
@@ -355,14 +367,14 @@ export class ShopController {
         brand_photo,
         contact_name,
         contact_phone,
-        contact_type,
+        contact_type: contact_type as unknown as ContactType,
         total_area,
         customer_area,
         clerk_count,
         business_hours,
-        rest_days,
-        volume_peak,
-        season,
+        rest_days: rest_days as unknown as RestDay[],
+        volume_peak: volume_peak as unknown as PeakTime[],
+        season: season as unknown as Season[],
         shop_description,
         put_description,
         displayed,

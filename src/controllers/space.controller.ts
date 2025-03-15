@@ -7,6 +7,7 @@ import {
   SpaceUpdateStateRequest,
 } from '../schemas/space.schema.js';
 import { formatSuccess } from '../utils/response-formatter.js';
+import { SpaceSite, SpaceStability, SpaceState, SpaceType } from '@prisma/client';
 
 export class SpaceController {
   constructor(private fastify: FastifyInstance) {
@@ -21,10 +22,10 @@ export class SpaceController {
   ) {
     const { shopId } = request.body;
     // 查询数据库
-    const spaces = await this.fastify.prisma.space.findMany(shopId ?{
+    const spaces = await this.fastify.prisma.space.findMany(shopId ? {
       where: { shopId },
       include: { shop: true },
-    } : {});
+    } : undefined);
 
     // 处理返回数据
     const formattedSpaces = spaces.map((space) => ({
@@ -34,7 +35,7 @@ export class SpaceController {
       count: space.count,
       state: space.state,
       photo: space.photo,
-      priceFactor: space.price_factor,
+      price_factor: space.price_factor,
       updatedAt: space.updatedAt,
       shopId: space.shopId,
       shop: {
@@ -81,7 +82,7 @@ export class SpaceController {
       count: existingSpace.count,
       state: existingSpace.state,
       photo: existingSpace.photo,
-      priceFactor: existingSpace.price_factor,
+      price_factor: existingSpace.price_factor,
       tag: existingSpace.tag,
       site: existingSpace.site,
       stability: existingSpace.stability,
@@ -111,7 +112,7 @@ export class SpaceController {
       setting,
       count,
       state,
-      priceFactor,
+      price_factor,
       tag,
       site,
       stability,
@@ -138,14 +139,14 @@ export class SpaceController {
     await this.fastify.prisma.space.create({
       data: {
         shopId,
-        type,
+        type: type as unknown as SpaceType,
         setting,
         count: count || 1,
-        state: state || 1,
-        price_factor: priceFactor || 1.0,
+        state: state as unknown as SpaceState || SpaceState.ENABLED,
+        price_factor: price_factor || 1.0,
         tag,
-        site,
-        stability,
+        site: site as unknown as SpaceSite,
+        stability: stability as unknown as SpaceStability,
         photo: photo || [],
         description,
         design_attention,
@@ -212,14 +213,14 @@ export class SpaceController {
       await prisma.space.update({
         where: { id },
         data: {
-          type,
+          type: type as unknown as SpaceType,
           setting,
           count,
-          state,
+          state: state as unknown as SpaceState,
           price_factor,
           tag,
-          site,
-          stability,
+          site: site as unknown as SpaceSite,
+          stability: stability as unknown as SpaceStability,
           photo,
           description,
           design_attention,
@@ -318,11 +319,11 @@ export class SpaceController {
       // 更新广告位状态
       await prisma.space.update({
         where: { id },
-        data: { state },
+        data: { state: state as SpaceState },
       });
 
       // 更新商家的已投放广告位数量
-      const difference = state === 1 ? existingSpace.count : -existingSpace.count;
+      const difference = state === "ENABLED" ? existingSpace.count : -existingSpace.count;
 
       await prisma.position.updateMany({
         where: { shopId: existingSpace.shopId },

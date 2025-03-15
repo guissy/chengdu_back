@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { DistrictListRequest } from '../schemas/district.schema';
-import { formatSuccess } from '../utils/response-formatter';
+import { DistrictListRequest } from '../schemas/district.schema.js';
+import { formatSuccess } from '../utils/response-formatter.js';
 
 export class DistrictController {
   constructor(private fastify: FastifyInstance) {}
