@@ -1,6 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
 import { cityListResponseSchema } from '@/app/lib/schemas/city'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
 
 export async function GET() {

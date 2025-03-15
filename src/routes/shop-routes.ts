@@ -1,11 +1,13 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import {
   shopAddSchema,
-  shopUpdateSchema,
-  shopDeleteSchema,
-  shopListResponseSchema,
   shopCreateResponseSchema,
-  shopGenericResponseSchema, shopResponseSchema, shopDetailSchema,
+  shopDeleteSchema,
+  shopDetailSchema,
+  shopGenericResponseSchema,
+  shopListResponseSchema,
+  shopResponseSchema,
+  shopUpdateSchema,
 } from '../schemas/shop.schema.js';
 import { ShopController } from '../controllers/shop.controller.js';
 import { zodToJsonSchema } from "zod-to-json-schema";

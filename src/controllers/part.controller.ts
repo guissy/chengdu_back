@@ -1,12 +1,12 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import {
-  PartListRequest,
   PartAddRequest,
-  PartUpdateRequest,
-  PartDeleteRequest, PartDetailRequest
+  PartDeleteRequest,
+  PartDetailRequest,
+  PartListRequest,
+  PartUpdateRequest
 } from '../schemas/part.schema.js';
 import { formatSuccess } from '../utils/response-formatter.js';
-import { z } from 'zod';
 import { AuditLogService } from './auditLog.service.js';
 
 export class PartController {

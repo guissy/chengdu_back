@@ -1,7 +1,7 @@
 import { prisma } from '@/app/lib/prisma'
 import { shopDeleteSchema } from '@/app/lib/schemas/shop'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
-import { ShopWithSpaces, ErrorWithName } from '@/app/lib/types/prisma'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
+import { ErrorWithName, ShopWithSpaces } from '@/app/lib/types/prisma'
 
 export async function POST(request: Request) {
   try {

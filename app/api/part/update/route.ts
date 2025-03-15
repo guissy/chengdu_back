@@ -1,6 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
 import { partUpdateSchema } from '@/app/lib/schemas/part'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
 
 export async function POST(request: Request) {
@@ -48,4 +48,4 @@ export async function POST(request: Request) {
     }
     return errorResponse('Internal Server Error')
   }
-} 
+}

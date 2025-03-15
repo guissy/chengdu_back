@@ -1,8 +1,5 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
-import {
-  cbdListSchema,
-  cbdListResponseSchema,
-} from '../schemas/cbd.schema.js';
+import { cbdListResponseSchema, cbdListSchema, } from '../schemas/cbd.schema.js';
 import { CbdController } from '../controllers/cbd.controller.js';
 import { zodToJsonSchema } from "zod-to-json-schema";
 

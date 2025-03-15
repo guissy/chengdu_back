@@ -1,7 +1,7 @@
 import { prisma } from '@/app/lib/prisma'
 import { partResponseSchema } from '@/app/lib/schemas/part'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
-import { PartWithPositions, ErrorWithName } from '@/app/lib/types/prisma'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
+import { ErrorWithName, PartWithPositions } from '@/app/lib/types/prisma'
 import { NextRequest } from 'next/server';
 
 export async function GET(

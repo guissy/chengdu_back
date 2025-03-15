@@ -1,5 +1,4 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { zodToJsonSchema } from 'zod-to-json-schema';
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { ShopType } from '@prisma/client';
 
 // Dashboard Statistics Schema

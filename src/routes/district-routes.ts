@@ -1,8 +1,5 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
-import {
-  districtListSchema,
-  districtListResponseSchema,
-} from '../schemas/district.schema.js';
+import { districtListResponseSchema, districtListSchema, } from '../schemas/district.schema.js';
 import { DistrictController } from '../controllers/district.controller.js';
 import { zodToJsonSchema } from "zod-to-json-schema";
 

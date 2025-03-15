@@ -1,5 +1,9 @@
 import { FastifyInstance } from 'fastify';
-import { Prisma, OperationType, OperationTarget } from '@prisma/client';
+import { OperationTarget, OperationType } from '@prisma/client';
+type RequestData = {
+  ip: string
+  headers: Record<string, string>
+}
 
 export class AuditLogService {
   constructor(private fastify: FastifyInstance) {}
@@ -25,8 +29,11 @@ export class AuditLogService {
     content: string;
     operatorId: string;
     operatorName: string;
-    details?: Record<string, any>;
-    request?: any;
+    details?: Record<string, unknown>;
+    request?: {
+      ip: string
+      headers: Record<string, string>
+    };
   }) {
     try {
       // 获取IP和UserAgent信息（如果可用）
@@ -72,8 +79,8 @@ export class AuditLogService {
     targetName: string;
     operatorId: string;
     operatorName: string;
-    details?: Record<string, any>;
-    request?: any;
+    details?: Record<string, unknown>;
+    request?: RequestData;
   }) {
     // 根据不同对象类型生成不同的操作内容
     let content = '';
@@ -130,8 +137,8 @@ export class AuditLogService {
     targetName: string;
     operatorId: string;
     operatorName: string;
-    details?: Record<string, any>;
-    request?: any;
+    details?: Record<string, unknown>;
+    request?: RequestData;
   }) {
     // 根据不同对象类型生成不同的操作内容
     let content = '';
@@ -188,8 +195,8 @@ export class AuditLogService {
     targetName: string;
     operatorId: string;
     operatorName: string;
-    details?: Record<string, any>;
-    request?: any;
+    details?: Record<string, unknown>;
+    request?: RequestData;
   }) {
     // 根据不同对象类型生成不同的操作内容
     let content = '';
@@ -235,8 +242,8 @@ export class AuditLogService {
    * @param newData 变更后的数据
    * @returns 变更的字段及其前后值
    */
-  static generateChangeDetails(oldData: Record<string, any>, newData: Record<string, any>) {
-    const changes: Record<string, { old: any; new: any }> = {};
+  static generateChangeDetails(oldData: Record<string, unknown>, newData: Record<string, unknown>) {
+    const changes: Record<string, { old: unknown; new: unknown }> = {};
 
     // 遍历新数据中的所有键
     for (const key in newData) {

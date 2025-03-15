@@ -1,6 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
 import { shopUpdateSchema } from '@/app/lib/schemas/shop'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { Shop } from '@prisma/client'
 import { ErrorWithName } from '@/app/lib/types/prisma'
 

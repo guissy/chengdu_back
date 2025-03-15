@@ -1,15 +1,15 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import {
-  PositionListRequest,
   PositionAddRequest,
-  PositionUpdateRequest,
-  PositionDeleteRequest,
-  PositionSetEmptyRequest,
   PositionBindShopRequest,
-  PositionMarkRequest, PositionDetailRequest,
+  PositionDeleteRequest,
+  PositionDetailRequest,
+  PositionListRequest,
+  PositionMarkRequest,
+  PositionSetEmptyRequest,
+  PositionUpdateRequest,
 } from '../schemas/position.schema.js';
 import { formatSuccess } from '../utils/response-formatter.js';
-import { PartDetailRequest } from '../schemas/part.schema.js';
 
 export class PositionController {
   constructor(private fastify: FastifyInstance) {

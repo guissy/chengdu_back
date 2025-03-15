@@ -1,5 +1,5 @@
 import { AuditLogService } from "../controllers/auditLog.service.js";
-import { FastifyInstance, FastifyPluginAsync } from 'fastify';
+import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 
 // 创建Fastify插件

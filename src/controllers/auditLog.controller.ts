@@ -1,7 +1,7 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
-import { auditLogQuerySchema, auditLogResponseSchema, paginatedResponseSchema } from '../schemas/auditLog.schema.js';
+import { auditLogQuerySchema } from '../schemas/auditLog.schema.js';
+import { AuditLogWhereInput } from '@prisma/client';
 
 // 审计日志控制器
 class AuditLogController {
@@ -27,7 +27,7 @@ class AuditLogController {
       } = request.query;
 
       // 构建查询条件
-      const where: any = {};
+      const where = {} as AuditLogWhereInput
 
       if (operationType) {
         where.operationType = operationType;

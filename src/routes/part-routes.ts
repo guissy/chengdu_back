@@ -1,11 +1,13 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import {
-  partListSchema,
   partAddSchema,
-  partUpdateSchema,
   partDeleteSchema,
+  partDetailSchema,
+  partGenericResponseSchema,
   partListResponseSchema,
-  partGenericResponseSchema, partDetailSchema, partResponseSchema
+  partListSchema,
+  partResponseSchema,
+  partUpdateSchema
 } from '../schemas/part.schema.js';
 import { PartController } from '../controllers/part.controller.js';
 import { zodToJsonSchema } from "zod-to-json-schema";

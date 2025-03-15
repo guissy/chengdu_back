@@ -1,5 +1,4 @@
-import { FastifyInstance, FastifyServerOptions } from 'fastify';
-import fastify from 'fastify';
+import fastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
 import { configurePlugins } from './plugins/index.js';
 import { routes } from './routes/index.js';
 import { errorHandler } from './utils/error-handler.js';
@@ -25,7 +24,7 @@ export async function buildApp(options: FastifyServerOptions = {}): Promise<Fast
   await configurePlugins(app);
 
   // 注册根路由
-  app.get('/', async (request, reply) => {
+  app.get('/', async () => {
     return { message: 'Hello, Vercel!' };
   });
 

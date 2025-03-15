@@ -1,6 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
-import { cbdListSchema, cbdListResponseSchema } from '@/app/lib/schemas/cbd'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { cbdListResponseSchema, cbdListSchema } from '@/app/lib/schemas/cbd'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { CBDWithParts, ErrorWithName } from '@/app/lib/types/prisma'
 
 export async function POST(request: Request) {
@@ -45,4 +45,4 @@ export async function POST(request: Request) {
     }
     return errorResponse('Internal Server Error')
   }
-} 
+}

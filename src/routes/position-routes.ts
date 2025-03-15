@@ -1,14 +1,16 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import {
-  positionListSchema,
   positionAddSchema,
-  positionUpdateSchema,
-  positionDeleteSchema,
-  positionSetEmptySchema,
   positionBindShopSchema,
-  positionMarkSchema,
+  positionDeleteSchema,
+  positionDetailSchema,
+  positionGenericResponseSchema,
   positionListResponseSchema,
-  positionGenericResponseSchema, positionDetailSchema, positionResponseSchema,
+  positionListSchema,
+  positionMarkSchema,
+  positionResponseSchema,
+  positionSetEmptySchema,
+  positionUpdateSchema,
 } from '../schemas/position.schema.js';
 import { PositionController } from '../controllers/position.controller.js';
 import { zodToJsonSchema } from "zod-to-json-schema";

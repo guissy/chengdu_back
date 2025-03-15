@@ -1,9 +1,10 @@
-import fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import {
-  ShopListUnbindRequest,
   ShopAddRequest,
+  ShopDeleteRequest,
+  ShopDetailRequest,
+  ShopListUnbindRequest,
   ShopUpdateRequest,
-  ShopDeleteRequest, ShopDetailRequest,
 } from '../schemas/shop.schema.js';
 import { formatSuccess } from '../utils/response-formatter.js';
 import {

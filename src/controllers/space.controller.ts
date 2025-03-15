@@ -1,9 +1,9 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import {
-  SpaceListRequest,
   SpaceAddRequest,
-  SpaceUpdateRequest,
   SpaceDeleteRequest,
+  SpaceListRequest,
+  SpaceUpdateRequest,
   SpaceUpdateStateRequest,
 } from '../schemas/space.schema.js';
 import { formatSuccess } from '../utils/response-formatter.js';
