@@ -2,7 +2,7 @@ import { prisma } from '@/app/lib/prisma'
 import { cbdListResponseSchema, cbdListSchema } from '@/app/lib/schemas/cbd'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
-import { CBDWhereInput } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     const cbds = await prisma.cBD.findMany({
       where: {
         cityId: cityId,
-      } as CBDWhereInput,
+      } as Prisma.CBDWhereInput,
       include: {
         parts: true,
       },
