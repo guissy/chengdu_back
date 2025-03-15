@@ -1,7 +1,8 @@
 import { prisma } from '@/app/lib/prisma'
 import { shopListResponseSchema } from '@/app/lib/schemas/shop'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
-import { ErrorWithName, ShopWithSpaces } from '@/app/lib/types/prisma'
+import { ErrorWithName } from '@/app/lib/types/prisma'
+import { Shop } from '@prisma/client';
 
 export async function GET() {
   try {
@@ -10,7 +11,7 @@ export async function GET() {
       include: {
         spaces: true,
       },
-    }) as ShopWithSpaces[]
+    }) as Shop
 
     // 处理返回数据
     const formattedShops = shops.map((shop) => ({

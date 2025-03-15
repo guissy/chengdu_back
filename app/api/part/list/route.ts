@@ -1,7 +1,8 @@
 import { prisma } from '@/app/lib/prisma'
 import { partListResponseSchema, partListSchema } from '@/app/lib/schemas/part'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
-import { ErrorWithName, PartWithPositions } from '@/app/lib/types/prisma'
+import { ErrorWithName } from '@/app/lib/types/prisma'
+import { Part } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
       include: {
         positions: true,
       },
-    }) as PartWithPositions[]
+    }) as Part[]
 
     // 处理返回数据
     const formattedParts = parts.map((part) => ({

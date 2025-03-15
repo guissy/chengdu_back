@@ -1,7 +1,7 @@
 import { prisma } from '@/app/lib/prisma'
 import { shopUpdateSchema } from '@/app/lib/schemas/shop'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
-import { Shop } from '@prisma/client'
+import { Position, Shop } from '@prisma/client'
 import { ErrorWithName } from '@/app/lib/types/prisma'
 
 export async function POST(request: Request) {
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     if (updateData.positionId) {
       const existingPosition = await prisma.position.findUnique({
         where: { id: updateData.positionId },
-      })
+      }) as Position
 
       if (!existingPosition) {
         return errorResponse('铺位不存在', 404)

@@ -1,7 +1,8 @@
 import { prisma } from '@/app/lib/prisma'
 import { shopDeleteSchema } from '@/app/lib/schemas/shop'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
-import { ErrorWithName, ShopWithSpaces } from '@/app/lib/types/prisma'
+import { ErrorWithName } from '@/app/lib/types/prisma'
+import { Shop } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {
@@ -18,7 +19,7 @@ export async function POST(request: Request) {
       include: {
         spaces: true,
       },
-    }) as ShopWithSpaces
+    }) as Shop
 
     if (!existingShop) {
       return errorResponse('商家不存在', 404)
