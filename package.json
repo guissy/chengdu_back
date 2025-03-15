@@ -34,7 +34,7 @@
     "build": "bun run clean && tsc",
     "start": "bun dist/index.js",
     "clean": "rm -rf dist/*",
-    "seed": "ts-node --transpile-only prisma/seed.ts"
+    "seed": "bun src/seed/seed.ts"
   },
   "lint-staged": {
     "*.{ts,ts}": [
