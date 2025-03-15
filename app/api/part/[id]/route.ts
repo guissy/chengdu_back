@@ -2,9 +2,10 @@ import { prisma } from '@/app/lib/prisma'
 import { partResponseSchema } from '@/app/lib/schemas/part'
 import { successResponse, errorResponse } from '@/app/lib/utils/response'
 import { PartWithPositions, ErrorWithName } from '@/app/lib/types/prisma'
+import { NextRequest } from 'next/server';
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -41,4 +42,4 @@ export async function GET(
     }
     return errorResponse('Internal Server Error')
   }
-} 
+}
