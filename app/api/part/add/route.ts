@@ -26,6 +26,7 @@ export async function POST(request: Request) {
       data: {
         name,
         cbdId,
+        sequence: 0,
       },
     })
 

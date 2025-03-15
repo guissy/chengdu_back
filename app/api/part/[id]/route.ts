@@ -3,7 +3,7 @@ import { partResponseSchema } from '@/app/lib/schemas/part'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
 import { NextRequest } from 'next/server';
-import { Part } from '@prisma/client';
+import { Part, Position } from '@prisma/client';
 
 export async function GET(
   request: NextRequest,
@@ -18,7 +18,7 @@ export async function GET(
       include: {
         positions: true,
       },
-    }) as Part
+    }) as Part & { positions: Position[] }
 
     if (!part) {
       return errorResponse('分区不存在', 404)

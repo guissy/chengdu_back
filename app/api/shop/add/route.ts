@@ -129,7 +129,7 @@ export async function POST(request: Request) {
         price_base,
         classify_tag,
         remark,
-      } as Shop,
+      } as unknown as Shop,
     }) as Shop
 
     return successResponse({ id: newShop.id })

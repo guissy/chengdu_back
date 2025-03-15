@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     // 更新商家信息
     await prisma.shop.update({
       where: { id },
-      data: updateData as Shop,
+      data: updateData as unknown as Shop,
     })
 
     return successResponse(null)

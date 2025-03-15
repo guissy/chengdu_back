@@ -3,7 +3,7 @@ import { shopResponseSchema } from '@/app/lib/schemas/shop'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
 import { NextRequest } from 'next/server';
-import { Shop } from '@prisma/client';
+import { Position, Shop, Space } from '@prisma/client';
 
 export async function GET(
   request: NextRequest,
@@ -19,7 +19,7 @@ export async function GET(
         spaces: true,
         position: true,
       },
-    }) as Shop
+    }) as Shop & { spaces: Space[] } & { position: Position }
 
     if (!shop) {
       return errorResponse('商家不存在', 404)
