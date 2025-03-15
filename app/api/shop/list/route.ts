@@ -1,6 +1,8 @@
-import { NextResponse } from 'next/server'
 import { prisma } from '@/app/lib/prisma'
 import { shopListResponseSchema } from '@/app/lib/schemas/shop'
+import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { Shop, Space } from '@prisma/client'
+import { ShopWithSpaces, ErrorWithName } from '@/app/lib/types/prisma'
 
 export async function GET() {
   try {
@@ -9,7 +11,7 @@ export async function GET() {
       include: {
         spaces: true,
       },
-    })
+    }) as ShopWithSpaces[]
 
     // 处理返回数据
     const formattedShops = shops.map((shop) => ({
@@ -20,22 +22,20 @@ export async function GET() {
       photo: shop.environment_photo.concat(shop.building_photo),
     }))
 
-    const response = {
-      code: 200,
-      data: {
-        list: formattedShops,
-      },
+    const responseData = {
+      list: formattedShops,
     }
 
     // 验证响应数据
-    shopListResponseSchema.parse(response.data)
+    shopListResponseSchema.parse(responseData)
 
-    return NextResponse.json(response)
+    return successResponse(responseData)
   } catch (error) {
     console.error('Error fetching shop list:', error)
-    return NextResponse.json(
-      { code: 500, message: 'Internal Server Error' },
-      { status: 500 }
-    )
+    const err = error as ErrorWithName
+    if (err.name === 'ZodError') {
+      return errorResponse('请求数据验证失败', 400, err.errors)
+    }
+    return errorResponse('Internal Server Error')
   }
-} 
+}

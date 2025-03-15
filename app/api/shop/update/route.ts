@@ -1,14 +1,16 @@
-import { NextResponse } from 'next/server'
 import { prisma } from '@/app/lib/prisma'
 import { shopUpdateSchema } from '@/app/lib/schemas/shop'
+import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { Shop } from '@prisma/client'
+import { ErrorWithName } from '@/app/lib/types/prisma'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    
+
     // 验证请求数据
     const validatedData = shopUpdateSchema.parse(body)
-    
+
     const { id, ...updateData } = validatedData
 
     // 验证商家是否存在
@@ -17,10 +19,7 @@ export async function POST(request: Request) {
     })
 
     if (!existingShop) {
-      return NextResponse.json(
-        { code: 404, message: '商家不存在' },
-        { status: 404 }
-      )
+      return errorResponse('商家不存在', 404)
     }
 
     // 验证商圈存在
@@ -29,10 +28,7 @@ export async function POST(request: Request) {
     })
 
     if (!existingCbd) {
-      return NextResponse.json(
-        { code: 404, message: '商圈不存在' },
-        { status: 404 }
-      )
+      return errorResponse('商圈不存在', 404)
     }
 
     // 验证分区存在
@@ -41,10 +37,7 @@ export async function POST(request: Request) {
     })
 
     if (!existingPart) {
-      return NextResponse.json(
-        { code: 404, message: '分区不存在' },
-        { status: 404 }
-      )
+      return errorResponse('分区不存在', 404)
     }
 
     // 验证铺位存在
@@ -54,42 +47,28 @@ export async function POST(request: Request) {
       })
 
       if (!existingPosition) {
-        return NextResponse.json(
-          { code: 404, message: '铺位不存在' },
-          { status: 404 }
-        )
+        return errorResponse('铺位不存在', 404)
       }
 
       // 验证铺位是否已被占用（排除当前商家）
       if (existingPosition.shopId && existingPosition.shopId !== id) {
-        return NextResponse.json(
-          { code: 400, message: '铺位已被占用' },
-          { status: 400 }
-        )
+        return errorResponse('铺位已被占用', 400)
       }
     }
 
     // 更新商家信息
     await prisma.shop.update({
       where: { id },
-      data: updateData,
+      data: updateData as Shop,
     })
 
-    return NextResponse.json({
-      code: 200,
-      data: null,
-    })
+    return successResponse(null)
   } catch (error) {
     console.error('Error updating shop:', error)
-    if (error.name === 'ZodError') {
-      return NextResponse.json(
-        { code: 400, message: '请求数据验证失败', errors: error.errors },
-        { status: 400 }
-      )
+    const err = error as ErrorWithName
+    if (err.name === 'ZodError') {
+      return errorResponse('请求数据验证失败', 400, err.errors)
     }
-    return NextResponse.json(
-      { code: 500, message: 'Internal Server Error' },
-      { status: 500 }
-    )
+    return errorResponse('Internal Server Error')
   }
-} 
+}

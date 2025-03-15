@@ -34,9 +34,9 @@ export const shopResponseSchema = z.object({
 })
 
 export const shopAddSchema = z.object({
-  cbdId: z.number(),
-  partId: z.number(),
-  positionId: z.number().optional(),
+  cbdId: z.string(),
+  partId: z.string(),
+  positionId: z.string().optional(),
   type: z.string(),
   type_tag: z.array(z.string()),
   business_type: z.string(),
@@ -74,9 +74,9 @@ export const shopAddSchema = z.object({
 })
 
 export const shopUpdateSchema = shopAddSchema.extend({
-  id: z.number(),
+  id: z.string(),
 })
 
 export const shopDeleteSchema = z.object({
-  id: z.number(),
-}) 
+  id: z.string(),
+})
