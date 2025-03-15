@@ -1,7 +1,8 @@
 import { prisma } from '@/app/lib/prisma'
 import { cbdListResponseSchema, cbdListSchema } from '@/app/lib/schemas/cbd'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
-import { CBDWithParts, ErrorWithName } from '@/app/lib/types/prisma'
+import { ErrorWithName } from '@/app/lib/types/prisma'
+import { CBDWhereInput } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {
@@ -15,12 +16,12 @@ export async function POST(request: Request) {
     // 查询数据库，找出所有商圈
     const cbds = await prisma.cBD.findMany({
       where: {
-        cityId,
-      },
+        cityId: cityId,
+      } as CBDWhereInput,
       include: {
         parts: true,
       },
-    }) as CBDWithParts[]
+    })
 
     // 处理返回数据
     const formattedCbds = cbds.map((cbd) => ({
