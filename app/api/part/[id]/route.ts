@@ -6,10 +6,10 @@ import { NextRequest } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = context.params.id
+    const id = (await context.params).id
 
     // 查询数据库，找出分区详情
     const part = await prisma.part.findUnique({
