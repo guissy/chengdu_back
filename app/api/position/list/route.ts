@@ -14,16 +14,20 @@ export async function POST(request: NextRequest) {
     const { partId } = validatedData
 
     // 查询数据库，找出所有铺位
-    const positions = await prisma.position.findMany({
-      where: {
-        partId,
-      },
-    }) as Position[]
+    const positions = await prisma.position.findMany(partId ? {
+      where: { partId },
+      include: { shop: true },
+    } : undefined) as (Position & { shop: { shop_no: string } })[]
+
+    const formattedPositions = positions?.map((position) => ({
+      ...position,
+      positionId: position.id,
+      shop_no: position.shop?.shop_no || null,
+    })) || []
 
     const responseData = {
-      list: positions,
+      list: formattedPositions,
     }
-
     // 验证响应数据
     positionListResponseSchema.parse(responseData)
 
@@ -37,4 +41,4 @@ export async function POST(request: NextRequest) {
     }
     return errorResponse('Internal Server Error')
   }
-} 
+}

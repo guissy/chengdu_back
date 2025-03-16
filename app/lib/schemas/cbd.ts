@@ -1,13 +1,13 @@
 import { z } from 'zod'
 
 export const cbdListSchema = z.object({
-  cityId: z.string(),
+  districtId: z.string(),
 })
 
 export const cbdSchema = z.object({
   id: z.string(),
   name: z.string(),
-  cityId: z.string(),
+  // cityId: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
 })
@@ -15,8 +15,8 @@ export const cbdSchema = z.object({
 export const cbdListResponseSchema = z.object({
   list: z.array(
     cbdSchema.extend({
-      cbdId: z.string(),
+      // cbdId: z.string(),
       total_part: z.number(),
     })
   ),
-}) 
+})

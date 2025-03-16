@@ -15,9 +15,9 @@ export async function POST(request: Request) {
 
     // 查询数据库，找出所有分区
     const parts = await prisma.part.findMany({
-      where: {
+      where: cbdId ? {
         cbdId,
-      },
+      } : {},
       include: {
         positions: true,
       },

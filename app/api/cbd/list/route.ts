@@ -2,7 +2,7 @@ import { prisma } from '@/app/lib/prisma'
 import { cbdListResponseSchema, cbdListSchema } from '@/app/lib/schemas/cbd'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
-import { Prisma } from '@prisma/client';
+import { CBD, Part, Prisma } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {
@@ -11,22 +11,22 @@ export async function POST(request: Request) {
     // 验证请求数据
     const validatedData = cbdListSchema.parse(body)
 
-    const { cityId } = validatedData
+    const { districtId } = validatedData
 
     // 查询数据库，找出所有商圈
     const cbds = await prisma.cBD.findMany({
       where: {
-        cityId: cityId,
-      } as Prisma.CBDWhereInput,
+        districtId: districtId,
+      },
       include: {
         parts: true,
       },
-    })
+    }) as (CBD & { parts: Part[] })[]
 
     // 处理返回数据
     const formattedCbds = cbds.map((cbd) => ({
       ...cbd,
-      cbdId: cbd.id,
+      cityId: (cbd as unknown as { cityId: string }).cityId,
       total_part: cbd.parts?.length ?? 0,
     }))
 

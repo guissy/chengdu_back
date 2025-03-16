@@ -2,15 +2,18 @@ import { z } from 'zod'
 
 export const spaceSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  shopId: z.string(),
-  state: z.enum(['ENABLED', 'DISABLED']),
   type: z.string(),
-  size: z.string(),
-  position: z.string(),
+  setting: z.record(z.string(), z.any()),
+  count: z.number(),
+  state: z.string(),
   photo: z.array(z.string()),
-  createdAt: z.date(),
+  price_factor: z.number().positive().default(1.0).describe('价格因子'),
   updatedAt: z.date(),
+  shopId: z.string(),
+  shop: z.object({
+    trademark: z.string().optional().describe('商标'),
+    shop_no: z.string().optional().describe('门店号'),
+  }).optional(),
 })
 
 export const spaceListSchema = z.object({

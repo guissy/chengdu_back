@@ -1,36 +1,40 @@
 import { z } from 'zod'
 
+// 商家返回模式
+export const shopResponseSchema = z.object({
+  shopId: z.string(),
+  shop_no: z.string().optional(),
+  trademark: z.string(),
+  branch: z.string().nullable(),
+  total_space: z.number(),
+  put_space: z.number(),
+  price_base: z.number(),
+  verified: z.boolean(),
+  displayed: z.boolean(),
+  type: z.string(),
+  type_tag: z.string().nullable(),
+  photo: z.array(z.string()),
+  remark: z.string().nullable(),
+  business_hours: z.array(z.number()),
+  total_area: z.number().nullable(),
+  customer_area: z.number().nullable(),
+  clerk_count: z.number().nullable(),
+  business_type: z.string(),
+  duration: z.string(),
+  sex: z.string(),
+  age: z.array(z.number()),
+  id_tag: z.string().nullable(),
+  sign_photo: z.string().nullable(),
+  contact_type: z.string()
+});
+
+// 商家列表返回模式
 export const shopListResponseSchema = z.object({
-  list: z.array(
-    z.object({
-      id: z.number(),
-      shopId: z.number(),
-      shop_no: z.string(),
-      trademark: z.string(),
-      branch: z.string().nullable(),
-      location: z.string(),
-      total_space: z.number(),
-      put_space: z.number(),
-      photo: z.array(z.string()),
-    })
-  ),
-})
+  list: z.array(shopResponseSchema),
+});
 
 export const shopDetailSchema = z.object({
   id: z.number(),
-})
-
-export const shopResponseSchema = z.object({
-  id: z.number(),
-  shopId: z.number(),
-  shop_no: z.string(),
-  trademark: z.string(),
-  branch: z.string().nullable(),
-  location: z.string(),
-  total_space: z.number(),
-  put_space: z.number(),
-  photo: z.array(z.string()),
-  // ... 其他字段根据需要添加
 })
 
 export const shopAddSchema = z.object({

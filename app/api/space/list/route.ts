@@ -14,11 +14,10 @@ export async function POST(request: NextRequest) {
     const { shopId } = validatedData
 
     // 查询数据库，找出所有广告位
-    const spaces = await prisma.space.findMany({
-      where: {
-        shopId,
-      },
-    }) as Space[]
+    const spaces = await prisma.space.findMany(shopId ? {
+      where: { shopId },
+      include: { shop: true },
+    } : undefined) as Space[]
 
     const responseData = {
       list: spaces,
@@ -37,4 +36,4 @@ export async function POST(request: NextRequest) {
     }
     return errorResponse('Internal Server Error')
   }
-} 
+}

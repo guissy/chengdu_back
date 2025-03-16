@@ -10,20 +10,37 @@ export async function GET(
 ) {
   try {
     const id = (await context.params).id
-
     // 查询数据库，找出铺位详情
     const position = await prisma.position.findUnique({
       where: { id },
-    }) as Position
+      include: {
+        part: {
+          select: {
+            id: true,
+          },
+        },
+        shop: {
+          select: {
+            shop_no: true,
+          },
+        },
+      },
+    }) as Position & { shop: { shop_no: string } }
 
     if (!position) {
       return errorResponse('铺位不存在', 404)
     }
 
-    // 验证响应数据
-    positionResponseSchema.parse(position)
+    const formattedPosition = {
+      ...position,
+      positionId: position.id,
+      shop_no: position.shop?.shop_no || null,
+    }
 
-    return successResponse(position)
+    // 验证响应数据
+    positionResponseSchema.parse(formattedPosition)
+
+    return successResponse(formattedPosition)
   } catch (error) {
     console.error('Error fetching position detail:', error)
     if (error instanceof Error) {
@@ -33,4 +50,4 @@ export async function GET(
     }
     return errorResponse('Internal Server Error')
   }
-} 
+}

@@ -1,14 +1,21 @@
 import { z } from 'zod'
 
-export const positionSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  partId: z.string(),
+export const positionResponseSchema = z.object({
+  positionId: z.string(),
+  position_no: z.string(),
   shopId: z.string().nullable(),
-  state: z.enum(['ENABLED', 'DISABLED']),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-})
+  shop_no: z.string().nullable(),
+  total_space: z.number(),
+  put_space: z.number(),
+  price_base: z.number(),
+  verified: z.boolean(),
+  displayed: z.boolean(),
+  type: z.string().nullable(),
+  type_tag: z.string().nullable(),
+  photo: z.array(z.string()),
+  remark: z.string().nullable(),
+  business_hours: z.array(z.number()),
+});
 
 export const positionListSchema = z.object({
   partId: z.string(),
@@ -50,7 +57,5 @@ export const positionMarkSchema = z.object({
 })
 
 export const positionListResponseSchema = z.object({
-  list: z.array(positionSchema),
+  list: z.array(positionResponseSchema),
 })
-
-export const positionResponseSchema = positionSchema 
