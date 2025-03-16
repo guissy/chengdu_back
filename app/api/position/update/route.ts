@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     // 验证请求数据
     const validatedData = positionUpdateSchema.parse(body)
 
-    const { id, name, partId, state } = validatedData
+    const { id, no } = validatedData
 
     // 验证铺位是否存在
     const existingPosition = await prisma.position.findUnique({
@@ -20,15 +20,6 @@ export async function POST(request: NextRequest) {
 
     if (!existingPosition) {
       return errorResponse('铺位不存在', 404)
-    }
-
-    // 验证分区存在
-    const existingPart = await prisma.part.findUnique({
-      where: { id: partId },
-    })
-
-    if (!existingPart) {
-      return errorResponse('分区不存在', 404)
     }
 
     // 更新铺位

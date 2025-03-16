@@ -1,4 +1,4 @@
-import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
+import fastify, { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { ZodError } from 'zod';
 import { PrismaClientKnownRequestError, PrismaClientValidationError } from '@prisma/client/runtime/library';
 import { formatZodError } from './response-formatter.js';
@@ -9,7 +9,6 @@ export function errorHandler(
   reply: FastifyReply
 ) {
   request.log.error(error);
-
   // ZodError 处理 (验证错误)
   if (error instanceof ZodError) {
     return reply.status(400).send({
@@ -69,6 +68,7 @@ export function errorHandler(
 
   // 默认500错误
   request.log.error(error);
+
   return reply.status(500).send({
     code: 500,
     data: null,

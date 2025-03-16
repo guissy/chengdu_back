@@ -48,9 +48,13 @@ export async function GET(request: Request) {
         orderBy: { operationTime: 'desc' },
       }),
     ]);
-
+    const pageSize = validatedQuery.pageSize;
+    const totalPages = Math.ceil(total / pageSize);
     return successResponse({
       total,
+      page: validatedQuery.page,
+      pageSize,
+      totalPages,
       items,
     });
   } catch (error) {

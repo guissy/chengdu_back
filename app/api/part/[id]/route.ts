@@ -15,20 +15,36 @@ export async function GET(
     // 查询数据库，找出分区详情
     const part = await prisma.part.findUnique({
       where: { id },
-      include: {
-        positions: true,
-      },
     }) as Part & { positions: Position[] }
 
     if (!part) {
       return errorResponse('分区不存在', 404)
     }
 
+    // 查询total_space
+    const total_space = await prisma.space.count({
+      where: {
+        shop: {
+          cbdId: part.cbdId,
+        }
+      },
+    })
+
+    // 查询total_position
+    const total_position = await prisma.position.count({
+      where: {
+        part: {
+          cbdId: part.cbdId,
+        },
+      },
+    })
+
     // 处理返回数据
     const formattedPart = {
       ...part,
       partId: part.id,
-      total_position: part.positions?.length ?? 0,
+      total_position: total_position,
+      total_space: total_space,
     }
 
     // 验证响应数据

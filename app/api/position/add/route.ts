@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     // 验证请求数据
     const validatedData = positionAddSchema.parse(body)
 
-    const { name, partId, state } = validatedData
+    const { partId, no } = validatedData
 
     // 验证分区存在
     const existingPart = await prisma.part.findUnique({
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     // 创建铺位
     const newPosition = await prisma.position.create({
       data: {
-        position_no: body.no,
+        position_no: no,
         partId,
         price_base: 0, // 默认价格基数
         photo: [],

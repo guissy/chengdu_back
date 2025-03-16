@@ -1,7 +1,9 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import { auditLogQuerySchema } from '../schemas/auditLog.schema.js';
-import { AuditLogWhereInput } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { successResponse } from '@/app/lib/utils/response';
+import { OperationTarget, OperationType } from '.prisma/client';
 
 // 审计日志控制器
 class AuditLogController {
@@ -27,14 +29,14 @@ class AuditLogController {
       } = request.query;
 
       // 构建查询条件
-      const where = {} as AuditLogWhereInput
+      const where = {} as Prisma.AuditLogWhereInput
 
       if (operationType) {
-        where.operationType = operationType;
+        where.operationType = operationType as OperationType;
       }
 
       if (targetType) {
-        where.targetType = targetType;
+        where.targetType = targetType as OperationTarget;
       }
 
       if (operatorId) {
@@ -82,15 +84,12 @@ class AuditLogController {
         operationTime: item.operationTime.toISOString(),
       }));
 
-      return reply.send({
-        code: 200,
-        data: {
+      return successResponse({
           items: formattedItems,
           total,
           page,
           pageSize,
           totalPages,
-        },
       });
     } catch (error) {
       this.fastify.log.error(error);

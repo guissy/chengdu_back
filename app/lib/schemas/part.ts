@@ -24,7 +24,6 @@ export const partAddSchema = z.object({
 export const partUpdateSchema = z.object({
   id: z.string(),
   name: z.string(),
-  cbdId: z.string(),
 })
 
 export const partDeleteSchema = z.object({
@@ -43,4 +42,4 @@ export const partListResponseSchema = z.object({
 export const partResponseSchema = partSchema.extend({
   partId: z.string(),
   total_position: z.number(),
-}) 
+})

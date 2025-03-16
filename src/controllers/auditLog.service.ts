@@ -1,6 +1,8 @@
 import { FastifyInstance } from 'fastify';
 import { OperationTarget, OperationType } from '@prisma/client';
-type RequestData = {
+import { Prisma } from '.prisma/client';
+import InputJsonValue = Prisma.InputJsonValue;
+export type RequestData = {
   ip: string
   headers: Record<string, string>
 }
@@ -20,7 +22,7 @@ export class AuditLogService {
                     operatorId,
                     operatorName,
                     details = {},
-                    request = null,
+                    request,
                   }: {
     operationType: OperationType;
     targetType: OperationTarget;
@@ -50,7 +52,7 @@ export class AuditLogService {
           content,
           operatorId,
           operatorName,
-          details,
+          details: details as InputJsonValue,
           ipAddress,
           userAgent,
         },
@@ -72,7 +74,7 @@ export class AuditLogService {
                     operatorId,
                     operatorName,
                     details = {},
-                    request = null,
+                    request,
                   }: {
     targetType: OperationTarget;
     targetId: string;
@@ -130,7 +132,7 @@ export class AuditLogService {
                     operatorId,
                     operatorName,
                     details = {},
-                    request = null,
+                    request,
                   }: {
     targetType: OperationTarget;
     targetId: string;
@@ -188,7 +190,7 @@ export class AuditLogService {
                     operatorId,
                     operatorName,
                     details = {},
-                    request = null,
+                    request,
                   }: {
     targetType: OperationTarget;
     targetId: string;

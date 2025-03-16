@@ -31,10 +31,10 @@ export async function configurePlugins(app: FastifyInstance): Promise<void> {
   });
 
   // 配置速率限制
-  await app.register(fastifyRateLimit, {
-    max: config.RATE_LIMIT_MAX,
-    timeWindow: config.RATE_LIMIT_TIME_WINDOW,
-  });
+  // await app.register(fastifyRateLimit, {
+  //   max: config.RATE_LIMIT_MAX,
+  //   timeWindow: config.RATE_LIMIT_TIME_WINDOW,
+  // });
 
   // 注册Swagger
   await registerSwagger(app);

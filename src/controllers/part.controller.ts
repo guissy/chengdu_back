@@ -7,7 +7,8 @@ import {
   PartUpdateRequest
 } from '../schemas/part.schema.js';
 import { formatSuccess } from '../utils/response-formatter.js';
-import { AuditLogService } from './auditLog.service.js';
+import { AuditLogService, RequestData } from './auditLog.service.js';
+import { prisma } from '@/app/lib/prisma';
 
 export class PartController {
   constructor(private fastify: FastifyInstance) {}
@@ -42,12 +43,31 @@ export class PartController {
       },
     });
 
+    // 查询total_space
+    const total_space = await prisma.space.count({
+      where: {
+        shop: {
+          cbdId,
+        }
+      },
+    })
+
+    // 查询total_position
+    const total_position = await prisma.position.count({
+      where: {
+        part: {
+          cbdId,
+        },
+      },
+    })
+
     // 处理返回数据
     const formattedParts = parts.map((part) => ({
       id: part.id,
       name: part.name,
       sequence: part.sequence,
-      total_space: part.positions.length,
+      total_space,
+      total_position,
     }));
 
     return reply.send(
@@ -99,6 +119,24 @@ export class PartController {
       },
     });
 
+    // 查询total_space
+    const total_space = await prisma.space.count({
+      where: {
+        shop: {
+          cbdId: part?.cbd?.id,
+        }
+      },
+    })
+
+    // 查询total_position
+    const total_position = await prisma.position.count({
+      where: {
+        part: {
+          cbdId: part?.cbd?.id,
+        },
+      },
+    })
+
     // 处理返回数据
     const formattedPart = {
       id: part?.id,
@@ -113,7 +151,8 @@ export class PartController {
         id: position.id,
         position_no: position.position_no,
         shopId: position.shopId,
-        total_space: position.total_space,
+        total_space,
+        total_position,
         put_space: position.put_space,
         price_base: position.price_base,
         verified: position.verified,
@@ -169,7 +208,7 @@ export class PartController {
       operatorId: "9527",
       operatorName: "小强",
       details: { ...newPart },
-      request: request
+      request: request as unknown as RequestData,
     });
     return reply.send(formatSuccess(''));
   }
@@ -210,7 +249,7 @@ export class PartController {
       operatorId: "9527",
       operatorName: "小强",
       details: AuditLogService.generateChangeDetails(existingPart, newPart),
-      request: request
+      request: request as unknown as RequestData,
     });
     return reply.send(formatSuccess(''));
   }
@@ -262,7 +301,7 @@ export class PartController {
       operatorId: "9527",
       operatorName: "小强",
       details: existingPart,
-      request: request
+      request: request as unknown as RequestData,
     });
     return reply.send(formatSuccess(''));
   }

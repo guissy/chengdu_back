@@ -26,16 +26,14 @@ export const positionDetailSchema = z.object({
 })
 
 export const positionAddSchema = z.object({
-  name: z.string(),
-  partId: z.string(),
-  state: z.enum(['ENABLED', 'DISABLED']).default('ENABLED'),
+  cbdId: z.string().describe('商圈ID'),
+  partId: z.string().describe('分区ID'),
+  no: z.string().min(1).describe('铺位编号'),
 })
 
 export const positionUpdateSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  partId: z.string(),
-  state: z.enum(['ENABLED', 'DISABLED']),
+  no: z.string().min(1).describe('铺位编号'),
 })
 
 export const positionDeleteSchema = z.object({
@@ -53,7 +51,7 @@ export const positionBindShopSchema = z.object({
 
 export const positionMarkSchema = z.object({
   id: z.string(),
-  state: z.enum(['ENABLED', 'DISABLED']),
+  remark: z.string(),
 })
 
 export const positionListResponseSchema = z.object({

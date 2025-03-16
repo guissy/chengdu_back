@@ -20,6 +20,12 @@ export async function buildApp(options: FastifyServerOptions = {}): Promise<Fast
   // 注册全局错误处理
   app.setErrorHandler(errorHandler);
 
+  app.addHook('onError', (request, reply, error, done) => {
+    // console.log('Error:', error);
+    app.log.error("ο▬▬▬▬▬▬▬▬◙▅▅▆▆▇▇◤");
+    done();
+  })
+
   // 配置插件
   await configurePlugins(app);
 
@@ -29,8 +35,8 @@ export async function buildApp(options: FastifyServerOptions = {}): Promise<Fast
   });
 
   // 注册路由
-  // routes()
   await app.register(routes);
+
   console.log("ο▬▬▬▬▬▬▬▬◙▅▅▆▆▇▇◤")
   return app;
 }

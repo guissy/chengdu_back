@@ -3,6 +3,7 @@ import { partListResponseSchema, partListSchema } from '@/app/lib/schemas/part'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
 import { Part, Position } from '@prisma/client';
+import { Space } from '.prisma/client';
 
 export async function POST(request: Request) {
   try {
@@ -18,16 +19,32 @@ export async function POST(request: Request) {
       where: cbdId ? {
         cbdId,
       } : {},
-      include: {
-        positions: true,
-      },
     }) as (Part & { positions: Position[] })[]
+
+    // 查询total_space
+    const total_space = await prisma.space.count({
+      where: {
+        shop: {
+          cbdId,
+        }
+      },
+    })
+
+    // 查询total_position
+    const total_position = await prisma.position.count({
+      where: {
+        part: {
+          cbdId,
+        },
+      },
+    })
 
     // 处理返回数据
     const formattedParts = parts.map((part) => ({
       ...part,
       partId: part.id,
-      total_position: part.positions?.length ?? 0,
+      total_position: total_position,
+      total_space: total_space,
     }))
 
     const responseData = {

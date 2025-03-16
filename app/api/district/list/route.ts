@@ -28,7 +28,7 @@ export async function POST(request: Request) {
 
     return successResponse({
       total,
-      items,
+      list: items,
     });
   } catch (error) {
     console.error('Failed to fetch district list:', error);

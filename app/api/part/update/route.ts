@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     // 验证请求数据
     const validatedData = partUpdateSchema.parse(body)
 
-    const { id, name, cbdId } = validatedData
+    const { id, name } = validatedData
 
     // 验证分区是否存在
     const existingPart = await prisma.part.findUnique({
@@ -21,21 +21,11 @@ export async function POST(request: Request) {
       return errorResponse('分区不存在', 404)
     }
 
-    // 验证商圈存在
-    const existingCbd = await prisma.cBD.findUnique({
-      where: { id: cbdId },
-    })
-
-    if (!existingCbd) {
-      return errorResponse('商圈不存在', 404)
-    }
-
     // 更新分区
     await prisma.part.update({
       where: { id },
       data: {
         name,
-        cbdId,
       },
     })
 

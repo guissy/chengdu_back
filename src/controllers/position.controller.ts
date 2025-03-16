@@ -373,6 +373,8 @@ export class PositionController {
       where: { shopId },
     });
 
+    this.fastify.log.info(request.body);
+
     if (shopPositions.length > 0) {
       return reply.status(400).send({
         code: 400,

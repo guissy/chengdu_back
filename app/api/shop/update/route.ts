@@ -22,39 +22,22 @@ export async function POST(request: Request) {
       return errorResponse('商家不存在', 404)
     }
 
-    // 验证商圈存在
-    const existingCbd = await prisma.cBD.findUnique({
-      where: { id: updateData.cbdId },
-    })
 
-    if (!existingCbd) {
-      return errorResponse('商圈不存在', 404)
-    }
-
-    // 验证分区存在
-    const existingPart = await prisma.part.findUnique({
-      where: { id: updateData.partId },
-    })
-
-    if (!existingPart) {
-      return errorResponse('分区不存在', 404)
-    }
-
-    // 验证铺位存在
-    if (updateData.positionId) {
-      const existingPosition = await prisma.position.findUnique({
-        where: { id: updateData.positionId },
-      }) as Position
-
-      if (!existingPosition) {
-        return errorResponse('铺位不存在', 404)
-      }
-
-      // 验证铺位是否已被占用（排除当前商家）
-      if (existingPosition.shopId && existingPosition.shopId !== id) {
-        return errorResponse('铺位已被占用', 400)
-      }
-    }
+    // // 验证铺位存在
+    // if (updateData.positionId) {
+    //   const existingPosition = await prisma.position.findUnique({
+    //     where: { id: updateData.positionId },
+    //   }) as Position
+    //
+    //   if (!existingPosition) {
+    //     return errorResponse('铺位不存在', 404)
+    //   }
+    //
+    //   // 验证铺位是否已被占用（排除当前商家）
+    //   if (existingPosition.shopId && existingPosition.shopId !== id) {
+    //     return errorResponse('铺位已被占用', 400)
+    //   }
+    // }
 
     // 更新商家信息
     await prisma.shop.update({

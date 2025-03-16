@@ -20,11 +20,11 @@ export const swaggerOptions: FastifySwaggerOptions = {
     ],
     components: {
       securitySchemes: {
-        apiKey: {
-          type: 'apiKey',
-          name: 'authorization',
-          in: 'header',
-        },
+        // apiKey: {
+        //   type: 'apiKey',
+        //   name: 'authorization',
+        //   in: 'header',
+        // },
       },
     },
   },
