@@ -1,7 +1,7 @@
 import { prisma } from '@/app/lib/prisma'
 import { shopUpdateSchema } from '@/app/lib/schemas/shop'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
-import { Position, Shop } from '@prisma/client'
+import { Shop } from '@prisma/client'
 import { ErrorWithName } from '@/app/lib/types/prisma'
 
 export async function POST(request: Request) {

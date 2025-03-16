@@ -2,7 +2,7 @@ import { prisma } from '@/app/lib/prisma'
 import { cbdListResponseSchema, cbdListSchema } from '@/app/lib/schemas/cbd'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
-import { CBD, Part, Prisma } from '@prisma/client';
+import { CBD, Part } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {

@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
-import start from '../src/seed/seed';
+import resetDb from '../src/seed/seed';
 import { beforeEach } from '@vitest/runner';
 
 const BASE_URL = 'http://localhost:3000/api';
@@ -30,7 +30,7 @@ afterAll(async () => {
 });
 
 beforeAll(async () => {
-  await start('test');
+  await resetDb('test');
 });
 
 // 定义各个接口的配置信息

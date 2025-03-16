@@ -1,6 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
-import { spaceListSchema, spaceListResponseSchema } from '@/app/lib/schemas/space'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { spaceListResponseSchema, spaceListSchema } from '@/app/lib/schemas/space'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { NextRequest } from 'next/server'
 import { Space } from '@prisma/client'
 

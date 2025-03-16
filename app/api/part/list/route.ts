@@ -3,7 +3,6 @@ import { partListResponseSchema, partListSchema } from '@/app/lib/schemas/part'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
 import { Part, Position } from '@prisma/client';
-import { Space } from '.prisma/client';
 
 export async function POST(request: Request) {
   try {

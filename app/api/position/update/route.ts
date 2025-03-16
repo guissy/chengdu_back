@@ -1,6 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
 import { positionUpdateSchema } from '@/app/lib/schemas/position'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { NextRequest } from 'next/server'
 import { Position } from '@prisma/client'
 
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     // 更新铺位
     await prisma.position.update({
       where: { id },
-      data: { position_no: body.no },
+      data: { position_no: no },
     })
 
     return successResponse(null)

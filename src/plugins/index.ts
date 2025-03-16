@@ -1,8 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import fastifyCors from '@fastify/cors';
 import fastifyHelmet from '@fastify/helmet';
-import fastifyRateLimit from '@fastify/rate-limit';
-import { config } from '../config/env.js';
 import { registerSwagger } from './swagger.js';
 import { prismaPlugin } from './prisma.js';
 import { auditLogPlugin } from './auditLog.js';

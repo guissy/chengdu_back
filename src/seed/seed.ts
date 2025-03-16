@@ -28,7 +28,7 @@ async function main(mode?: 'test') {
       for (const statement of statements) {
         try {
           await prisma.$executeRawUnsafe(`${statement};`);
-        } catch (error) {
+        } catch {
           console.log(`☞☞☞ 9527 %c statement =`, 'color:red;font-size:16px', statement,  'seed');
         }
       }
@@ -51,7 +51,7 @@ async function main(mode?: 'test') {
   }
 }
 
-async function start(mode?: 'test') {
+async function resetDb(mode?: 'test') {
   return main(mode)
     .then(async () => {
       await prisma.$disconnect();
@@ -63,5 +63,5 @@ async function start(mode?: 'test') {
     });
 }
 
-export default start;
+export default resetDb;
 // start()

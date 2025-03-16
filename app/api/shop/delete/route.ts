@@ -2,7 +2,7 @@ import { prisma } from '@/app/lib/prisma'
 import { shopDeleteSchema } from '@/app/lib/schemas/shop'
 import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { ErrorWithName } from '@/app/lib/types/prisma'
-import { Position, Shop, Space } from '@prisma/client';
+import { Shop, Space } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {

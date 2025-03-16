@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { OperationTarget, OperationType } from '@prisma/client';
 import { Prisma } from '.prisma/client';
 import InputJsonValue = Prisma.InputJsonValue;
+
 export type RequestData = {
   ip: string
   headers: Record<string, string>

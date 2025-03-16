@@ -1,4 +1,4 @@
-import { successResponse, errorResponse } from '@/app/lib/utils/response';
+import { errorResponse, successResponse } from '@/app/lib/utils/response';
 import { prisma } from '@/app/lib/prisma'
 
 export async function GET(

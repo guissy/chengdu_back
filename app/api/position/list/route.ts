@@ -1,6 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
-import { positionListSchema, positionListResponseSchema } from '@/app/lib/schemas/position'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { positionListResponseSchema, positionListSchema } from '@/app/lib/schemas/position'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { NextRequest } from 'next/server'
 import { Position } from '@prisma/client'
 

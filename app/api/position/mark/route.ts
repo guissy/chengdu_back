@@ -1,6 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
 import { positionMarkSchema } from '@/app/lib/schemas/position'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { NextRequest } from 'next/server'
 import { Position } from '@prisma/client'
 
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     // 验证请求数据
     const validatedData = positionMarkSchema.parse(body)
 
-    const { id, state } = validatedData
+    const { id } = validatedData
 
     // 验证铺位是否存在
     const existingPosition = await prisma.position.findUnique({

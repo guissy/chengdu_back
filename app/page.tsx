@@ -1,7 +1,7 @@
 import React from 'react';
 
-type Props = {}
-const Page: React.FC<Props> = () => {
+
+const Page: React.FC = () => {
   return (
       <div>
         Page works!

@@ -1,4 +1,4 @@
-import { successResponse, errorResponse } from '@/app/lib/utils/response';
+import { errorResponse, successResponse } from '@/app/lib/utils/response';
 import { prisma } from '@/app/lib/prisma'
 
 export async function GET() {
@@ -20,4 +20,4 @@ export async function GET() {
     console.error('Failed to fetch operation type stats:', error);
     return errorResponse('获取操作类型统计失败');
   }
-} 
+}

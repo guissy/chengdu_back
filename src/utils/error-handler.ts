@@ -1,4 +1,4 @@
-import fastify, { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { ZodError } from 'zod';
 import { PrismaClientKnownRequestError, PrismaClientValidationError } from '@prisma/client/runtime/library';
 import { formatZodError } from './response-formatter.js';

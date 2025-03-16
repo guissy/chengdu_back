@@ -1,6 +1,6 @@
 import { prisma } from '@/app/lib/prisma'
 import { spaceResponseSchema } from '@/app/lib/schemas/space'
-import { successResponse, errorResponse } from '@/app/lib/utils/response'
+import { errorResponse, successResponse } from '@/app/lib/utils/response'
 import { NextRequest } from 'next/server'
 import { Space } from '@prisma/client'
 
@@ -33,4 +33,4 @@ export async function GET(
     }
     return errorResponse('Internal Server Error')
   }
-} 
+}
