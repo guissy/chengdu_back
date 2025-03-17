@@ -84,7 +84,15 @@ export const shopResponseSchema = z.object({
   age: z.array(z.number()),
   id_tag: z.string().nullable(),
   sign_photo: z.string().nullable(),
-  contact_type: z.string()
+  contact_type: z.string(),
+  shop_description: z.string().optional().describe('商家简介'),
+  put_description: z.string().optional().describe('投放简介'),
+  classify_tag: z.string().optional().describe('分类标签'),
+  positionId: z.string().optional(),
+  position_no: z.string().optional(),
+  rest_days: z.array(z.string()).describe('休息日，1-周一 2-周二 3-周三 4-周四 5-周五 6-周六 7-周日 8-按需'),
+  volume_peak: z.array(z.string()).describe('客流高峰，1-早餐 2-午餐 3-晚餐 4-宵夜 5-上午 6-下午 7-晚上 8-深夜'),
+  season: z.array(z.string()).describe('1-春 2-夏 3-秋 4-冬 5-节假日 6-工作日 7-非工作日'),
 });
 
 // 商家列表返回模式

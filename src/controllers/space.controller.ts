@@ -94,6 +94,8 @@ export class SpaceController {
       shop: {
         trademark: existingSpace.shop?.trademark,
         shop_no: existingSpace.shop?.shop_no,
+        type_tag: existingSpace.shop?.type_tag,
+        branch: existingSpace.shop?.branch,
       }
     };
     return reply.send(formatSuccess(formattedSpace));

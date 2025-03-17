@@ -52,14 +52,24 @@ export const spaceResponseSchema = z.object({
   setting: z.record(z.string(), z.any()),
   count: z.number(),
   state: z.string(),
-  photo: z.array(z.string()),
   price_factor: z.number().positive().default(1.0).describe('价格因子'),
   updatedAt: z.string(),
   shopId: z.string(),
   shop: z.object({
     trademark: z.string().optional().describe('商标'),
     shop_no: z.string().optional().describe('门店号'),
+    branch: z.string().optional().describe('分店'),
+    type_tag: z.string().optional().describe('品类标签'),
   }).optional(),
+  tag: z.string().optional().describe('分类标签'),
+  site: z.string().optional().describe(
+    '位置，1-主客区/大堂 2-商家入口 3-入口通道 4-独立房间/包间 5-通往洗手间过道 6-洗手间 7-商家外摆区/店外公共区 8-店外墙面(非临街) 9-店外墙面(临街)'
+  ),
+  stability: z.string().optional().describe('稳定性，1-固定 2-半固定 3-移动 4-临时'),
+  photo: z.array(z.string()).optional().describe('相册'),
+  description: z.string().optional().describe('投放推介'),
+  design_attention: z.string().optional().describe('设计注意事项'),
+  construction_attention: z.string().optional().describe('施工注意事项'),
 });
 
 // 广告位列表返回模式
