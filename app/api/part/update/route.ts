@@ -4,9 +4,9 @@ import prisma from '@/lib/prisma'
 import { z } from 'zod'
 
 const RequestSchema = z.object({
-  cbdId: z.string(),
-  name: z.string(),
-  sequence: z.number(),
+  id: z.string(),
+  name: z.string().optional(),
+  sequence: z.number().optional(),
 })
 
 export async function POST(request: NextRequest) {
@@ -19,29 +19,29 @@ export async function POST(request: NextRequest) {
       return errorResponse('Invalid parameters', 400, result.error)
     }
 
-    const { cbdId, name, sequence } = result.data
+    const { id, name, sequence } = result.data
 
-    // 检查商圈是否存在
-    const existingCbd = await prisma.cBD.findUnique({
-      where: { id: cbdId },
+    // 检查物业小区是否存在
+    const existingPart = await prisma.part.findUnique({
+      where: { id },
     })
 
-    if (!existingCbd) {
-      return errorResponse('CBD not found', 404)
+    if (!existingPart) {
+      return errorResponse('Part not found', 404)
     }
 
-    // 创建分区
-    const part = await prisma.part.create({
+    // 更新物业小区
+    const part = await prisma.part.update({
+      where: { id },
       data: {
-        cbdId,
-        name,
-        sequence,
+        ...(name && { name }),
+        ...(sequence !== undefined && { sequence }),
       },
     })
 
     return successResponse(part)
   } catch (error) {
-    console.error('Error creating part:', error)
+    console.error('Error updating part:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}

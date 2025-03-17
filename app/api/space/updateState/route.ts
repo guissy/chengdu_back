@@ -2,11 +2,11 @@ import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { z } from 'zod'
+import { SpaceState } from '@prisma/client'
 
 const RequestSchema = z.object({
-  cbdId: z.string(),
-  name: z.string(),
-  sequence: z.number(),
+  id: z.string(),
+  state: z.string(),
 })
 
 export async function POST(request: NextRequest) {
@@ -19,29 +19,28 @@ export async function POST(request: NextRequest) {
       return errorResponse('Invalid parameters', 400, result.error)
     }
 
-    const { cbdId, name, sequence } = result.data
+    const { id, state } = result.data
 
-    // 检查商圈是否存在
-    const existingCbd = await prisma.cBD.findUnique({
-      where: { id: cbdId },
+    // 检查广告位是否存在
+    const existingSpace = await prisma.space.findUnique({
+      where: { id },
     })
 
-    if (!existingCbd) {
-      return errorResponse('CBD not found', 404)
+    if (!existingSpace) {
+      return errorResponse('Space not found', 404)
     }
 
-    // 创建分区
-    const part = await prisma.part.create({
+    // 更新广告位状态
+    const space = await prisma.space.update({
+      where: { id },
       data: {
-        cbdId,
-        name,
-        sequence,
+        state: state as SpaceState,
       },
     })
 
-    return successResponse(part)
+    return successResponse(space)
   } catch (error) {
-    console.error('Error creating part:', error)
+    console.error('Error updating space state:', error)
     return errorResponse('Internal Server Error', 500)
   }
 } 

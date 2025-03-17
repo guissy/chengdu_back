@@ -1,16 +1,21 @@
+import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 import * as path from 'path';
+
+// 1. 动态加载环境变量
+const envPath = `.env.${process.env.NODE_ENV || 'development'}`;
+dotenv.config({ path: envPath });
+
+// 2. 验证环境变量
+console.log('当前环境:', process.env.NODE_ENV);
+console.log('使用的数据库URL:', process.env.DATABASE_URL?.split('@')[1]);
+
 
 const prisma = new PrismaClient();
 
 async function main(mode?: 'test') {
   try {
-    // 检查 City 表是否为空
-    const cityCount = await prisma.city.count();
-
-    if (cityCount > 0) {
-      console.log('City table is empty, initializing with data from init.sql...');
 
       // 读取 SQL 文件
       const sqlFilePath = path.join(__dirname, 'init.sql');
@@ -27,9 +32,9 @@ async function main(mode?: 'test') {
       // 执行每个 SQL 语句
       for (const statement of statements) {
         try {
-          await prisma.$executeRawUnsafe(`${statement};`);
-        } catch {
-          console.log(`☞☞☞ 9527 %c statement =`, 'color:red;font-size:16px', statement,  'seed');
+          await prisma.$executeRawUnsafe(`${statement};`);// console.log(`☞☞☞ 9527 %c result =`, 'color:red;font-size:16px',  'seed');
+        } catch (e) {
+          console.log(`☞☞☞ 9527 %c statement =`, 'color:red;font-size:16px', e, 'seed');
         }
       }
 
@@ -40,11 +45,6 @@ async function main(mode?: 'test') {
       if (mode !== 'test') {
         console.log('Database initialized successfully!');
       }
-    } else {
-      if (mode !== 'test') {
-        console.log(`City table already contains ${cityCount} records, skipping initialization.`);
-      }
-    }
   } catch (error) {
     console.error('Error during database initialization:', error);
     throw error;
@@ -64,4 +64,4 @@ async function resetDb(mode?: 'test') {
 }
 
 export default resetDb;
-// start()
+resetDb()

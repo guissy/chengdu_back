@@ -1,10 +1,17 @@
-import 'dotenv/config';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import request from 'supertest';
+import request, { Response } from 'supertest';
 import resetDb from './seed';
 import { beforeEach } from '@vitest/runner';
+import dotenv from 'dotenv';
+import prisma from '@/lib/prisma';
 
-const BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}`;
+const envPath = `.env.${process.env.NODE_ENV || 'development'}`;
+dotenv.config({ path: envPath });
+
+console.log('当前环境:', process.env.NODE_ENV);
+console.log('使用的数据库URL:', process.env.DATABASE_URL?.split('@')[1]);
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3002/api';
 
 // Test data for request bodies
 const testData = {
@@ -20,23 +27,55 @@ const testData = {
   spaceId: 'space-001',
 };
 
+interface ApiResponse<T> {
+  code: number;
+  data: T;
+}
+
 // 启动和关闭服务器
 beforeAll(async () => {
-  // await start('test')
+  // 确保环境变量已设置
+  if (!process.env.NEXT_PUBLIC_API_BASE_URL) {
+    throw new Error('NEXT_PUBLIC_API_BASE_URL environment variable is not set');
+  }
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL environment variable is not set');
+  }
+  
+  console.log('Using API base URL:', BASE_URL);
+  
+  // 测试数据库连接
+  try {
+    await prisma.$connect();
+    console.log('Database connection successful');
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    throw error;
+  }
 });
 
 afterAll(async () => {
-  // await app.close();
+  // 清理资源
+  await resetDb('test');
+  await prisma.$disconnect();
 });
+
 beforeEach(async () => {
-  await resetDb('test')
-})
+  try {
+    await resetDb('test');
+    console.log('Database reset successful');
+  } catch (error) {
+    console.error('Database reset failed:', error);
+    throw error;
+  }
+});
 
 // 通用检查响应格式的函数
-const expectSuccessResponse = (response: any) => {
+const expectSuccessResponse = (response: Response) => {
   expect(response.status).toBe(200);
-  expect(response.body).toHaveProperty('code');
-  expect(response.body).toHaveProperty('data');
+  const body = response.body as ApiResponse<unknown>;
+  expect(body.code).toBe(200);
+  expect(body.data).toBeDefined();
 };
 
 // 测试套件

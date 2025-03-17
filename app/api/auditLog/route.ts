@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { AuditLogListRequestSchema, AuditLogListResponseSchema } from '@/lib/schema/audit'
+import { OperationType, OperationTarget } from '@prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
@@ -23,16 +24,16 @@ export async function GET(request: NextRequest) {
       return errorResponse('Invalid parameters', 400, requestResult.error)
     }
 
-    const { page, pageSize, operationType, targetType, targetId, operator, startDate, endDate } = requestResult.data
+    const { page = 1, pageSize = 10, operationType, targetType, targetId, operator, startDate, endDate } = requestResult.data
 
     // 构建查询条件
     const where = {
-      ...(operationType ? { operationType } : {}),
-      ...(targetType ? { targetType } : {}),
+      ...(operationType ? { operationType: operationType as OperationType } : {}),
+      ...(targetType ? { targetType: targetType as OperationTarget } : {}),
       ...(targetId ? { targetId } : {}),
-      ...(operator ? { operator } : {}),
+      ...(operator ? { operatorId: operator } : {}),
       ...(startDate || endDate ? {
-        createdAt: {
+        operationTime: {
           ...(startDate ? { gte: new Date(startDate) } : {}),
           ...(endDate ? { lte: new Date(endDate) } : {}),
         },
@@ -51,12 +52,21 @@ export async function GET(request: NextRequest) {
       skip: (page - 1) * pageSize,
       take: pageSize,
       orderBy: {
-        createdAt: 'desc',
+        operationTime: 'desc',
       },
     })
 
     const response = {
-      list: logs,
+      items: logs.map(log => ({
+        id: log.id,
+        operationType: log.operationType,
+        targetType: log.targetType,
+        targetId: log.targetId,
+        targetName: log.targetName,
+        operatorId: log.operatorId,
+        operatorName: log.operatorName,
+        operationTime: log.operationTime,
+      })),
       total,
       page,
       pageSize,

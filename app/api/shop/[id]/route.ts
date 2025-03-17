@@ -21,11 +21,11 @@ const paramsSchema = z.object({
 // 更新商家
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const paramsResult = paramsSchema.safeParse(params)
+    const paramsResult = paramsSchema.safeParse(await params)
     if (!paramsResult.success) {
       return errorResponse('Invalid parameters', 400, paramsResult.error)
     }
@@ -97,11 +97,11 @@ export async function PUT(
 // 获取商家详情
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const result = paramsSchema.safeParse(params)
+    const result = paramsSchema.safeParse(await params)
     if (!result.success) {
       return errorResponse('Invalid parameters', 400, result.error)
     }
@@ -109,16 +109,11 @@ export async function GET(
     const shop = await prisma.shop.findUnique({
       where: { id: params.id },
       include: {
-        positions: {
+        position: true,
+        part: {
           select: {
             id: true,
-            position_no: true,
-            part: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
+            name: true,
           },
         },
       },
@@ -147,12 +142,12 @@ export async function GET(
       shop_description: shop.shop_description,
       verified: shop.verified,
       displayed: shop.displayed,
-      positions: shop.positions.map(pos => ({
-        positionId: pos.id,
-        position_no: pos.position_no,
-        partId: pos.part.id,
-        part_name: pos.part.name,
-      })),
+      positions: shop.position ? [{
+        positionId: shop.position.id,
+        position_no: shop.position.position_no,
+        partId: shop.part.id,
+        part_name: shop.part.name,
+      }] : [],
     }
 
     return successResponse(response)
@@ -165,11 +160,11 @@ export async function GET(
 // 删除商家
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const result = paramsSchema.safeParse(params)
+    const result = paramsSchema.safeParse(await params)
     if (!result.success) {
       return errorResponse('Invalid parameters', 400, result.error)
     }
@@ -177,7 +172,7 @@ export async function DELETE(
     const shop = await prisma.shop.findUnique({
       where: { id: params.id },
       include: {
-        positions: true,
+        position: true,
       },
     })
 
@@ -186,8 +181,8 @@ export async function DELETE(
     }
 
     // 检查是否有关联的铺位
-    if (shop.positions.length > 0) {
-      return errorResponse('Cannot delete shop with associated positions', 400)
+    if (shop.position) {
+      return errorResponse('Cannot delete shop with associated position', 400)
     }
 
     // 删除商家

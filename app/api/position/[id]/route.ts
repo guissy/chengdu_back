@@ -15,11 +15,11 @@ const paramsSchema = z.object({
 // 更新铺位
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const paramsResult = paramsSchema.safeParse(params)
+    const paramsResult = paramsSchema.safeParse(await params)
     if (!paramsResult.success) {
       return errorResponse('Invalid parameters', 400, paramsResult.error)
     }
@@ -74,11 +74,11 @@ export async function PUT(
 // 绑定商家
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const paramsResult = paramsSchema.safeParse(params)
+    const paramsResult = paramsSchema.safeParse(await params)
     if (!paramsResult.success) {
       return errorResponse('Invalid parameters', 400, paramsResult.error)
     }
@@ -129,11 +129,11 @@ export async function POST(
 // 标记铺位
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const paramsResult = paramsSchema.safeParse(params)
+    const paramsResult = paramsSchema.safeParse(await params)
     if (!paramsResult.success) {
       return errorResponse('Invalid parameters', 400, paramsResult.error)
     }
@@ -175,11 +175,11 @@ export async function PATCH(
 // 获取铺位详情
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const result = paramsSchema.safeParse(params)
+    const result = paramsSchema.safeParse(await params)
     if (!result.success) {
       return errorResponse('Invalid parameters', 400, result.error)
     }
@@ -228,11 +228,11 @@ export async function GET(
 // 删除铺位
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const result = paramsSchema.safeParse(params)
+    const result = paramsSchema.safeParse(await params)
     if (!result.success) {
       return errorResponse('Invalid parameters', 400, result.error)
     }

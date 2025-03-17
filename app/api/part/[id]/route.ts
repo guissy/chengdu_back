@@ -8,13 +8,13 @@ const paramsSchema = z.object({
   id: z.string(),
 })
 
-export async function PUT(
+export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const paramsResult = paramsSchema.safeParse(params)
+    const paramsResult = paramsSchema.safeParse(await params)
     if (!paramsResult.success) {
       return errorResponse('Invalid parameters', 400, paramsResult.error)
     }
@@ -22,7 +22,10 @@ export async function PUT(
     const body = await request.json()
     
     // 验证请求参数
-    const requestResult = PartUpdateRequestSchema.safeParse(body)
+    const requestResult = PartUpdateRequestSchema.safeParse({
+      id: params.id,
+      ...body,
+    })
     if (!requestResult.success) {
       return errorResponse('Invalid parameters', 400, requestResult.error)
     }
@@ -58,15 +61,19 @@ export async function PUT(
 // 获取分区详情
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    console.log('GET /part/[id] - Request params:', params);
+
     // 验证路径参数
-    const result = paramsSchema.safeParse(params)
+    const result = paramsSchema.safeParse(await params)
     if (!result.success) {
+      console.error('Invalid parameters:', result.error);
       return errorResponse('Invalid parameters', 400, result.error)
     }
 
+    // 查询数据库
     const part = await prisma.part.findUnique({
       where: { id: params.id },
       include: {
@@ -95,13 +102,18 @@ export async function GET(
       },
     })
 
+    console.log('Database query result:', part ? 'Found' : 'Not found');
+
     if (!part) {
       return errorResponse('Part not found', 404)
     }
 
     // 转换数据格式
     const response = {
-      ...part,
+      id: part.id,
+      name: part.name,
+      sequence: part.sequence,
+      total_space: part.positions.reduce((sum, pos) => sum + pos.total_space, 0),
       positions: part.positions.map(pos => ({
         positionId: pos.id,
         position_no: pos.position_no,
@@ -120,6 +132,7 @@ export async function GET(
       })),
     }
 
+    console.log('Response data prepared');
     return successResponse(response)
   } catch (error) {
     console.error('Error fetching part:', error)
@@ -130,11 +143,11 @@ export async function GET(
 // 删除分区
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证路径参数
-    const result = paramsSchema.safeParse(params)
+    const result = paramsSchema.safeParse(await params)
     if (!result.success) {
       return errorResponse('Invalid parameters', 400, result.error)
     }

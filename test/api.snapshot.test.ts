@@ -2,7 +2,11 @@ import 'dotenv/config';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
 import resetDb from './seed';
-import { beforeEach } from '@vitest/runner';
+// import { beforeEach } from '@vitest/runner';
+import dotenv from 'dotenv';
+
+const envPath = `.env.${process.env.NODE_ENV || 'development'}`;
+dotenv.config({ path: envPath });
 
 // const BASE_URL = 'http://localhost:3002/api';
 const BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}`;

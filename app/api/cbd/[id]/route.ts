@@ -9,11 +9,11 @@ const paramsSchema = z.object({
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 1. 验证参数
-    const result = paramsSchema.safeParse(params)
+    const result = paramsSchema.safeParse(await params)
     if (!result.success) {
       return errorResponse('Invalid parameters', 400, result.error)
     }

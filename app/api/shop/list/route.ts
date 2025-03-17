@@ -3,9 +3,13 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { ShopListRequestSchema, ShopListResponseSchema } from '@/lib/schema/shop'
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const body = await request.json()
+    const searchParams = request.nextUrl.searchParams
+    const body = {
+      cbdId: searchParams.get('cbdId') || undefined,
+      keyword: searchParams.get('keyword') || undefined
+    }
     
     // 验证请求参数
     const requestResult = ShopListRequestSchema.safeParse(body)
@@ -17,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     // 构建查询条件
     const where = {
-      ...(cbdId ? { positions: { some: { part: { cbdId } } } } : {}),
+      ...(cbdId ? { cbdId } : {}),
       ...(keyword ? {
         OR: [
           { shop_no: { contains: keyword } },
@@ -32,16 +36,11 @@ export async function POST(request: NextRequest) {
     const shops = await prisma.shop.findMany({
       where,
       include: {
-        positions: {
+        position: true,
+        part: {
           select: {
             id: true,
-            position_no: true,
-            part: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
+            name: true,
           },
         },
       },
@@ -57,12 +56,12 @@ export async function POST(request: NextRequest) {
       name: shop.name,
       contact_name: shop.contact_name,
       contact_phone: shop.contact_phone,
-      positions: shop.positions.map(pos => ({
-        positionId: pos.id,
-        position_no: pos.position_no,
-        partId: pos.part.id,
-        part_name: pos.part.name,
-      })),
+      positions: shop.position ? [{
+        positionId: shop.position.id,
+        position_no: shop.position.position_no,
+        partId: shop.part.id,
+        part_name: shop.part.name,
+      }] : [],
     }))
 
     const response = { list }
