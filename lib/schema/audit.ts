@@ -5,14 +5,15 @@ import { OperationTypeEnum, OperationTargetEnum } from './enums';
 // 审计日志基础字段
 const auditLogBaseFields = {
   id: z.string().describe('日志ID'),
-  operationType: z.string().describe('操作类型'),
-  targetType: z.string().describe('目标类型'),
+  operationType: OperationTypeEnum.describe('操作类型'),
+  targetType: OperationTargetEnum.describe('目标类型'),
   targetId: z.string().describe('目标ID'),
   targetName: z.string().describe('目标名称'),
   content: z.string().describe('操作内容'),
-  operator: z.string().describe('操作人'),
-  operatorIp: z.string().describe('操作IP'),
-  createdAt: z.date().describe('创建时间'),
+  operatorName: z.string().describe('操作人'),
+  ipAddress: z.string().describe('操作IP'),
+  userAgent: z.string().describe('操作浏览器'),
+  operationTime: z.date().describe('操作时间'),
 };
 
 // 审计日志模型
@@ -45,7 +46,7 @@ export const AuditLogListResponseSchema = BaseResponseSchema.extend({
 
 // 审计日志统计基础字段
 const auditLogStatsBaseFields = {
-  type: z.string().describe('类型'),
+  operationType: z.string().describe('类型'),
   count: z.number().describe('数量'),
 };
 

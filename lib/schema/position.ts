@@ -64,8 +64,18 @@ export const PositionBindShopRequestSchema = z.object({
   shopId: z.string().describe('商家ID'),
 });
 
+// 铺位解绑商家请求
+export const PositionUnbindShopRequestSchema = z.object({
+  id: z.string().describe('铺位ID'),
+});
+
 // 铺位标记请求
 export const PositionMarkRequestSchema = z.object({
   id: z.string().describe('铺位ID'),
   remark: z.string().describe('标记内容'),
 }); 
+
+// 铺位删除
+export const PositionDeleteRequestSchema = z.object({
+  id: z.string().describe('铺位ID'),
+});

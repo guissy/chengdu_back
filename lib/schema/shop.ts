@@ -19,7 +19,7 @@ import {
 
 // 商家基础信息字段
 const shopBaseFields = {
-  name: z.string().describe('商家名称'),
+  // name: z.string().describe('商家名称'),
   type: ShopTypeEnum.describe('类型'),
   type_tag: z.string().nullable().describe('品类标签'),
   business_type: BusinessTypeEnum.describe('商业类型'),
@@ -99,50 +99,54 @@ export const ShopListResponseSchema = z.object({
     list: z.array(z.object({
       id: z.string(),
       shop_no: z.string(),
-      name: z.string(),
+      trademark: z.string().optional(),
       contact_name: z.string().nullable(),
       contact_phone: z.string().nullable(),
-      positions: z.array(z.object({
-        positionId: z.string(),
+      position: z.object({
+        // positionId: z.string(),
         position_no: z.string(),
         partId: z.string(),
-        part_name: z.string(),
-      })),
+        // part_name: z.string(),
+      }).optional().nullable(),
     })),
   }),
 });
 
 // 新增商家请求
 export const ShopAddRequestSchema = z.object({
+  cbdId: z.string().optional().describe('商圈ID'),
+  partId: z.string().optional().describe('分区ID'),
   shop_no: z.string().describe('商家编号'),
-  name: z.string().describe('商家名称'),
+  price_base: z.number().describe('价格基数（单位：分）'),
+  duration: OperationDurationEnum.describe('经营时长'),
+  type: ShopTypeEnum.optional().describe('类型'),
   contact_name: z.string().optional().describe('联系人姓名'),
   contact_phone: z.string().optional().describe('联系人电话'),
   business_type: z.string().optional().describe('经营类型'),
   trademark: z.string().optional().describe('商标'),
   branch: z.string().optional().describe('分店名'),
-  average_expense: z.number().optional().describe('人均消费'),
+  average_expense: ExpenseRangeSchema.optional().describe('人均消费'),
   total_area: z.number().optional().describe('总面积'),
   customer_area: z.number().optional().describe('客区面积'),
   clerk_count: z.number().optional().describe('员工数量'),
-  business_hours: z.array(z.string()).optional().describe('营业时间'),
+  business_hours: z.tuple([z.number(), z.number()]).optional().describe('营业时间'),
   rest_days: z.array(z.string()).optional().describe('休息日'),
   shop_description: z.string().optional().describe('商家描述'),
 });
 
 // 更新商家请求
 export const ShopUpdateRequestSchema = z.object({
-  name: z.string().optional().describe('商家名称'),
+  // name: z.string().optional().describe('商家名称'),
   contact_name: z.string().optional().describe('联系人姓名'),
   contact_phone: z.string().optional().describe('联系人电话'),
   business_type: z.string().optional().describe('经营类型'),
   trademark: z.string().optional().describe('商标'),
   branch: z.string().optional().describe('分店名'),
-  average_expense: z.number().optional().describe('人均消费'),
+  average_expense: ExpenseRangeSchema.optional().describe('人均消费'),
   total_area: z.number().optional().describe('总面积'),
   customer_area: z.number().optional().describe('客区面积'),
   clerk_count: z.number().optional().describe('员工数量'),
-  business_hours: z.array(z.string()).optional().describe('营业时间'),
+  business_hours: z.tuple([z.number(), z.number()]).optional().describe('营业时间'),
   rest_days: z.array(z.string()).optional().describe('休息日'),
   shop_description: z.string().optional().describe('商家描述'),
 });

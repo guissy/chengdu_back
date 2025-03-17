@@ -15,6 +15,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+
   try {
     // 验证路径参数
     const result = paramsSchema.safeParse(await params)
@@ -23,13 +24,13 @@ export async function GET(
     }
 
     const space = await prisma.space.findUnique({
-      where: { id: params.id },
+      where: { id: result.data.id },
       include: {
         shop: {
           select: {
             id: true,
             shop_no: true,
-            name: true,
+            // name: true,
           },
         },
       },
@@ -54,10 +55,11 @@ export async function GET(
       description: space.description,
       design_attention: space.design_attention,
       construction_attention: space.construction_attention,
+      shopId: space.shop.id,
       shop: {
         id: space.shop.id,
         shop_no: space.shop.shop_no,
-        name: space.shop.name,
+        // name: space.shop.name,
       },
     }
 

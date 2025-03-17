@@ -12,6 +12,7 @@ import {
   PeakTimeEnum,
   SeasonEnum
 } from '@/lib/schema/enums'
+import { BusinessType, ContactType, RestDay, ShopType } from '@prisma/client'
 
 export async function POST(request: NextRequest) {
   try {
@@ -65,29 +66,29 @@ export async function POST(request: NextRequest) {
 
     // 生成商铺编号
     const shop_no = `SHOP${Date.now()}`
-
+    console.log(type, requestResult.data, 'ο▬▬▬▬▬▬▬▬◙▅▅▆▆▇▇◤')
     // 创建商铺
     const shop = await prisma.shop.create({
       data: {
         shop_no,
-        cbdId,
-        partId,
-        type: ShopTypeEnum.Values[type as keyof typeof ShopTypeEnum.Values],
+        // cbdId,
+        // partId,
+        type: type as ShopType,
         type_tag,
-        business_type: BusinessTypeEnum.Values[business_type as keyof typeof BusinessTypeEnum.Values],
-        trademark,
+        business_type: business_type as BusinessType,
+        trademark: trademark ?? '',
         branch,
         location,
         verified,
-        duration: OperationDurationEnum.Values[duration as keyof typeof OperationDurationEnum.Values],
+        duration,
         consume_display,
         average_expense,
-        sex: sex ? GenderEnum.Values[sex as keyof typeof GenderEnum.Values] : undefined,
+        sex,
         age,
         business_hours,
-        rest_days: rest_days?.map(day => RestDayEnum.Values[day as keyof typeof RestDayEnum.Values]),
-        volume_peak: volume_peak?.map(peak => PeakTimeEnum.Values[peak as keyof typeof PeakTimeEnum.Values]),
-        season: season?.map(s => SeasonEnum.Values[s as keyof typeof SeasonEnum.Values]),
+        rest_days: rest_days as RestDay[],
+        volume_peak,
+        season,
         price_base,
         id_tag,
         sign_photo,
@@ -97,7 +98,7 @@ export async function POST(request: NextRequest) {
         brand_photo,
         contact_name,
         contact_phone,
-        contact_type: contact_type ? ContactTypeEnum.Values[contact_type as keyof typeof ContactTypeEnum.Values] : null,
+        contact_type: contact_type as ContactType,
         total_area,
         customer_area,
         clerk_count,
@@ -106,6 +107,8 @@ export async function POST(request: NextRequest) {
         displayed,
         classify_tag,
         remark,
+        ...(cbdId && { cbd: { connect: { id: cbdId } } }),
+        ...(partId && { part: { connect: { id: partId } } }),
       },
     })
 

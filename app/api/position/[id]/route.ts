@@ -15,7 +15,7 @@ const paramsSchema = z.object({
 // 更新铺位
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     // 验证路径参数
@@ -74,7 +74,7 @@ export async function PUT(
 // 绑定商家
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     // 验证路径参数
@@ -129,7 +129,7 @@ export async function POST(
 // 标记铺位
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     // 验证路径参数
@@ -185,7 +185,7 @@ export async function GET(
     }
 
     const position = await prisma.position.findUnique({
-      where: { id: params.id },
+      where: { id: result.data.id },
       include: {
         shop: {
           select: {
@@ -224,45 +224,3 @@ export async function GET(
     return errorResponse('Internal Server Error', 500)
   }
 }
-
-// 删除铺位
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    // 验证路径参数
-    const result = paramsSchema.safeParse(await params)
-    if (!result.success) {
-      return errorResponse('Invalid parameters', 400, result.error)
-    }
-
-    const position = await prisma.position.findUnique({
-      where: { id: params.id },
-      include: {
-        shop: true,
-      },
-    })
-
-    if (!position) {
-      return errorResponse('Position not found', 404)
-    }
-
-    // 检查是否有关联的商家
-    if (position.shop) {
-      return errorResponse('Cannot delete position with associated shop', 400)
-    }
-
-    // 删除铺位
-    await prisma.position.delete({
-      where: { id: params.id },
-    })
-
-    return successResponse({
-      message: 'Position deleted successfully',
-    })
-  } catch (error) {
-    console.error('Error deleting position:', error)
-    return errorResponse('Internal Server Error', 500)
-  }
-} 

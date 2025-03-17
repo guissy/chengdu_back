@@ -1,14 +1,14 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
-import { PositionSetRequestSchema } from '@/lib/schema/part'
+import { PositionUnbindShopRequestSchema } from '@/lib/schema/position'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
     // 验证请求参数
-    const requestResult = PositionSetRequestSchema.safeParse(body)
+    const requestResult = PositionUnbindShopRequestSchema.safeParse(body)
     if (!requestResult.success) {
       return errorResponse('Invalid parameters', 400, requestResult.error)
     }

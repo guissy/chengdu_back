@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
         business_hours: data.business_hours ? data.business_hours.map(h => parseInt(h)) : undefined,
         business_type: data.business_type as BusinessType,
         rest_days: data.rest_days ? data.rest_days.map(d => d as RestDay) : undefined,
-        average_expense: data.average_expense ? [data.average_expense, data.average_expense] : undefined,
+        average_expense: data.average_expense,
       },
     })
 

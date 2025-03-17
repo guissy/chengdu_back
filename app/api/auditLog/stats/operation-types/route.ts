@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
     // 转换数据格式
     const data = stats.map(item => ({
-      type: item.operationType,
+      operationType: item.operationType,
       count: item._count,
     }))
 

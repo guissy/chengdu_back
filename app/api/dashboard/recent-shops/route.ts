@@ -23,21 +23,15 @@ export async function GET(request: NextRequest) {
       select: {
         id: true,
         shop_no: true,
-        name: true,
         type: true,
         createdAt: true,
+        trademark: true,
       },
     })
 
-    const data = {
-      shops: shops.map(shop => ({
-        id: shop.id,
-        shop_no: shop.shop_no,
-        name: shop.name,
-        type: shop.type,
-        createdAt: shop.createdAt,
-      })),
-    }
+    const data = shops.map(shop => ({
+        ...shop,
+    }))
 
     // 验证响应数据
     const responseResult = DashboardRecentShopsResponseSchema.safeParse(data)

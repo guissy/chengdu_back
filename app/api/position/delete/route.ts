@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
-import { PositionDeleteRequestSchema } from '@/lib/schema/part'
+import { PositionDeleteRequestSchema } from '@/lib/schema/position'
 
 export async function POST(request: NextRequest) {
   try {

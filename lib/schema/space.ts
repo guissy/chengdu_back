@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { BaseResponseSchema } from './base';
 import { SpaceTypeEnum, SpaceStateEnum, SpaceSiteEnum, SpaceStabilityEnum } from './enums';
 
 // 广告位模型
@@ -50,7 +49,7 @@ export const SpaceListResponseSchema = z.object({
       shop: z.object({
         id: z.string(),
         shop_no: z.string(),
-        name: z.string(),
+        // name: z.string(),
       }),
     })),
   }),
@@ -162,7 +161,7 @@ export const SpaceSearchResponseSchema = z.object({
       shop: z.object({
         id: z.string(),
         shop_no: z.string(),
-        name: z.string(),
+        // name: z.string(),
       }),
     })),
     total: z.number(),
@@ -232,4 +231,9 @@ export const SpaceBatchDeleteResponseSchema = z.object({
       message: z.string().describe('错误信息'),
     })).describe('错误详情'),
   }),
+});
+
+// 广告位删除请求
+export const SpaceDeleteRequestSchema = z.object({
+  id: z.string().describe('广告位ID'),
 });

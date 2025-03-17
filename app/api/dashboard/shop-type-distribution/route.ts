@@ -12,12 +12,10 @@ export async function GET() {
       },
     })
 
-    const data = {
-      distribution: distribution.map(item => ({
-        type: item.type,
-        count: item._count._all,
-      })),
-    }
+    const data = distribution.map(item => ({
+      type: item.type,
+      count: item._count._all,
+    }))
 
     // 验证响应数据
     const responseResult = DashboardShopTypeDistributionResponseSchema.safeParse(data)

@@ -21,32 +21,23 @@ export const DashboardRecentShopsRequestSchema = z.object({
 })
 
 // 最近添加的商家响应
-export const DashboardRecentShopsResponseSchema = BaseResponseSchema.extend({
-  data: z.object({
-    list: z.array(z.object({
+export const DashboardRecentShopsResponseSchema = z.array(z.object({
       id: z.string(),
       shop_no: z.string(),
-      name: z.string(),
       type: z.string(),
-      state: z.string(),
       createdAt: z.date(),
-    })),
-  }),
-})
+      trademark: z.string(),
+  }));
 
 // 商圈分布统计响应
-export const DashboardCbdDistributionResponseSchema = BaseResponseSchema.extend({
-  data: z.array(z.object({
+export const DashboardCbdDistributionResponseSchema = z.array(z.object({
     id: z.string().describe('商圈ID'),
     name: z.string().describe('商圈名称'),
-    count: z.number().describe('数量'),
-  })),
-})
+    shopCount: z.number().describe('数量'),
+  }));
 
 // 商家类型分布统计响应
-export const DashboardShopTypeDistributionResponseSchema = BaseResponseSchema.extend({
-  data: z.array(z.object({
-    type: z.string().describe('商家类型'),
-    count: z.number().describe('数量'),
-  })),
-}) 
+export const DashboardShopTypeDistributionResponseSchema = z.array(z.object({
+  type: z.string().describe('商家类型'),
+  count: z.number().describe('数量'),
+}))

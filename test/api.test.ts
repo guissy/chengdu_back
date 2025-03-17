@@ -317,7 +317,7 @@ describe('业务系统 API 测试', () => {
 
       if (response.body.data.list.length > 0) {
         const shop = response.body.data.list[0];
-        expect(shop).toHaveProperty('shopId');
+        expect(shop).toHaveProperty('id');
         expect(shop).toHaveProperty('trademark');
         expect(shop).toHaveProperty('business_type');
       }
@@ -338,7 +338,7 @@ describe('业务系统 API 测试', () => {
         .set('authorization', 'valid-api-key');
 
       expectSuccessResponse(response);
-      expect(response.body.data).toHaveProperty('shopId');
+      expect(response.body.data).toHaveProperty('id');
       expect(response.body.data).toHaveProperty('trademark');
     });
 
@@ -346,6 +346,7 @@ describe('业务系统 API 测试', () => {
       const newShop = {
         cbdId: testData.cbdId,
         partId: testData.partId,
+        shop_no: "AS007",
         type: 'RESTAURANT', // 餐饮
         business_type: 'INDEPENDENT', // 独立自营店
         trademark: '测试品牌',
@@ -440,7 +441,16 @@ describe('业务系统 API 测试', () => {
       const newSpace = {
         shopId: testData.shopId,
         type: 'TABLE_STICKER', // 方桌不干胶贴
-        setting: { size: '10x10cm' },
+        setting: {
+          size: {
+            width: 21,  // 宽度（毫米）
+            height: 297  // 高度（毫米），类似A4纸大小
+          },
+          material: "PVC不干胶贴纸",  // 材质
+          installation: "贴附式",  // 安装方式
+          duration: 0,  // 展示时长（秒）- 不适用于静态贴纸，设为0
+          frequency: 0   // 播放频率（次/小时）- 不适用于静态贴纸，设为0
+        },
         state: 'ENABLED' // 启用
       };
 
@@ -571,7 +581,7 @@ describe('业务系统 API 测试', () => {
         .set('authorization', 'valid-api-key');
 
       expectSuccessResponse(response);
-      expect(response.body.data).toHaveProperty('items');
+      expect(response.body.data).toHaveProperty('list');
       expect(response.body.data).toHaveProperty('total');
       expect(response.body.data).toHaveProperty('page');
       expect(response.body.data).toHaveProperty('pageSize');
@@ -579,7 +589,7 @@ describe('业务系统 API 测试', () => {
     });
 
     it('GET /auditLog/{id} - 应返回审计日志详情', async () => {
-      const logId = '2be3db3e-c36b-468d-8c4e-7b92a63980b8';
+      const logId = 'audit-001';
       const response = await request(BASE_URL)
         .get(`/auditLog/${logId}`)
         .set('authorization', 'valid-api-key');

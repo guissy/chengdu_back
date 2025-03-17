@@ -57,16 +57,7 @@ export async function GET(request: NextRequest) {
     })
 
     const response = {
-      items: logs.map(log => ({
-        id: log.id,
-        operationType: log.operationType,
-        targetType: log.targetType,
-        targetId: log.targetId,
-        targetName: log.targetName,
-        operatorId: log.operatorId,
-        operatorName: log.operatorName,
-        operationTime: log.operationTime,
-      })),
+      list: logs,
       total,
       page,
       pageSize,

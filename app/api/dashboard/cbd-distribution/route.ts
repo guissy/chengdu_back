@@ -27,13 +27,11 @@ export async function GET() {
     })
 
     // 合并数据
-    const data = {
-      distribution: cbds.map((cbd: { id: string; name: string }) => ({
+    const data = cbds.map((cbd: { id: string; name: string }) => ({
         id: cbd.id,
         name: cbd.name,
-        count: distribution.find(item => item.cbdId === cbd.id)?._count._all || 0,
-      })),
-    }
+        shopCount: distribution.find(item => item.cbdId === cbd.id)?._count._all || 0,
+      }));
 
     // 验证响应数据
     const responseResult = DashboardCbdDistributionResponseSchema.safeParse(data)

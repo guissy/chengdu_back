@@ -51,11 +51,7 @@ export async function GET(request: NextRequest) {
 
     // 转换数据格式
     const list = shops.map(shop => ({
-      id: shop.id,
-      shop_no: shop.shop_no,
-      name: shop.name,
-      contact_name: shop.contact_name,
-      contact_phone: shop.contact_phone,
+      ...shop,
       positions: shop.position ? [{
         positionId: shop.position.id,
         position_no: shop.position.position_no,

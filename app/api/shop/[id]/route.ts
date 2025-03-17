@@ -107,7 +107,7 @@ export async function GET(
     }
 
     const shop = await prisma.shop.findUnique({
-      where: { id: params.id },
+      where: { id: result.data.id },
       include: {
         position: true,
         part: {
