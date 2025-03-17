@@ -3,7 +3,6 @@ import request, { Response } from 'supertest';
 import resetDb from './seed';
 import { beforeEach } from '@vitest/runner';
 import dotenv from 'dotenv';
-import prisma from '@/lib/prisma';
 
 const envPath = `.env.${process.env.NODE_ENV || 'development'}`;
 dotenv.config({ path: envPath });
@@ -35,29 +34,11 @@ interface ApiResponse<T> {
 // 启动和关闭服务器
 beforeAll(async () => {
   // 确保环境变量已设置
-  if (!process.env.NEXT_PUBLIC_API_BASE_URL) {
-    throw new Error('NEXT_PUBLIC_API_BASE_URL environment variable is not set');
-  }
-  if (!process.env.DATABASE_URL) {
-    throw new Error('DATABASE_URL environment variable is not set');
-  }
-  
-  console.log('Using API base URL:', BASE_URL);
-  
-  // 测试数据库连接
-  try {
-    await prisma.$connect();
-    console.log('Database connection successful');
-  } catch (error) {
-    console.error('Database connection failed:', error);
-    throw error;
-  }
 });
 
 afterAll(async () => {
   // 清理资源
   await resetDb('test');
-  await prisma.$disconnect();
 });
 
 beforeEach(async () => {

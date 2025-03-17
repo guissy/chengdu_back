@@ -2,10 +2,10 @@ import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { ShopAddRequestSchema } from '@/lib/schema/shop'
-import { 
-  ShopTypeEnum, 
-  BusinessTypeEnum, 
-  GenderEnum, 
+import {
+  ShopTypeEnum,
+  BusinessTypeEnum,
+  GenderEnum,
   ContactTypeEnum,
   OperationDurationEnum,
   RestDayEnum,
@@ -16,7 +16,7 @@ import {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+
     // 验证请求参数
     const requestResult = ShopAddRequestSchema.safeParse(body)
     if (!requestResult.success) {
@@ -125,4 +125,4 @@ export async function POST(request: NextRequest) {
     console.error('Error creating shop:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}

@@ -1,39 +1,40 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
-import { SpaceDeleteRequestSchema } from '@/lib/schema/space'
+import { PositionMarkRequestSchema } from '@/lib/schema/part'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
     // 验证请求参数
-    const requestResult = SpaceDeleteRequestSchema.safeParse(body)
+    const requestResult = PositionMarkRequestSchema.safeParse(body)
     if (!requestResult.success) {
       return errorResponse('Invalid parameters', 400, requestResult.error)
     }
 
-    const { id } = requestResult.data
+    const { id, remark } = requestResult.data
 
-    // 检查广告位是否存在
-    const space = await prisma.space.findUnique({
+    // 检查铺位是否存在
+    const position = await prisma.position.findUnique({
       where: { id },
     })
 
-    if (!space) {
-      return errorResponse('Space not found', 404)
+    if (!position) {
+      return errorResponse('Position not found', 404)
     }
 
-    // 删除广告位
-    await prisma.space.delete({
+    // 更新标记
+    await prisma.position.update({
       where: { id },
+      data: { remark },
     })
 
     return successResponse({
-      message: 'Space deleted successfully',
+      message: 'Position marked successfully',
     })
   } catch (error) {
-    console.error('Error deleting space:', error)
+    console.error('Error marking position:', error)
     return errorResponse('Internal Server Error', 500)
   }
 } 

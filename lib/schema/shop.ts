@@ -19,6 +19,7 @@ import {
 
 // 商家基础信息字段
 const shopBaseFields = {
+  name: z.string().describe('商家名称'),
   type: ShopTypeEnum.describe('类型'),
   type_tag: z.string().nullable().describe('品类标签'),
   business_type: BusinessTypeEnum.describe('商业类型'),

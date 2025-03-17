@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
       cbdId: searchParams.get('cbdId') || undefined,
       keyword: searchParams.get('keyword') || undefined
     }
-    
+
     // 验证请求参数
     const requestResult = ShopListRequestSchema.safeParse(body)
     if (!requestResult.success) {
@@ -77,4 +77,4 @@ export async function GET(request: NextRequest) {
     console.error('Error fetching shops:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}

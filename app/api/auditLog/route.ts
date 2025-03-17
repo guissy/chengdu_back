@@ -84,4 +84,4 @@ export async function GET(request: NextRequest) {
     console.error('Error fetching audit logs:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}

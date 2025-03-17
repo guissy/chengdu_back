@@ -13,7 +13,7 @@ const RequestSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+
     // 验证请求参数
     const result = RequestSchema.safeParse(body)
     if (!result.success) {
@@ -48,4 +48,4 @@ export async function POST(request: NextRequest) {
     console.error('Error updating shop:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}

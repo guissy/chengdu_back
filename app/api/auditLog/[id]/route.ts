@@ -30,4 +30,4 @@ export async function GET(
     console.error('Error fetching audit log:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}
