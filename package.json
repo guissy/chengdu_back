@@ -4,18 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3002",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "generate-api": "npx openapi-typescript-codegen --input http://localhost:3001/docs/json --output lib/api",
     "api": "npx openapi-typescript http://localhost:3001/docs/json --output lib/api/schema.d.ts"
   },
   "dependencies": {
+    "@prisma/client": "^6.5.0",
     "@tanstack/react-query": "^5.68.0",
     "@tanstack/react-query-devtools": "^5.68.0",
     "@tanstack/react-query-next-experimental": "^5.68.0",
     "next": "15.2.2",
     "openapi-fetch": "^0.13.5",
+    "prisma": "^6.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
