@@ -204,12 +204,12 @@ model Position {
 model Shop {
   id                String            @id @default(uuid())
   shop_no           String // 商家编号
+  name              String // 商家名称
   cbdId             String // 商圈id
   cbd               CBD               @relation(fields: [cbdId], references: [id])
   partId            String // 分区id
   part              Part              @relation(fields: [partId], references: [id])
-  // positionId        String?           @unique // 铺位id
-  position          Position? // @relation(fields: [positionId], references: [id]) // 关联的铺位
+  position          Position? // 关联的铺位
   type              ShopType // 类型，1-餐饮 2-轻食 3-茶楼 4-茶饮/咖啡 5-咖啡馆 6-酒店
   type_tag          String? // 品类标签
   business_type     BusinessType // 商业类型， 1-独立自营店 2-连锁自营店 3-连锁加盟店
