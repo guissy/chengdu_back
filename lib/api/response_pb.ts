@@ -28,7 +28,7 @@ export const SuccessProto: ProtoMessage<SuccessData> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: code = reader.int32(); break;
-        case 2: payload = reader.bytes(); break;
+        case 2: payload = reader.bytes() as Uint8Array<ArrayBuffer>; break;
         default: reader.skip(tag & 7); break;
       }
     }
