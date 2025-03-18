@@ -1,9 +1,8 @@
-import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { AuditLogOperationTypeStatsResponseSchema } from '@/lib/schema/audit'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // 按操作类型分组统计
     const stats = await prisma.auditLog.groupBy({

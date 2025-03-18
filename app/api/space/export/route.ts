@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server'
-import { successResponse, errorResponse } from '@/lib/api/response'
+import { errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { SpaceExportRequestSchema } from '@/lib/schema/space'
-import { SpaceType, SpaceState, SpaceSite, SpaceStability } from '@prisma/client'
+import { SpaceType, SpaceState, SpaceSite, SpaceStability, Space, Shop } from '@prisma/client'
 import * as XLSX from 'xlsx'
 
 export async function POST(request: NextRequest) {
@@ -34,19 +34,19 @@ export async function POST(request: NextRequest) {
           select: {
             id: true,
             shop_no: true,
-            name: true,
+            // name: true,
           },
         },
       },
       orderBy: {
         createdAt: 'desc',
       },
-    })
+    }) as (Space & { shop: Shop })[]
 
     // 转换数据格式
     const data = spaces.map(space => ({
       '商家编号': space.shop.shop_no,
-      '商家名称': space.shop.name,
+      // '商家名称': space.shop.name,
       '广告位类型': space.type,
       '数量': space.count,
       '状态': space.state,

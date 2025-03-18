@@ -21,7 +21,7 @@ export async function GET(
     // 2. 查询数据库
     const cbd = await prisma.cBD.findUnique({
       where: {
-        id: params.id,
+        id: result.data.id,
       },
       select: {
         id: true,

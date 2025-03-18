@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
           select: {
             id: true,
             shop_no: true,
-            name: true,
+            // name: true,
           },
         },
       },
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
       shop: {
         id: space.shop.id,
         shop_no: space.shop.shop_no,
-        name: space.shop.name,
+        // name: space.shop.name,
       },
     }))
 

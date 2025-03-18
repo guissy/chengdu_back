@@ -352,16 +352,16 @@ const endpoints = [
 ];
 
 // 辅助函数：递归删除所有 updatedAt 属性
-function omitUpdatedAt(obj: any): any {
+function omitUpdatedAt(obj: unknown): unknown {
   if (Array.isArray(obj)) {
     return obj.map(omitUpdatedAt);
   } else if (obj !== null && typeof obj === 'object') {
-    return Object.keys(obj).reduce((acc, key) => {
+    return Object.keys(obj).reduce<Record<string, unknown>>((acc, key) => {
       // 如果 key 为 updatedAt，则忽略；否则处理值
       if (key === 'updatedAt') return acc;
-      acc[key] = omitUpdatedAt(obj[key]);
+      acc[key] = omitUpdatedAt((obj as Record<string, unknown>)[key]);
       return acc;
-    }, {} as any);
+    }, {});
   }
   return obj;
 }

@@ -1,8 +1,6 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
-import { SpaceUpdateRequestSchema } from '@/lib/schema/space'
-import { SpaceType, SpaceState, SpaceSite, SpaceStability } from '@prisma/client'
 import { z } from 'zod'
 
 const paramsSchema = z.object({

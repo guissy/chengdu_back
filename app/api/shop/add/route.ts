@@ -2,17 +2,7 @@ import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { ShopAddRequestSchema } from '@/lib/schema/shop'
-import {
-  ShopTypeEnum,
-  BusinessTypeEnum,
-  GenderEnum,
-  ContactTypeEnum,
-  OperationDurationEnum,
-  RestDayEnum,
-  PeakTimeEnum,
-  SeasonEnum
-} from '@/lib/schema/enums'
-import { BusinessType, ContactType, RestDay, ShopType } from '@prisma/client'
+import { BusinessType, ContactType, Gender, OperationDuration, PeakTime, RestDay, Season, ShopType } from '@prisma/client'
 
 export async function POST(request: NextRequest) {
   try {
@@ -66,7 +56,6 @@ export async function POST(request: NextRequest) {
 
     // 生成商铺编号
     const shop_no = `SHOP${Date.now()}`
-    console.log(type, requestResult.data, 'ο▬▬▬▬▬▬▬▬◙▅▅▆▆▇▇◤')
     // 创建商铺
     const shop = await prisma.shop.create({
       data: {
@@ -80,15 +69,15 @@ export async function POST(request: NextRequest) {
         branch,
         location,
         verified,
-        duration,
+        duration: duration as OperationDuration,
         consume_display,
         average_expense,
-        sex,
+        sex: sex as Gender,
         age,
         business_hours,
         rest_days: rest_days as RestDay[],
-        volume_peak,
-        season,
+        volume_peak: volume_peak as PeakTime[],
+        season: season as Season[],
         price_base,
         id_tag,
         sign_photo,
@@ -107,8 +96,8 @@ export async function POST(request: NextRequest) {
         displayed,
         classify_tag,
         remark,
-        ...(cbdId && { cbd: { connect: { id: cbdId } } }),
-        ...(partId && { part: { connect: { id: partId } } }),
+        cbd: { connect: { id: cbdId }},
+        part: { connect: { id: partId }}
       },
     })
 

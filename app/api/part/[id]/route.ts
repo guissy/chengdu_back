@@ -1,62 +1,12 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
-import { PartUpdateRequestSchema } from '@/lib/schema/part'
 import { z } from 'zod'
 
 const paramsSchema = z.object({
   id: z.string(),
 })
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    // 验证路径参数
-    const paramsResult = paramsSchema.safeParse(await params)
-    if (!paramsResult.success) {
-      return errorResponse('Invalid parameters', 400, paramsResult.error)
-    }
-
-    const body = await request.json()
-    
-    // 验证请求参数
-    const requestResult = PartUpdateRequestSchema.safeParse({
-      id: params.id,
-      ...body,
-    })
-    if (!requestResult.success) {
-      return errorResponse('Invalid parameters', 400, requestResult.error)
-    }
-
-    const { name } = requestResult.data
-
-    // 检查分区是否存在
-    const existingPart = await prisma.part.findUnique({
-      where: { id: params.id },
-    })
-
-    if (!existingPart) {
-      return errorResponse('Part not found', 404)
-    }
-
-    // 更新分区
-    const part = await prisma.part.update({
-      where: { id: params.id },
-      data: { name },
-    })
-
-    return successResponse({
-      id: part.id,
-      name: part.name,
-      sequence: part.sequence,
-    })
-  } catch (error) {
-    console.error('Error updating part:', error)
-    return errorResponse('Internal Server Error', 500)
-  }
-}
 
 // 获取分区详情
 export async function GET(
@@ -64,8 +14,6 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    console.log('GET /part/[id] - Request params:', params);
-
     // 验证路径参数
     const result = paramsSchema.safeParse(await params)
     if (!result.success) {
@@ -75,7 +23,7 @@ export async function GET(
 
     // 查询数据库
     const part = await prisma.part.findUnique({
-      where: { id: params.id },
+      where: { id: result.data.id },
       include: {
         positions: {
           select: {
@@ -139,45 +87,3 @@ export async function GET(
     return errorResponse('Internal Server Error', 500)
   }
 }
-
-// 删除分区
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    // 验证路径参数
-    const result = paramsSchema.safeParse(await params)
-    if (!result.success) {
-      return errorResponse('Invalid parameters', 400, result.error)
-    }
-
-    const part = await prisma.part.findUnique({
-      where: { id: params.id },
-      include: {
-        positions: true,
-      },
-    })
-
-    if (!part) {
-      return errorResponse('Part not found', 404)
-    }
-
-    // 检查是否有关联的铺位
-    if (part.positions.length > 0) {
-      return errorResponse('Cannot delete part with associated positions', 400)
-    }
-
-    // 删除分区
-    await prisma.part.delete({
-      where: { id: params.id },
-    })
-
-    return successResponse({
-      message: 'Part deleted successfully',
-    })
-  } catch (error) {
-    console.error('Error deleting part:', error)
-    return errorResponse('Internal Server Error', 500)
-  }
-} 

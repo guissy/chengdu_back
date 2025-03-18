@@ -1,4 +1,3 @@
-import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { DashboardStatsResponseSchema } from '@/lib/schema/dashboard'
