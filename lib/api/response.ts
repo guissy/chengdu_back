@@ -31,4 +31,4 @@ export function errorResponse(
     },
     { status: statusCode } as ResponseInit
   )
-} 
+}

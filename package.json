@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3002",
-    "build": "bun i @tailwindcss/oxide-linux-x64-gnu @tailwindcss/postcss && prisma generate && next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "generate-api": "npx openapi-typescript-codegen --input http://localhost:3001/docs/json --output lib/api",
     "api": "npx openapi-typescript http://localhost:3001/docs/json --output lib/api/schema.d.ts",
-    "test": "NODE_ENV=test vitest"
+    "test": "NODE_ENV=test vitest",
+    "generate-proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=stringEnums=true --ts_proto_out=./api-proto --ts_proto_opt=esModuleInterop=true,forceLong=string,outputServices=grpc-js --proto_path=./schemas ./schemas/*.proto"
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
@@ -24,12 +25,14 @@
     "react-dom": "^19.0.0",
     "sharp": "^0.33.5",
     "supertest": "^7.0.0",
+    "ts-proto": "^2.6.1",
     "vitest": "^3.0.9",
     "xlsx": "^0.18.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@openapitools/openapi-generator-cli": "^2.18.4",
     "@tailwindcss/postcss": "^4.0.14",
     "@types/node": "^20",
     "@types/react": "^19",

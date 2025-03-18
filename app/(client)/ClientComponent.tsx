@@ -1,39 +1,54 @@
 "use client";
 
 import client from "@/lib/api/client";
-import { useStreamingQuery } from "@/lib/api/stream";
 import { memo } from "react";
+import { useQuery } from '@tanstack/react-query';
+import { ResponseFactory } from '@/lib/api/response_pb';
+import { CityList } from '@/api-proto/chengdu';
+import { CityListResponseSchema } from '@/lib/schema/location';
 
 function _CityItem({ city }: { city: { id: string; name: string } }) {
   const randColor = Math.floor(Math.random() * 16777215).toString(16);
   return <span style={{ color: `#${randColor}` }}>{city.name}</span>;
 }
+
 const CityItem = memo(_CityItem);
 
 
-// Client Component
 function ClientComponent() {
 
-  const { data: stream, isLoading } = useStreamingQuery<{ list: { id: string; name: string }[] }>({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["cityList"],
     queryFn: () =>
       client
-        .GET("/api/city/cityList", { parseAs: "stream" })
-        .then((res) => res?.data as ReadableStream<Uint8Array>),
+        .GET("/api/city/cityList", { parseAs: "arrayBuffer" })
+        .then(async (res) => {
+          const response = await ResponseFactory.decode(res, CityList);
+          if (response.status === 'success') {
+            const result = CityListResponseSchema.safeParse(response);
+            if (result.success) {
+              return response;
+            } else {
+              throw new Error("Invalid response");
+            }
+          } else {
+            throw new Error(response.error.message);
+          }
+        }),
   });
 
-// console.log(stream?.data?.list?.length, "ο▬▬▬▬▬▬▬▬◙▅▅▆▆▇▇◤")
 
   if (isLoading) return <div>Loading...</div>;
+  if (!data) return <div>{error?.message}</div>;
   return (
     <div className="text-red-500">
       <pre className={"text-blue-500 whitespace-pre-wrap"}>
 {`╔————————————————————————————————————————————————————————————————————————————————————╗
-`}
-      {stream?.data?.list?.slice(0, 10000).map((city, i) => (
-        <CityItem key={i} city={city} />
-      ))}
-{`
+  `}
+        {data?.data?.list?.slice(0, 10000).map((city, i) => (
+          <CityItem key={i} city={city}/>
+        ))}
+        {`
 ╚————————————————————————————————————————————————————————————————————————————————————╝`}
       </pre>
     </div>
