@@ -5,8 +5,6 @@
       "name": "chengdu03",
       "dependencies": {
         "@prisma/client": "^6.5.0",
-        "@tailwindcss/oxide-darwin-x64": "^4.0.14",
-        "@tailwindcss/oxide-linux-x64-gnu": "^4.0.14",
         "@tanstack/react-query": "^5.68.0",
         "@tanstack/react-query-devtools": "^5.68.0",
         "@tanstack/react-query-next-experimental": "^5.68.0",
@@ -24,7 +22,7 @@
       },
       "devDependencies": {
         "@eslint/eslintrc": "^3",
-        "@tailwindcss/postcss": "^4",
+        "@tailwindcss/postcss": "^4.0.14",
         "@types/node": "^20",
         "@types/react": "^19",
         "@types/react-dom": "^19",

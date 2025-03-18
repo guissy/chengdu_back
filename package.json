@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3002",
-    "build": "npm i @tailwindcss/oxide-linux-x64-gnu && prisma generate && next build",
+    "build": "G i @tailwindcss/oxide-linux-x64-gnu && prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "generate-api": "npx openapi-typescript-codegen --input http://localhost:3001/docs/json --output lib/api",
@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
-    "@tailwindcss/oxide-linux-x64-gnu": "^4.0.14",
     "@tanstack/react-query": "^5.68.0",
     "@tanstack/react-query-devtools": "^5.68.0",
     "@tanstack/react-query-next-experimental": "^5.68.0",
@@ -31,7 +30,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.0.14",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
