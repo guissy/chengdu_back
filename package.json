@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3002",
-    "build": "npm i @tailwindcss/oxide-linux-x64-gnu @tailwindcss/postcss && prisma generate && next build",
+    "build": "bun i @tailwindcss/oxide-linux-x64-gnu @tailwindcss/postcss && prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "generate-api": "npx openapi-typescript-codegen --input http://localhost:3001/docs/json --output lib/api",
