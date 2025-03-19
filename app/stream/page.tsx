@@ -20,9 +20,8 @@ function Page() {
         const cookies = document.cookie.split(';');
 
         const cookie = cookies.find(c => c.trim().startsWith('emitterSalt='));
-        const cookie2 = cookies.find(c => c.trim().startsWith('emitterSalt2='));
         setCookies(cookie ?? '');
-        setHeader(cookie2 ?? '');
+        setHeader(salt ?? '');
         if (!response.body) throw new Error("Empty response body");
         for await (const result of ResponseFactory.decodeStream(response.body, AuditLog)) {
           if (result.status === "success") {

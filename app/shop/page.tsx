@@ -31,9 +31,8 @@ export default function Page() {
       const salt = response.headers.get('X-Emitter-Salt');
       const cookies = document.cookie.split(';');
       const cookie = cookies.find(c => c.trim().startsWith('emitterSalt='));
-      const cookie2 = cookies.find(c => c.trim().startsWith('emitterSalt2='));
       setCookies(cookie ?? '');
-      setHeader(cookie2 ?? '');
+      setHeader(salt ?? '');
       return response.json();
     },
   });

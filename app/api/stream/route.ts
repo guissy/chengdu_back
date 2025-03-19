@@ -1,6 +1,6 @@
 import { ResponseFactory } from '@/lib/api/response_stream';
 import { MyProtoMessage } from '@/app/stream/protoUtils';
-import { emitter, emitterSalt, emitterSalt2 } from '@/lib/emitter';
+import { emitter, emitterSalt } from '@/lib/emitter';
 import { AuditLog } from '@/api-proto/chengdu';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -16,7 +16,7 @@ async function* generateData() {
       delay(5000).then(() => null) // 5秒后超时
     ]);
     if (newData) {
-      newData.id = emitterSalt + ' ' + emitterSalt2;
+      newData.id = emitterSalt;
       yield newData;
     }
   }
