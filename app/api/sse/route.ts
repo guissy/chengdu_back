@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { AuditLog } from '@/api-proto/chengdu'; // 假设这是生成的 Protobuf 类型
+import { AuditLog } from '@/lib/api/chengdu'; // 假设这是生成的 Protobuf 类型
 import { emitter } from '@/lib/emitter';
 import { ErrorProto } from '@/lib/api/response_pb';
 
@@ -10,7 +10,7 @@ async function* generateProtobufSSE() {
   while (true) {
     try {
       const newData = await Promise.race<AuditLog | null>([
-        new Promise(resolve => 
+        new Promise(resolve =>
           emitter.once('newAuditLog', resolve)
         ),
         delay(5000).then(() => null)
@@ -19,7 +19,7 @@ async function* generateProtobufSSE() {
       if (newData) {
         // Protobuf 编码
         const protoBuffer = AuditLog.encode(newData).finish();
-        
+
         // 构造 SSE 消息（Base64 编码二进制数据）
         yield `data: ${bufferToBase64(protoBuffer)}\n\n`;
       }

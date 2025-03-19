@@ -4,7 +4,7 @@ import client from "@/lib/api/client";
 import { memo } from "react";
 import { useQuery } from '@tanstack/react-query';
 import { ResponseFactory } from '@/lib/api/response_pb';
-import { CityList } from '@/api-proto/chengdu';
+import { CityList } from '@/lib/api/chengdu';
 import { CityListResponseSchema } from '@/lib/schema/location';
 
 function _CityItem({ city }: { city: { id: string; name: string } }) {

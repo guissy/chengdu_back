@@ -1,7 +1,7 @@
 import { ResponseFactory } from '@/lib/api/response_pb'
 import prisma from '@/lib/prisma'
 import { CityListResponseSchema } from '@/lib/schema/location'
-import { CityList } from '@/api-proto/chengdu';
+import { CityList } from '@/lib/api/chengdu';
 
 export async function GET() {
   try {

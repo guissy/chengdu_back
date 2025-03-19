@@ -3,7 +3,7 @@
 import { useState, useEffect, memo, useRef } from 'react';
 import dayjs from 'dayjs'
 import { ResponseFactory } from '@/lib/api/response_stream';
-import { AuditLog } from '@/api-proto/chengdu';
+import { AuditLog } from '@/lib/api/chengdu';
 import autoAnimate from '@formkit/auto-animate';
 
 

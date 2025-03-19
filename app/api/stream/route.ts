@@ -1,7 +1,7 @@
 import { ResponseFactory } from '@/lib/api/response_stream';
 import { MyProtoMessage } from '@/app/stream/protoUtils';
 import { emitter, emitterSalt } from '@/lib/emitter';
-import { AuditLog } from '@/api-proto/chengdu';
+import { AuditLog } from '@/lib/api/chengdu';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 /**

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, memo, useRef } from 'react';
 import dayjs from 'dayjs'
-import { AuditLog } from '@/api-proto/chengdu';
+import { AuditLog } from '@/lib/api/chengdu';
 import autoAnimate from '@formkit/auto-animate';
 
 function AuditStreamPage() {
@@ -35,7 +35,7 @@ function AuditStreamPage() {
 
         // Protobuf解码
         const logEntry = AuditLog.decode(buffer);
-        
+
         // 更新状态（带去重检查）
         setItems(prev => {
           const exists = prev.some(item => item.id === logEntry.id);
@@ -83,10 +83,10 @@ function AuditStreamPage() {
         <p>Header: {header}</p>
         <p>Cookie: {cookies}</p>
       </div>
-      
+
       <ul className="space-y-2 container mx-auto max-w-3xl" ref={parent}>
         {items.map((item) => (
-          <li 
+          <li
             key={item.id} // 使用稳定ID代替随机数
             className="p-3 border rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow"
           >
