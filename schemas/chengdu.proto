@@ -281,5 +281,5 @@ enum OperationTarget {
   POSITION = 3; // 铺位
   SHOP = 4;     // 商家
   SPACE = 5;    // 广告位
-  CAMPAIGN = 6; // 活动
+  DASHBOARD = 6; // 活动
 }

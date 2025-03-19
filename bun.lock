@@ -16,6 +16,7 @@
         "react-dom": "^19.0.0",
         "sharp": "^0.33.5",
         "supertest": "^7.0.0",
+        "ts-pattern": "^5.6.2",
         "ts-proto": "^2.6.1",
         "vitest": "^3.0.9",
         "xlsx": "^0.18.5",
@@ -1200,6 +1201,8 @@
     "tree-kill": ["tree-kill@1.2.2", "https://registry.npmmirror.com/tree-kill/-/tree-kill-1.2.2.tgz", { "bin": { "tree-kill": "cli.js" } }, "sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A=="],
 
     "ts-api-utils": ["ts-api-utils@2.0.1", "https://registry.npmmirror.com/ts-api-utils/-/ts-api-utils-2.0.1.tgz", { "peerDependencies": { "typescript": ">=4.8.4" } }, "sha512-dnlgjFSVetynI8nzgJ+qF62efpglpWRk8isUEWZGWlJYySCTD6aKvbUDu+zbPeDakk3bg5H4XpitHukgfL1m9w=="],
+
+    "ts-pattern": ["ts-pattern@5.6.2", "https://registry.npmmirror.com/ts-pattern/-/ts-pattern-5.6.2.tgz", {}, "sha512-d4IxJUXROL5NCa3amvMg6VQW2HVtZYmUTPfvVtO7zJWGYLJ+mry9v2OmYm+z67aniQoQ8/yFNadiEwtNS9qQiw=="],
 
     "ts-poet": ["ts-poet@6.11.0", "https://registry.npmmirror.com/ts-poet/-/ts-poet-6.11.0.tgz", { "dependencies": { "dprint-node": "^1.0.8" } }, "sha512-r5AGF8vvb+GjBsnqiTqbLhN1/U2FJt6BI+k0dfCrkKzWvUhNlwMmq9nDHuucHs45LomgHjZPvYj96dD3JawjJA=="],
 

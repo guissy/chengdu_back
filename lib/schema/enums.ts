@@ -40,4 +40,4 @@ export const SpaceStabilityEnum = z.enum(['FIXED', 'SEMI_FIXED', 'MOVABLE', 'TEM
 export const OperationTypeEnum = z.enum(['CREATE', 'UPDATE', 'DELETE']).describe('操作类型');
 
 // 操作对象枚举
-export const OperationTargetEnum = z.enum(['CBD', 'PART', 'POSITION', 'SHOP', 'SPACE', 'CAMPAIGN']).describe('操作对象');
+export const OperationTargetEnum = z.enum(['CBD', 'PART', 'POSITION', 'SHOP', 'SPACE', 'DASHBOARD']).describe('操作对象');

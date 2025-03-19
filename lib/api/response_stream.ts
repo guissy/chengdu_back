@@ -13,9 +13,6 @@ export class ResponseFactory {
 
   /**
    * 构建一个流式成功响应
-   * @param dataProducer 数据生成器或生成器函数
-   * @param codec 数据的编解码器（可选）
-   * @param code 响应状态码，默认为200
    */
   static streamSuccess<T>(
     dataProducer: AsyncGenerator<T> | (() => AsyncGenerator<T>),
@@ -27,7 +24,6 @@ export class ResponseFactory {
         try {
           const producer = typeof dataProducer === 'function' ? dataProducer() : dataProducer;
           for await (const data of producer) {
-            // 根据是否提供 codec 选择不同编码方式
             const payload = codec
               ? codec.encode(data).finish()
               : new TextEncoder().encode(JSON.stringify(data));
@@ -35,13 +31,22 @@ export class ResponseFactory {
             const successData = { code, payload };
             const messageBuffer = SuccessProto.encode(successData).finish();
             const fullMessage = ResponseFactory.encodeMessage(messageBuffer);
-            console.log("Enqueued fullMessage:", fullMessage, "length:", fullMessage.length);
+            console.log(
+              "%c[PROTOCOL]%c Enqueued fullMessage: length: %d",
+              "background: #28a745; color: white; padding: 2px 4px; border-radius: 2px;",
+              "color: #888;",
+              fullMessage.length,
+              fullMessage
+            );
             controller.enqueue(fullMessage);
           }
-          console.log("Stream complete, closing controller");
+          console.log(
+            "%c[PROTOCOL]%c Stream complete, closing controller",
+            "background: #28a745; color: white; padding: 2px 4px; border-radius: 2px;",
+            "color: #888;"
+          );
           controller.close();
         } catch (error) {
-          // 统一错误处理：封装错误消息并发送给客户端
           const errorData = ErrorProto.encode({
             code: 500,
             message: `Stream encoding failed: ${(error as Error).message}`,
@@ -55,17 +60,12 @@ export class ResponseFactory {
 
     return new NextResponse(stream, {
       status: 200,
-      headers: {
-        "Content-Type": "application/x-protobuf-stream",
-      },
+      headers: { "Content-Type": "application/x-protobuf-stream" },
     });
   }
 
   /**
    * 构建错误响应
-   * @param message 错误信息
-   * @param code 状态码，默认500
-   * @param details 附加详情（可选）
    */
   static error(message: string, code = 500, details?: unknown): NextResponse {
     const errorData = {
@@ -76,16 +76,12 @@ export class ResponseFactory {
     const buffer = ErrorProto.encode(errorData).finish();
     return new NextResponse(buffer, {
       status: code,
-      headers: {
-        "Content-Type": "application/x-protobuf",
-      },
+      headers: { "Content-Type": "application/x-protobuf" },
     });
   }
 
   /**
    * 解码接收的流数据
-   * @param stream 接收到的流数据
-   * @param payloadCodec 成功消息中数据的编解码器（可选）
    */
   static async* decodeStream<T>(
     stream: ReadableStream<Uint8Array>,
@@ -99,23 +95,29 @@ export class ResponseFactory {
         const { done, value } = await reader.read();
         if (done) {
           if (buffer.length > 0) {
-            console.warn("Residual data not processed:", buffer);
+            console.warn(
+              "%c[NETWORK]%c Residual data not processed:",
+              "background: #007bff; color: white; padding: 2px 4px; border-radius: 2px;",
+              "color: #888;",
+              buffer
+            );
           }
           break;
         }
-        // 拼接新接收的数据
         buffer = concatUint8Arrays(buffer, value) as Uint8Array<ArrayBuffer>;
-        console.log('[NETWORK] Received chunk, buffer size:', buffer.length);
+        console.log(
+          "%c[NETWORK]%c Received chunk, buffer size: %d",
+          "background: #007bff; color: white; padding: 2px 4px; border-radius: 2px;",
+          "color: #888;",
+          buffer.length
+        );
 
-        // 循环处理缓冲区中完整的消息
         while (true) {
           const bufferReader = new BinaryReader(buffer);
           let messageLength: number;
           try {
-            // 读取 varint 编码的消息长度
             messageLength = bufferReader.uint32();
           } catch (e) {
-            // 数据不足，无法完整读取消息长度
             break;
           }
 
@@ -124,24 +126,32 @@ export class ResponseFactory {
 
           if (buffer.length < totalMessageLength) break;
 
-          // 提取单条消息体并更新缓冲区
           const messageBody = buffer.slice(headerLength, totalMessageLength);
           buffer = buffer.slice(totalMessageLength);
 
-          // 优先尝试解析为错误消息
           try {
             const error = ErrorProto.decode(new BinaryReader(messageBody));
             if (error.code >= 400) {
-              console.log('[PROTOCOL] Received error:', error);
+              console.log(
+                "%c[PROTOCOL]%c Received error:",
+                "background: #dc3545; color: white; padding: 2px 4px; border-radius: 2px;",
+                "color: #888;",
+                error
+              );
               yield { status: "error", error };
               continue;
             }
-          } catch (e) {
-            // 非错误消息，继续尝试解析成功消息
-          }
+          } catch (e) {}
+
           try {
             const success = SuccessProto.decode(new BinaryReader(messageBody));
-            console.log('[PROTOCOL] Received success, payload length:', success.payload?.length);
+            console.log(
+              "%c[PROTOCOL]%c Received success, payload length: %d",
+              "background: #28a745; color: white; padding: 2px 4px; border-radius: 2px;",
+              "color: #888;",
+              success.payload?.length ?? 0,
+              success
+            );
             let data: T;
             if (payloadCodec) {
               data = payloadCodec.decode(success.payload!);
@@ -150,7 +160,12 @@ export class ResponseFactory {
             }
             yield { status: "success", data };
           } catch (decodeError) {
-            console.error('[DECODE ERROR]', decodeError);
+            console.error(
+              "%c[DECODE ERROR]%c Decoding failed: %s",
+              "background: #dc3545; color: white; padding: 2px 4px; border-radius: 2px;",
+              "color: #888;",
+              decodeError instanceof Error ? decodeError.message : "Unknown format"
+            );
             yield {
               status: "error",
               error: {
@@ -169,8 +184,6 @@ export class ResponseFactory {
 
 /**
  * 辅助函数：拼接两个 Uint8Array
- * @param a 第一个数组
- * @param b 第二个数组
  */
 function concatUint8Arrays(a: Uint8Array, b: Uint8Array): Uint8Array {
   const result = new Uint8Array(a.length + b.length);

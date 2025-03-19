@@ -1107,8 +1107,8 @@ export enum OperationTarget {
   SHOP = "SHOP",
   /** SPACE - 广告位 */
   SPACE = "SPACE",
-  /** CAMPAIGN - 活动 */
-  CAMPAIGN = "CAMPAIGN",
+  /** DASHBOARD - 活动 */
+  DASHBOARD = "DASHBOARD",
   UNRECOGNIZED = "UNRECOGNIZED",
 }
 
@@ -1133,8 +1133,8 @@ export function operationTargetFromJSON(object: any): OperationTarget {
     case "SPACE":
       return OperationTarget.SPACE;
     case 6:
-    case "CAMPAIGN":
-      return OperationTarget.CAMPAIGN;
+    case "DASHBOARD":
+      return OperationTarget.DASHBOARD;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -1156,8 +1156,8 @@ export function operationTargetToJSON(object: OperationTarget): string {
       return "SHOP";
     case OperationTarget.SPACE:
       return "SPACE";
-    case OperationTarget.CAMPAIGN:
-      return "CAMPAIGN";
+    case OperationTarget.DASHBOARD:
+      return "DASHBOARD";
     case OperationTarget.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -1178,7 +1178,7 @@ export function operationTargetToNumber(object: OperationTarget): number {
       return 4;
     case OperationTarget.SPACE:
       return 5;
-    case OperationTarget.CAMPAIGN:
+    case OperationTarget.DASHBOARD:
       return 6;
     case OperationTarget.UNRECOGNIZED:
     default:

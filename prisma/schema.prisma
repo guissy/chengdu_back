@@ -273,9 +273,10 @@ enum SpaceStability {
 }
 
 enum OperationType {
-  CREATE @map("create")
-  UPDATE @map("update")
-  DELETE @map("delete")
+  BROWSE @map("browse") // 查看
+  CREATE @map("create") // 新增
+  UPDATE @map("update") // 编辑
+  DELETE @map("delete") // 删除
 }
 
 enum OperationTarget {
@@ -284,5 +285,7 @@ enum OperationTarget {
   POSITION @map("position")
   SHOP     @map("shop")
   SPACE    @map("space")
-  CAMPAIGN @map("campaign")
+  DASHBOARD @map("dashboard")
+  CITY     @map("city")
+  DISTRICT @map("district") // 行政区划
 }

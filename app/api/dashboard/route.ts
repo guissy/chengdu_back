@@ -24,7 +24,7 @@ export async function GET() {
       positionCount,
       shopCount,
       spaceCount,
-      campaignCount: 0, // 暂时没有 campaign 表
+      campaignCount: 0, // 暂时没有 DASHBOARD 表
     })
   } catch (error) {
     console.error('Error fetching dashboard data:', error)
