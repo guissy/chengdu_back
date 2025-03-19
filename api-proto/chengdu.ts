@@ -1033,9 +1033,11 @@ export function spaceStabilityToNumber(object: SpaceStability): number {
 
 export enum OperationType {
   OPERATION_TYPE_UNSPECIFIED = "OPERATION_TYPE_UNSPECIFIED",
-  /** CREATE - 创建 */
+  /** BROWSE - 浏览 */
+  BROWSE = "BROWSE",
+  /** CREATE - 新增 */
   CREATE = "CREATE",
-  /** UPDATE - 更新 */
+  /** UPDATE - 编辑 */
   UPDATE = "UPDATE",
   /** DELETE - 删除 */
   DELETE = "DELETE",
@@ -1048,12 +1050,15 @@ export function operationTypeFromJSON(object: any): OperationType {
     case "OPERATION_TYPE_UNSPECIFIED":
       return OperationType.OPERATION_TYPE_UNSPECIFIED;
     case 1:
+    case "BROWSE":
+      return OperationType.BROWSE;
+    case 2:
     case "CREATE":
       return OperationType.CREATE;
-    case 2:
+    case 3:
     case "UPDATE":
       return OperationType.UPDATE;
-    case 3:
+    case 4:
     case "DELETE":
       return OperationType.DELETE;
     case -1:
@@ -1067,6 +1072,8 @@ export function operationTypeToJSON(object: OperationType): string {
   switch (object) {
     case OperationType.OPERATION_TYPE_UNSPECIFIED:
       return "OPERATION_TYPE_UNSPECIFIED";
+    case OperationType.BROWSE:
+      return "BROWSE";
     case OperationType.CREATE:
       return "CREATE";
     case OperationType.UPDATE:
@@ -1083,12 +1090,14 @@ export function operationTypeToNumber(object: OperationType): number {
   switch (object) {
     case OperationType.OPERATION_TYPE_UNSPECIFIED:
       return 0;
-    case OperationType.CREATE:
+    case OperationType.BROWSE:
       return 1;
-    case OperationType.UPDATE:
+    case OperationType.CREATE:
       return 2;
-    case OperationType.DELETE:
+    case OperationType.UPDATE:
       return 3;
+    case OperationType.DELETE:
+      return 4;
     case OperationType.UNRECOGNIZED:
     default:
       return -1;
@@ -1107,8 +1116,12 @@ export enum OperationTarget {
   SHOP = "SHOP",
   /** SPACE - 广告位 */
   SPACE = "SPACE",
-  /** DASHBOARD - 活动 */
+  /** DASHBOARD - 仪表盘 */
   DASHBOARD = "DASHBOARD",
+  /** CITY - 城市 */
+  CITY = "CITY",
+  /** DISTRICT - 区域 */
+  DISTRICT = "DISTRICT",
   UNRECOGNIZED = "UNRECOGNIZED",
 }
 
@@ -1135,6 +1148,12 @@ export function operationTargetFromJSON(object: any): OperationTarget {
     case 6:
     case "DASHBOARD":
       return OperationTarget.DASHBOARD;
+    case 7:
+    case "CITY":
+      return OperationTarget.CITY;
+    case 8:
+    case "DISTRICT":
+      return OperationTarget.DISTRICT;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -1158,6 +1177,10 @@ export function operationTargetToJSON(object: OperationTarget): string {
       return "SPACE";
     case OperationTarget.DASHBOARD:
       return "DASHBOARD";
+    case OperationTarget.CITY:
+      return "CITY";
+    case OperationTarget.DISTRICT:
+      return "DISTRICT";
     case OperationTarget.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -1180,6 +1203,10 @@ export function operationTargetToNumber(object: OperationTarget): number {
       return 5;
     case OperationTarget.DASHBOARD:
       return 6;
+    case OperationTarget.CITY:
+      return 7;
+    case OperationTarget.DISTRICT:
+      return 8;
     case OperationTarget.UNRECOGNIZED:
     default:
       return -1;

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import { OperationTarget, OperationType, Prisma } from '@prisma/client';
+import { emitter } from '@/lib/emitter';
 
 export interface AuditLogPayload {
   id: string;
@@ -91,6 +92,7 @@ export async function POST(request: NextRequest) {
       }
     });
 
+    emitter.emit('newAuditLog', log);
     // For demonstration purposes, we're just returning success
     return NextResponse.json({
       success: true,

@@ -13,11 +13,14 @@
     "generate-proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=stringEnums=true --ts_proto_out=./api-proto --ts_proto_opt=esModuleInterop=true,forceLong=string,outputServices=grpc-js --proto_path=./schemas ./schemas/*.proto"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "@prisma/client": "^6.5.0",
     "@tanstack/react-query": "^5.68.0",
     "@tanstack/react-query-devtools": "^5.68.0",
     "@tanstack/react-query-next-experimental": "^5.68.0",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
+    "nanoid": "^5.1.5",
     "next": "15.2.2",
     "openapi-fetch": "^0.13.5",
     "prisma": "^6.5.0",

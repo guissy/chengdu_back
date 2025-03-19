@@ -2,11 +2,20 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { OperationTarget, OperationType } from '@prisma/client';
 import { match, P } from 'ts-pattern';
+import { emitterSalt, emitterSalt2 } from '@/lib/emitter';
+import { cookies } from 'next/headers';
 
-export async function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest, response: NextResponse) {
   // 跳过 /api/webhook /api/dashboard 路径的请求
-  if (['webhook', 'dashboard', 'auditLog'].some(path => request.nextUrl.pathname.startsWith(`/api/${path}`))) {
-    return NextResponse.next()
+  const pathname = request.nextUrl.pathname;
+  cookies().then(cookies => cookies.set("emitterSalt", emitterSalt));
+  cookies().then(cookies => cookies.set("emitterSalt2", emitterSalt2));
+
+  if (['webhook', 'dashboard', 'auditLog', 'stream'].some(path => new RegExp(`^(\/api)?\/${path}\\b`).test(pathname))) {
+    const res = NextResponse.next()
+    res.headers.set("X-Emitter-Salt", emitterSalt);
+    res.headers.set("X-Emitter-Salt2", emitterSalt2);
+    return res;
   }
   const paths = request.nextUrl.pathname
     .replace('/api', '')
@@ -18,10 +27,10 @@ export async function middleware(request: NextRequest) {
     })
     .with({ method: 'POST', action: 'add' }, () => {
       return OperationType.CREATE
-    }) 
+    })
     .with({ method: 'POST', action: 'delete' }, () => {
       return OperationType.DELETE
-    }) 
+    })
     .with({ method: 'POST', action: 'update' }, () => {
       return OperationType.UPDATE
     })
@@ -73,7 +82,10 @@ export async function middleware(request: NextRequest) {
   }
 
   // 继续处理请求
-  return NextResponse.next()
+  const res = NextResponse.next()
+  res.headers.set("X-Emitter-Salt", emitterSalt);
+  res.headers.set("X-Emitter-Salt2", emitterSalt2);
+  return res;
 }
 
 // 配置中间件匹配的路由

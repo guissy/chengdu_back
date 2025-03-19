@@ -269,9 +269,10 @@ enum SpaceStability {
 
 enum OperationType {
   OPERATION_TYPE_UNSPECIFIED = 0;
-  CREATE = 1; // 创建
-  UPDATE = 2; // 更新
-  DELETE = 3; // 删除
+  BROWSE = 1; // 浏览
+  CREATE = 2; // 新增
+  UPDATE = 3; // 编辑
+  DELETE = 4; // 删除
 }
 
 enum OperationTarget {
@@ -281,5 +282,7 @@ enum OperationTarget {
   POSITION = 3; // 铺位
   SHOP = 4;     // 商家
   SPACE = 5;    // 广告位
-  DASHBOARD = 6; // 活动
+  DASHBOARD = 6; // 仪表盘
+  CITY = 7;     // 城市
+  DISTRICT = 8; // 区域
 }
