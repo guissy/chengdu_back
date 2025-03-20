@@ -13,11 +13,12 @@ import { usePartStore } from '@/features/part/part-store';
 import AddPartDialog from '@/features/part/components/add-part-dialog';
 import EditPartDialog from '@/features/part/components/edit-part-dialog';
 import DeletePartDialog from '@/features/part/components/delete-part-dialog';
-import { Part } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import client from "@/lib/api/client";
-import { ListResponse } from '@/types/api';
+import { z } from 'zod';
+import { PartListResponseSchema } from '@/lib/schema/part';
 
+type Part = NonNullable<z.infer<typeof PartListResponseSchema>['data']>['list'][number];
 // Define table columns
 const columnHelper = createColumnHelper<Part>();
 
@@ -65,7 +66,7 @@ const PartListPage = () => {
           <Button
             variant="ghost"
             size="sm"
-            icon={<FiEdit2 className="h-4 w-4" />}
+            icon={<FiEdit2 className="h-4 w-4"/>}
             onClick={(e) => {
               e.stopPropagation();
               openEditDialog(info.row.original);
@@ -76,7 +77,7 @@ const PartListPage = () => {
           <Button
             variant="ghost"
             size="sm"
-            icon={<FiTrash2 className="h-4 w-4" />}
+            icon={<FiTrash2 className="h-4 w-4"/>}
             onClick={(e) => {
               e.stopPropagation();
               openDeleteDialog(info.row.original);
@@ -106,7 +107,7 @@ const PartListPage = () => {
 
   // Filter data based on search text
   const filteredData = searchText
-    ? (partList || []).filter((part: PartResponseSchema) =>
+    ? (partList || []).filter((part) =>
       part.name.toLowerCase().includes(searchText.toLowerCase())
     )
     : partList || [];
@@ -119,7 +120,7 @@ const PartListPage = () => {
         action={
           <Button
             variant="primary"
-            icon={<FiPlus className="h-5 w-5" />}
+            icon={<FiPlus className="h-5 w-5"/>}
             onClick={openAddDialog}
           >
             新增小区
@@ -144,7 +145,7 @@ const PartListPage = () => {
               placeholder="输入小区名称"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              leftIcon={<FiSearch className="h-5 w-5" />}
+              leftIcon={<FiSearch className="h-5 w-5"/>}
               fullWidth
             />
           </div>
@@ -159,9 +160,9 @@ const PartListPage = () => {
       </div>
 
       {/* Dialog components */}
-      <AddPartDialog />
-      <EditPartDialog />
-      <DeletePartDialog />
+      <AddPartDialog/>
+      <EditPartDialog/>
+      <DeletePartDialog/>
     </div>
   );
 }

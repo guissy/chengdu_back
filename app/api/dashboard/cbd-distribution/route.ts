@@ -2,6 +2,10 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { DashboardCbdDistributionResponseSchema } from '@/lib/schema/dashboard'
 
+/**
+ * @desc: 获取商圈分布统计
+ * @response: DashboardCbdDistributionResponse
+ */
 export async function GET() {
   try {
     // 查询商圈分布数据

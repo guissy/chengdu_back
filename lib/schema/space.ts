@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { SpaceTypeEnum, SpaceStateEnum, SpaceSiteEnum, SpaceStabilityEnum } from './enums';
 
 // 广告位模型
-export const SpaceSchema = z.object({
+export const SpaceResponseSchema = z.object({
   id: z.string(),
   shopId: z.string().describe('商家id'),
   type: SpaceTypeEnum.describe('广告位类型'),
@@ -19,6 +19,14 @@ export const SpaceSchema = z.object({
   construction_attention: z.string().nullable().describe('施工注意事项'),
   createdAt: z.date(),
   updatedAt: z.date(),
+  shop: z.object({
+    id: z.string(),
+    shop_no: z.string(),
+    trademark: z.string(),
+    branch: z.string(),
+    type_tag: z.string(),
+    // name: z.string(),
+  }),
 });
 
 // 广告位列表请求
@@ -33,25 +41,7 @@ export const SpaceListRequestSchema = z.object({
 // 广告位列表响应
 export const SpaceListResponseSchema = z.object({
   data: z.object({
-    list: z.array(z.object({
-      id: z.string(),
-      type: z.string(),
-      count: z.number(),
-      state: z.string(),
-      price_factor: z.number(),
-      tag: z.string().nullable(),
-      site: z.string().nullable(),
-      stability: z.string().nullable(),
-      photo: z.array(z.string()),
-      description: z.string().nullable(),
-      design_attention: z.string().nullable(),
-      construction_attention: z.string().nullable(),
-      shop: z.object({
-        id: z.string(),
-        shop_no: z.string(),
-        // name: z.string(),
-      }),
-    })),
+    list: z.array(SpaceResponseSchema),
   }),
 });
 

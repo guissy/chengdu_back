@@ -8,7 +8,7 @@ const paramsSchema = z.object({
 })
 
 
-// 获取广告位详情
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -28,6 +28,9 @@ export async function GET(
           select: {
             id: true,
             shop_no: true,
+            trademark: true,
+            branch: true,
+            type_tag: true,
             // name: true,
           },
         },

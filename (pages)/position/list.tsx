@@ -8,12 +8,14 @@ import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import DataTable from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
-import { Position } from '@prisma/client';
-import { usePositionStore } from '@/features/position-store';
+import { usePositionStore } from '@/features/position/position-store';
 import PositionFormDialog from '@/features/position/components/position-form-dialog';
 import BindShopDialog from '@/features/shop/components/bind-shop-dialog';
 import client from "@/lib/api/client";
+import { PositionListResponseSchema } from '@/lib/schema/position';
+import { z } from 'zod';
 
+type Position = NonNullable<z.infer<typeof PositionListResponseSchema>['data']>['list'][number];
 
 // 定义表格列
 const columnHelper = createColumnHelper<Position>();
@@ -43,21 +45,20 @@ const PositionListPage = () => {
           partId: filterPartId,
         }
       });
-      return res.data?.list || [];
+      return res.data?.data?.list! as unknown as Position[] || [];
     },
   });
 
   // 获取小区列表数据（用于筛选）
-  const { data: partsRes } = useQuery({
+  const { data: partsData } = useQuery({
     queryKey: ["partList"],
     queryFn: async () => {
       const res = await client.POST("/api/part/list", {
         body: {}
       });
-      return res;
+      return res?.data?.data?.list || [];
     }
   });
-  const partsData = useMemo(() => partsRes?.data?.list || [], [partsRes]);
 
   // 表格列定义
   const columns = [
@@ -65,10 +66,10 @@ const PositionListPage = () => {
       header: '铺位编号',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('shop_no', {
-      header: '商家编号',
-      cell: (info) => info.getValue() || '-',
-    }),
+    // columnHelper.accessor('shop_no', {
+    //   header: '商家编号',
+    //   cell: (info) => info.getValue() || '-',
+    // }),
     columnHelper.accessor('type_tag', {
       header: '类型标签',
       cell: (info) => info.getValue() || '-',
@@ -108,7 +109,7 @@ const PositionListPage = () => {
             icon={<FiEdit2 className="h-4 w-4" />}
             onClick={(e) => {
               e.stopPropagation();
-              router.push(`/position/${info.row.original.positionId}`);
+              router.push(`/position/${info.row.original.id}`);
             }}
           >
             详情
@@ -143,7 +144,7 @@ const PositionListPage = () => {
 
   // 处理表格行点击
   const handleRowClick = (row: Position) => {
-    router.push(`/position/${row.positionId}`);
+    router.push(`/position/${row.id}`);
   };
 
   // 过滤数据

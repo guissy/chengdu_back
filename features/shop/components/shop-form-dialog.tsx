@@ -6,12 +6,15 @@ import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
-import { shopTypeMap, useShopStore } from '@/features/shop-store';
+import { shopTypeMap, useShopStore } from '@/features/shop/shop-store';
 import FormDialog from '@/components/ui/form-dialog';
 import client from "@/lib/api/client";
-import { PostShopAddData, PostShopUpdateData, Shop } from '@/service/types.gen';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { ShopAddRequestSchema, ShopListResponseSchema } from '@/lib/schema/shop';
+
+type Shop = NonNullable<z.infer<typeof ShopListResponseSchema>['data']>['list'][number];
+
 
 interface ShopFormDialogProps {
   mode: 'add' | 'edit';
@@ -116,7 +119,7 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
     if (mode === 'edit' && currentShop) {
       const shop = currentShop as unknown as Shop;
       form.reset({
-        id: shop.shopId,
+        id: shop.id,
         type: shop.type,
         type_tag: shop.type_tag?.toString() || undefined,
         business_type: shop.business_type,
@@ -131,13 +134,13 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
         age: [0, 0],
         id_tag: undefined,
         sign_photo: undefined,
-        verify_photo: shop.photo || [],
+        verify_photo: shop.verify_photo || [],
         environment_photo: [],
         building_photo: [],
         brand_photo: [],
         contact_name: undefined,
         contact_phone: undefined,
-        contact_type: shop.contact_type,
+        contact_type: shop.contact_type as string,
         total_area: shop.total_area as number,
         customer_area: shop.customer_area as number,
         clerk_count: shop.clerk_count as number,
@@ -158,13 +161,15 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
   }, [currentShop, form, mode]);
 
   const addShopMutation = useMutation({
-    mutationFn: (data: PostShopAddData) => 
-      client.POST("/api/shop/add", { body: data.body }),
+    mutationFn: (data) =>
+      // @ts-ignore
+      client.POST("/api/shop/add", { body: data }),
   });
 
   const updateShopMutation = useMutation({
-    mutationFn: (data: PostShopUpdateData) => 
-      client.POST("/api/shop/update", { body: data.body }),
+    mutationFn: (data) =>
+      // @ts-ignore
+      client.POST("/api/shop/update", { body: data }),
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -172,20 +177,17 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
       setIsSubmitting(true);
       if (mode === 'add') {
         await addShopMutation.mutateAsync({
-          body: {
-            ...data,
-            cbdId: "cbd-001", partId: "part-001"
-          } as PostShopAddData['body'],
-        });
+          ...data,
+          cbdId: "cbd-001", partId: "part-001"
+        } as any);
         toast.success('商家添加成功');
         form.reset();
       } else {
         await updateShopMutation.mutateAsync({
-          body: {
-            ...currentShop,
-            ...data
-          } as PostShopUpdateData['body']
-        });
+          ...currentShop,
+          ...data
+        } as any);
+        toast.success('<UNK>');
         queryClient.invalidateQueries({
           queryKey: ["shop", data.id],
         });

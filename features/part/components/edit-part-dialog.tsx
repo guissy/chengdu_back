@@ -5,18 +5,13 @@ import { z } from 'zod';
 import { toast } from 'react-hot-toast';
 import Input from '@/components/ui/input';
 import { usePartStore } from '../part-store';
-import { PostPartUpdateData } from '@/service/types.gen';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from "@/lib/api/client";
 import FormDialog from '@/components/ui/form-dialog';
+import { PartUpdateRequestSchema } from '@/lib/schema/part';
 
 // 表单验证模式
-type FormValues = NonNullable<PostPartUpdateData['body']>;
-
-const schema = z.object({
-  id: z.string().describe('小区ID'),
-  name: z.string().min(1).describe('小区名称'),
-});
+type FormValues = z.infer<typeof PartUpdateRequestSchema>;
 
 const EditPartDialog = () => {
   const { isEditDialogOpen, closeEditDialog, currentPart } = usePartStore();
@@ -24,7 +19,7 @@ const EditPartDialog = () => {
   const queryClient = useQueryClient();
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(PartUpdateRequestSchema),
     defaultValues: {
       id: '',
       name: '',
@@ -43,15 +38,15 @@ const EditPartDialog = () => {
 
   // Update part mutation
   const updatePartMutation = useMutation({
-    mutationFn: (data: PostPartUpdateData) => 
-      client.POST("/api/part/update", { body: data.body }),
+    mutationFn: (data: FormValues) =>
+      client.POST("/api/part/update", { body: data }),
   });
 
   // Form submission handler
   const onSubmit = async (data: FormValues) => {
     try {
       setIsSubmitting(true);
-      await updatePartMutation.mutateAsync({ body: data });
+      await updatePartMutation.mutateAsync(data);
       toast.success('小区更新成功');
       queryClient.invalidateQueries({ queryKey: ["partList"] });
       closeEditDialog();

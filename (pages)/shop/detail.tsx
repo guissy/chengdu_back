@@ -7,13 +7,17 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import PageHeader from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
 import DataTable from '@/components/ui/table';
-import { Shop, Space, ApiResponse, ListResponse } from '@/types/api';
-import { shopTypeMap, useShopStore } from '@/features/shop-store';
+import { shopTypeMap, useShopStore } from '@/features/shop/shop-store';
 import ShopFormDialog from '@/features/shop/components/shop-form-dialog';
 import DeleteShopDialog from '@/features/shop/components/delete-shop-dialog';
 import { formatBusinessHours } from '@/utils/time';
 import { useQuery } from '@tanstack/react-query';
 import client from "@/lib/api/client";
+import { Space } from '@prisma/client';
+import { ShopListResponseSchema } from '@/lib/schema/shop';
+import { z } from 'zod';
+
+type Shop = NonNullable<z.infer<typeof ShopListResponseSchema>['data']>['list'][number];
 
 // 广告位类型映射
 const spaceTypeMap: Record<string, string> = {
@@ -32,6 +36,7 @@ const spaceStateMap: Record<string, { label: string; badge: string }> = {
 };
 
 const ShopDetail = ({ params }: { params: { id: string } }) => {
+
   const router = useRouter();
   const id = params.id;
   const { openEditDialog, openDeleteDialog } = useShopStore();
@@ -47,7 +52,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
           },
         },
       });
-      return res.data;
+      return res.data?.data! as unknown as Shop;
     },
     enabled: !!id,
   });
@@ -61,7 +66,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
           shopId: id!,
         }
       });
-      return res;
+      return res.data?.data?.list! as unknown as Space[] ?? [];
     },
     enabled: !!id,
   });
@@ -241,11 +246,11 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
             <div className="stats stats-vertical shadow">
               <div className="stat">
                 <div className="stat-title">广告位总数</div>
-                <div className="stat-value">{shop.total_space}</div>
+                <div className="stat-value">{shop.position?.total_space}</div>
               </div>
               <div className="stat">
                 <div className="stat-title">已投放广告位</div>
-                <div className="stat-value">{shop.put_space}</div>
+                <div className="stat-value">{shop.position?.put_space}</div>
               </div>
               <div className="stat">
                 <div className="stat-title">价格基数</div>
@@ -256,7 +261,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
         </div>
 
         {/* 铺位信息 */}
-        {shop?.positionId && (
+        {shop?.position?.id && (
           <div className="card bg-base-100 shadow">
             <div className="card-body">
               <h2 className="card-title">铺位信息</h2>
@@ -264,7 +269,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-base-content/70">铺位编号</span>
-                  <span>{shop.position_no}</span>
+                  <span>{shop.position.position_no}</span>
                 </div>
                 <div className="mt-4">
                   <Button
@@ -272,7 +277,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
                     size="sm"
                     className="w-full"
                     icon={<FiLink className="h-5 w-5" />}
-                    onClick={() => router.push(`/position/${shop?.positionId}`)}
+                    onClick={() => router.push(`/position/${shop?.position?.id}`)}
                   >
                     查看铺位详情
                   </Button>
@@ -359,13 +364,13 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
       </div>
 
 
-      {shop.photo && shop.photo.length > 0 && (
+      {shop.environment_photo && shop.environment_photo.length > 0 && (
         <div className="card bg-base-100 shadow">
           <div className="card-body">
             <h2 className="card-title">商家照片</h2>
             <div className="divider my-1"></div>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-              {shop.photo.map((photo: string, index: number) => (
+              {shop.environment_photo.map((photo: string, index: number) => (
                 <div key={index} className="aspect-square overflow-hidden rounded-lg">
                   <img
                     src={photo}
@@ -386,7 +391,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
           <div className="divider my-1"></div>
           <DataTable
             columns={columns}
-            data={spacesData}
+            data={spacesData as Space[]}
             loading={isLoadingSpaces}
             onRowClick={(row) => router.push(`/space/${row.id}`)}
           />

@@ -4,6 +4,12 @@ import prisma from '@/lib/prisma'
 import { ShopAddRequestSchema } from '@/lib/schema/shop'
 import { BusinessType, ContactType, Gender, OperationDuration, PeakTime, RestDay, Season, ShopType } from '@prisma/client'
 
+/**
+ * @desc: 添加新商铺
+ * @body: ShopAddRequest
+ * @response: { id: string, shop_no: string }
+ */
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

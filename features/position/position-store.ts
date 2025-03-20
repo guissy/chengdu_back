@@ -1,6 +1,8 @@
 import { create } from 'zustand';
-import { Position } from '@prisma/client';
+import { z } from 'zod';
+import { PositionListResponseSchema } from '@/lib/schema/position';
 
+type Position = NonNullable<z.infer<typeof PositionListResponseSchema>['data']>['list'][number];
 
 interface PositionFormData {
   cbdId: string;

@@ -1,20 +1,22 @@
 import { z } from 'zod';
-import { 
-  ShopTypeEnum, 
-  BusinessTypeEnum, 
-  GenderEnum, 
+import {
+  ShopTypeEnum,
+  BusinessTypeEnum,
+  GenderEnum,
   ContactTypeEnum,
   OperationDurationEnum,
   RestDayEnum,
   PeakTimeEnum,
   SeasonEnum
 } from './enums';
-import { 
-  LocationSchema, 
-  BusinessHoursSchema, 
-  AgeRangeSchema, 
-  ExpenseRangeSchema 
+import {
+  LocationSchema,
+  BusinessHoursSchema,
+  AgeRangeSchema,
+  ExpenseRangeSchema
 } from './base';
+import { PositionSchema } from '@/lib/schema/position';
+import { PartSchema } from '@/lib/schema/part';
 
 // 商家基础信息字段
 const shopBaseFields = {
@@ -70,8 +72,23 @@ const shopDescriptionFields = {
   remark: z.string().nullable().describe('备注'),
 } as const;
 
+// 商家店铺及小区
+const shopPosition = {
+  position: PositionSchema.pick({
+    id: true,
+    position_no: true,
+    put_space: true,
+    total_space: true,
+    photo: true
+  }),
+  part: PartSchema.pick({
+    id: true,
+    name: true,
+  }),
+}
+
 // 商家模型
-export const ShopSchema = z.object({
+export const ShopResponseSchema = z.object({
   id: z.string(),
   shop_no: z.string().describe('商家编号'),
   cbdId: z.string().describe('商圈id'),
@@ -84,6 +101,7 @@ export const ShopSchema = z.object({
   ...shopPhotoFields,
   ...shopContactFields,
   ...shopDescriptionFields,
+  ...shopPosition
 });
 
 // 商家列表请求
@@ -95,19 +113,7 @@ export const ShopListRequestSchema = z.object({
 // 商家列表响应
 export const ShopListResponseSchema = z.object({
   data: z.object({
-    list: z.array(z.object({
-      id: z.string(),
-      shop_no: z.string(),
-      trademark: z.string().optional(),
-      contact_name: z.string().nullable(),
-      contact_phone: z.string().nullable(),
-      position: z.object({
-        // positionId: z.string(),
-        position_no: z.string(),
-        partId: z.string(),
-        // part_name: z.string(),
-      }).optional().nullable(),
-    })),
+    list: z.array(ShopResponseSchema),
   }),
 });
 

@@ -1,30 +1,21 @@
 "use client";
 
-import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { FiArrowLeft, FiEdit2, FiLink, FiShoppingBag, FiTag, FiTrash2 } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
-import { usePositionStore } from '@/features/position-store';
+import { usePositionStore } from '@/features/position/position-store';
 import PositionFormDialog from '@/features/position/components/position-form-dialog';
 import DeletePositionDialog from '@/features/position/components/delete-position-dialog';
 import BindShopDialog from '@/features/shop/components/bind-shop-dialog';
 import { formatTime } from '@/utils/time';
-import { Position, Space } from '@prisma/client';
 import client from "@/lib/api/client";
-import { ApiResponse, ListResponse } from '@/types/api';
+import { PositionListResponseSchema } from '@/lib/schema/position';
+import { z } from 'zod';
 
-// 假设这是广告位类型
-// interface Space {
-//   id: string;
-//   type: number;
-//   count: number;
-//   state: number;
-//   price_factor: number;
-//   photo: string[];
-// }
+type Position = NonNullable<z.infer<typeof PositionListResponseSchema>['data']>['list'][number];
 
 enum ShopType {
   RESTAURANT = "餐饮",
@@ -74,7 +65,7 @@ const PositionDetail = ({ params }: PositionDetailProps) => {
           },
         },
       });
-      return res.data;
+      return res.data?.data! as unknown as Position;
     },
     enabled: !!id,
   });

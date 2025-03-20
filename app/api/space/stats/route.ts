@@ -4,6 +4,12 @@ import prisma from '@/lib/prisma'
 import { SpaceStatsRequestSchema, SpaceStatsResponseSchema } from '@/lib/schema/space'
 import { SpaceType, SpaceSite } from '@prisma/client'
 
+/**
+ * @desc: 获取空间统计数据
+ * @body: SpaceStatsRequest
+ * @response: SpaceStatsResponse
+ */
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

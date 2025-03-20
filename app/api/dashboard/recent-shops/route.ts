@@ -3,6 +3,11 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { DashboardRecentShopsRequestSchema, DashboardRecentShopsResponseSchema } from '@/lib/schema/dashboard'
 
+/**
+ * @desc: 获取最近添加的商铺
+ * @query: DashboardRecentShopsRequest
+ * @response: DashboardRecentShopsResponse
+ */
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams

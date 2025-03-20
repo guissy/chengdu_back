@@ -6,6 +6,12 @@ import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs/promises'
 
+/**
+ * @desc: 上传空间照片
+ * @body: SpacePhotoUploadRequest
+ * @response: SpacePhotoUploadResponse
+ */
+
 // 配置图片上传参数
 const UPLOAD_DIR = path.join(process.cwd(), 'public/uploads/spaces')
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB

@@ -3,6 +3,11 @@ import { MyProtoMessage } from '@/app/stream/protoUtils';
 import { emitter, emitterSalt } from '@/lib/emitter';
 import { AuditLog } from '@/lib/api/chengdu';
 
+/**
+ * @desc: 获取审计日志的流式数据
+ * @response: ReadableStream<AuditLog>
+ */
+
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 /**
  * 异步生成器：流式发送数据时带上有趣的文本和 emoji✨

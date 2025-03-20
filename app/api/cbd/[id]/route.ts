@@ -7,6 +7,11 @@ const paramsSchema = z.object({
   id: z.string(),
 })
 
+/**
+ * @desc: 获取商圈详情
+ * @params: { id: string }
+ * @response: { id: string, name: string, addr: string }
+ */
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

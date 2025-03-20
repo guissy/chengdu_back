@@ -1,8 +1,13 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
-import { PositionListRequestSchema, PositionListResponseSchema } from '@/lib/schema/part'
+import { PositionListRequestSchema, PositionListResponseSchema } from '@/lib/schema/position'
 
+/**
+ * @desc: 获取铺位列表
+ * @body: PositionListRequest
+ * @response: PositionListResponse
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -67,6 +72,11 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/**
+ * @desc: 获取铺位列表
+ * @query: PositionListRequest
+ * @response: PositionListResponse
+ */
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams

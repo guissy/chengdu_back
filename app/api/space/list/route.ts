@@ -4,10 +4,15 @@ import prisma from '@/lib/prisma'
 import { SpaceListRequestSchema, SpaceListResponseSchema } from '@/lib/schema/space'
 import { SpaceType, SpaceState, SpaceSite, SpaceStability } from '@prisma/client'
 
+/**
+ * @desc: 获取空间列表
+ * @body: SpaceListRequest
+ * @response: SpaceListResponse
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+
     // 验证请求参数
     const requestResult = SpaceListRequestSchema.safeParse(body)
     if (!requestResult.success) {
@@ -33,6 +38,9 @@ export async function POST(request: NextRequest) {
           select: {
             id: true,
             shop_no: true,
+            trademark: true,
+            branch: true,
+            type_tag: true
             // name: true,
           },
         },
@@ -79,6 +87,11 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/**
+ * @desc: 获取空间列表
+ * @query: SpaceListRequest
+ * @response: SpaceListResponse
+ */
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
@@ -89,7 +102,7 @@ export async function GET(request: NextRequest) {
       site: searchParams.get('site') || undefined,
       stability: searchParams.get('stability') || undefined,
     }
-    
+
     // 验证请求参数
     const requestResult = SpaceListRequestSchema.safeParse(body)
     if (!requestResult.success) {
@@ -158,4 +171,4 @@ export async function GET(request: NextRequest) {
     console.error('Error fetching spaces:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}

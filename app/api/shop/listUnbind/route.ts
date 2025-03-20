@@ -2,6 +2,10 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { ShopListResponseSchema } from '@/lib/schema/shop'
 
+/**
+ * @desc: 获取未绑定铺位的商铺列表
+ * @response: ShopListResponse
+ */
 export async function GET() {
   try {
     // 查询未绑定铺位的商家列表

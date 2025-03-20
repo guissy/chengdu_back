@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
-import { usePositionStore } from '@/features/position-store';
+import { usePositionStore } from '@/features/position/position-store';
 import FormDialog from '@/components/ui/form-dialog';
 import client from "@/lib/api/client";
 import Select from '@/components/ui/select';
@@ -33,7 +33,7 @@ const BindShopDialog = () => {
     queryKey: ["shopListUnbind"],
     queryFn: async () => {
       const res = await client.GET("/api/shop/listUnbind");
-      return res.data?.list || [];
+      return res.data?.data?.list || [];
     }
   });
 
@@ -45,7 +45,7 @@ const BindShopDialog = () => {
 
   // 绑定商家的mutation
   const bindShopMutation = useMutation({
-    mutationFn: (data: { id: string; shopId: string }) => 
+    mutationFn: (data: { id: string; shopId: string }) =>
       client.POST("/api/position/bindShop", { body: data }),
   });
 
@@ -55,7 +55,7 @@ const BindShopDialog = () => {
     try {
       setIsSubmitting(true);
       await bindShopMutation.mutateAsync({
-        id: currentPosition.positionId,
+        id: currentPosition.id,
         shopId: data.shopId,
       });
 
@@ -64,7 +64,7 @@ const BindShopDialog = () => {
         queryKey: ["positionList"],
       });
       queryClient.invalidateQueries({
-        queryKey: ["position", currentPosition.positionId],
+        queryKey: ["position", currentPosition.id],
       });
 
       toast.success('商家关联成功');

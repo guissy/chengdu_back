@@ -54,7 +54,7 @@ const PartDetail = ({ params }: PartDetailProps) => {
           partId: params.id
         }
       });
-      return res.data?.data?.list || [];
+      return res.data?.data?.list! as unknown as Position[] || [];
     },
     enabled: !!params.id,
   });

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from "@/lib/api/client";
-import { usePositionStore } from '@/features/position-store';
+import { usePositionStore } from '@/features/position/position-store';
 import { useRouter } from 'next/navigation';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
 
@@ -14,7 +14,7 @@ const DeletePositionDialog = () => {
 
   // Delete position mutation
   const deletePositionMutation = useMutation({
-    mutationFn: (data: { id: string }) => 
+    mutationFn: (data: { id: string }) =>
       client.POST("/api/position/delete", { body: data }),
   });
 
@@ -24,7 +24,7 @@ const DeletePositionDialog = () => {
 
     try {
       setIsSubmitting(true);
-      await deletePositionMutation.mutateAsync({ id: currentPosition.positionId });
+      await deletePositionMutation.mutateAsync({ id: currentPosition.id });
       queryClient.invalidateQueries({
         queryKey: ["positionList"]
       });

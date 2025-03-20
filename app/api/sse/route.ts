@@ -3,6 +3,11 @@ import { AuditLog } from '@/lib/api/chengdu'; // 假设这是生成的 Protobuf 
 import { emitter } from '@/lib/emitter';
 import { ErrorProto } from '@/lib/api/response_pb';
 
+/**
+ * @desc: 获取审计日志的 SSE 流
+ * @response: ReadableStream<AuditLog>
+ */
+
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // 生成 Protobuf 编码的 SSE 流

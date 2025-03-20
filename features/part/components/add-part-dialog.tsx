@@ -5,27 +5,21 @@ import { toast } from 'react-hot-toast';
 import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import { usePartStore } from '../part-store';
-import { PostPartAddData } from '@/service/types.gen';
 import { useMutation } from '@tanstack/react-query';
 import client from "@/lib/api/client";
 import { z } from 'zod';
 import FormDialog from '@/components/ui/form-dialog';
+import { PartAddRequestSchema } from '@/lib/schema/part';
 
 // 表单验证模式
-type FormValues = NonNullable<PostPartAddData['body']>;
-
-const schema = z.object({
-  cbdId: z.string().min(1).describe('商圈ID'),
-  name: z.string().min(1).describe('小区名称'),
-  sequence: z.number().int().positive().describe('排序值'),
-});
+type FormValues = NonNullable<z.infer<typeof PartAddRequestSchema>>;
 
 const AddPartDialog = () => {
   const { isAddDialogOpen, closeAddDialog } = usePartStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(PartAddRequestSchema),
     defaultValues: {
       cbdId: '',
       name: '',
@@ -35,8 +29,8 @@ const AddPartDialog = () => {
 
   // Add part mutation
   const addPartMutation = useMutation({
-    mutationFn: (data: PostPartAddData) => 
-      client.POST("/api/part/add", { body: data.body }),
+    mutationFn: (data: FormValues) =>
+      client.POST("/api/part/add", { body: data }),
   });
 
   // 商圈选项（实际应用中应该从API获取）
@@ -52,7 +46,7 @@ const AddPartDialog = () => {
   const onSubmit = async (data: FormValues) => {
     try {
       setIsSubmitting(true);
-      await addPartMutation.mutateAsync({ body: data });
+      await addPartMutation.mutateAsync(data);
       toast.success('小区添加成功');
       form.reset();
       closeAddDialog();

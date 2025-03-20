@@ -3,6 +3,12 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { AuditLogRecentActivityStatsResponseSchema } from '@/lib/schema/audit'
 
+/**
+ * @desc: 获取最近审计日志活动统计
+ * @query: { days?: number }
+ * @response: AuditLogRecentActivityStats
+ */
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams

@@ -4,6 +4,12 @@ import prisma from '@/lib/prisma'
 import { AuditLogListRequestSchema, AuditLogListResponseSchema } from '@/lib/schema/audit'
 import { OperationType, OperationTarget } from '@prisma/client'
 
+/**
+ * @desc: 获取审计日志列表
+ * @query: AuditLogListRequest
+ * @response: AuditLogListResponse
+ */
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams

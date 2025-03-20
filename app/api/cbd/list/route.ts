@@ -3,6 +3,12 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { CBDListRequestSchema, CBDListResponseSchema } from '@/lib/schema/location'
 
+/**
+ * @desc: 获取商圈列表
+ * @body: CBDListRequest
+ * @response: CBDListResponse
+ */
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

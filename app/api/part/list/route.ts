@@ -3,6 +3,11 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { PartListRequestSchema, PartListResponseSchema } from '@/lib/schema/part'
 
+/**
+ * @desc: 获取分区列表
+ * @body: PartListRequest
+ * @response: PartListResponse
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -59,6 +64,11 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/**
+ * @desc: 获取分区列表
+ * @query: PartListRequest
+ * @response: PartListResponse
+ */
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams

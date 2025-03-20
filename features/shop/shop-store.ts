@@ -1,5 +1,9 @@
 import { create } from 'zustand';
-import { Shop } from '@prisma/client';
+import { z } from 'zod';
+import { ShopListResponseSchema } from '@/lib/schema/shop';
+
+type Shop = NonNullable<z.infer<typeof ShopListResponseSchema>['data']>['list'][number];
+
 
 
 interface ShopStore {

@@ -1,7 +1,8 @@
 import { create } from 'zustand';
-import { PartResponseSchema } from '@prisma/client';
+import { PartListResponseSchema } from '@/lib/schema/part';
+import { z } from 'zod';
 
-type Part = PartResponseSchema;
+type Part = NonNullable<z.infer<typeof PartListResponseSchema>['data']>['list'][number];
 
 interface PartFormData {
   cbdId: string;

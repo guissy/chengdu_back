@@ -7,21 +7,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/api",
+      "url": "http://localhost:3002/api",
       "description": "Local development server"
     }
   ],
-  "components": {
-    "securitySchemes": {
-      "BearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    }
-  },
-  "apiDir": "./src/app/api",
-  "schemaDir": "./src",
+  "apiDir": "./app/api",
+  "schemaDir": "./lib/schema/types",
   "docsUrl": "api-docs",
   "ui": "swagger",
   "outputFile": "swagger.json",

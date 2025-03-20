@@ -19,22 +19,22 @@ function ClientComponent() {
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["cityList"],
-    queryFn: () =>
-      client
-        .GET("/api/city/cityList", { parseAs: "arrayBuffer" })
-        .then(async (res) => {
-          const response = await ResponseFactory.decode(res, CityList);
-          if (response.status === 'success') {
-            const result = CityListResponseSchema.safeParse(response);
-            if (result.success) {
-              return response;
-            } else {
-              throw new Error("Invalid response");
-            }
-          } else {
-            throw new Error(response.error.message);
-          }
-        }),
+    queryFn: () => ({ data: { list: [] } })
+      // client
+      //   .GET("/api/city/cityList", { parseAs: "arrayBuffer" })
+      //   .then(async (res) => {
+      //     const response = await ResponseFactory.decode(res, CityList);
+      //     if (response.status === 'success') {
+      //       const result = CityListResponseSchema.safeParse(response);
+      //       if (result.success) {
+      //         return response;
+      //       } else {
+      //         throw new Error("Invalid response");
+      //       }
+      //     } else {
+      //       throw new Error(response.error.message);
+      //     }
+      //   }),
   });
 
 

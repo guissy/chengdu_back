@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { FiEdit2, FiEye, FiEyeOff, FiFilter, FiPlus, FiSearch } from 'react-icons/fi';
+import { FiEdit2, FiFilter, FiPlus, FiSearch } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
@@ -12,10 +12,13 @@ import { useQuery } from '@tanstack/react-query';
 import { useSpaceStore } from '@/features/space/space-store';
 import SpaceFormDialog from '@/features/space/components/space-form-dialog';
 import { useRouter } from 'next/navigation';
-import { Space } from '@prisma/client';
 import client from "@/lib/api/client";
 import SpaceStateToggle from '@/features/space/components/space-state-toggle';
-import { ListResponse } from '@/types/api';
+import { SpaceListResponseSchema } from '@/lib/schema/space';
+import { z } from 'zod';
+
+type Space = NonNullable<z.infer<typeof SpaceListResponseSchema>['data']>['list'][number];
+
 
 // 广告位类型映射
 const spaceTypeMap: Record<string, string> = {
@@ -66,7 +69,7 @@ const SpaceListPage = () => {
           shopId: '',
         },
       });
-      return (res?.data?.data?.list || []);
+      return (res?.data?.data?.list || []) as unknown as Space[];
     },
   });
 
@@ -119,10 +122,10 @@ const SpaceListPage = () => {
           >
             编辑
           </Button>
-          <SpaceStateToggle 
-            space={info.row.original} 
-            variant="icon" 
-            size="sm" 
+          <SpaceStateToggle
+            space={info.row.original as Space}
+            variant="icon"
+            size="sm"
           />
         </div>
       ),

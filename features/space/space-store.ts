@@ -1,5 +1,9 @@
 import { create } from 'zustand';
-import { Space } from '@prisma/client';
+import { z } from 'zod';
+import { SpaceListResponseSchema } from '@/lib/schema/space';
+
+type Space = NonNullable<z.infer<typeof SpaceListResponseSchema>['data']>['list'][number];
+
 
 interface SpaceFormData {
   shopId: string;
@@ -78,13 +82,13 @@ export const useSpaceStore = create<SpaceState>((set) => ({
         count: space.count,
         state: space.state,
         price_factor: space.price_factor || 1.0,
-        tag: space.tag,
-        site: space.site,
-        stability: space.stability,
+        tag: space.tag ?? undefined,
+        site: space.site ?? undefined,
+        stability: space.stability ?? undefined,
         photo: space.photo,
-        description: space.description,
-        design_attention: space.design_attention,
-        construction_attention: space.construction_attention,
+        description: space.description ?? undefined,
+        design_attention: space.design_attention ?? undefined,
+        construction_attention: space.construction_attention  ?? undefined,
       },
     });
   },

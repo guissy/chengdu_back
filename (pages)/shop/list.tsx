@@ -10,12 +10,14 @@ import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import DataTable from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
-import { shopTypeMap, useShopStore } from '@/features/shop-store';
+import { shopTypeMap, useShopStore } from '@/features/shop/shop-store';
 import ShopFormDialog from '@/features/shop/components/shop-form-dialog';
 import DeleteShopDialog from '@/features/shop/components/delete-shop-dialog';
-import { Shop } from '@prisma/client';
-import { ApiResponse, ListResponse } from '@/types/api';
 import client from "@/lib/api/client";
+import { z } from 'zod';
+import { ShopListResponseSchema } from '@/lib/schema/shop';
+
+type Shop = NonNullable<z.infer<typeof ShopListResponseSchema>['data']>['list'][number];
 
 
 // 定义表格列
@@ -38,7 +40,7 @@ const ShopListPage = () => {
           // keyword: "1",
         }
       });
-      return res.data?.data?.list || [];
+      return res.data?.data?.list! as unknown as Shop[] || [];
     },
   });
 
@@ -63,14 +65,14 @@ const ShopListPage = () => {
       header: '品类标签',
       cell: (info) => info.getValue() || '-',
     }),
-    columnHelper.accessor('total_space', {
-      header: '广告位总数',
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('put_space', {
-      header: '已投放广告位',
-      cell: (info) => info.getValue(),
-    }),
+    // columnHelper.accessor('total_space', {
+    //   header: '广告位总数',
+    //   cell: (info) => info.getValue(),
+    // }),
+    // columnHelper.accessor('put_space', {
+    //   header: '已投放广告位',
+    //   cell: (info) => info.getValue(),
+    // }),
     columnHelper.accessor('verified', {
       header: '认证状态',
       cell: (info) => (

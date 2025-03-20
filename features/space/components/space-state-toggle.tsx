@@ -3,7 +3,11 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Button from '@/components/ui/button';
 import client from '@/lib/api/client';
-import { Space, SpaceState } from '@prisma/client';
+import {  SpaceState } from '@prisma/client';
+import { SpaceListResponseSchema } from '@/lib/schema/space';
+import { z } from 'zod';
+
+type Space = NonNullable<z.infer<typeof SpaceListResponseSchema>['data']>['list'][number];
 
 interface SpaceStateToggleProps {
   space: Space;
@@ -17,8 +21,8 @@ const spaceStateLabels: Record<SpaceState, string> = {
   DISABLED: '禁用',
 };
 
-export default function SpaceStateToggle({ 
-  space, 
+export default function SpaceStateToggle({
+  space,
   variant = 'button',
   size = 'md',
   className = ''
@@ -26,7 +30,7 @@ export default function SpaceStateToggle({
   const queryClient = useQueryClient();
 
   const { mutate: updateSpaceState } = useMutation({
-    mutationFn: (data: any) => 
+    mutationFn: (data: any) =>
       client.POST("/api/space/update", { body: data.body }),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -85,4 +89,4 @@ export default function SpaceStateToggle({
       {space.state === SpaceState.ENABLED ? '禁用广告位' : '启用广告位'}
     </button>
   );
-} 
+}

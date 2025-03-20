@@ -3,6 +3,11 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { SpaceDeleteRequestSchema } from '@/lib/schema/space'
 
+/**
+ * @desc: 删除空间
+ * @body: SpaceDeleteRequest
+ * @response: { message: string }
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

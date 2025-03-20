@@ -4,6 +4,11 @@ import prisma from '@/lib/prisma'
 import { SpaceSearchRequestSchema, SpaceSearchResponseSchema } from '@/lib/schema/space'
 import { SpaceType, SpaceState, SpaceSite, SpaceStability } from '@prisma/client'
 
+/**
+ * @desc: 搜索空间
+ * @body: SpaceSearchRequest
+ * @response: SpaceSearchResponse
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

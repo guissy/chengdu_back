@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
+import { ShopResponseSchema } from '@/lib/schema/shop'
 import prisma from '@/lib/prisma'
 import { z } from 'zod'
 
@@ -7,7 +8,11 @@ const paramsSchema = z.object({
   id: z.string(),
 })
 
-// 获取商家详情
+/**
+ * @desc: 获取商铺详情
+ * @params: { id: string }
+ * @response: ShopResponse
+ */
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -55,14 +60,18 @@ export async function GET(
       shop_description: shop.shop_description,
       verified: shop.verified,
       displayed: shop.displayed,
-      positions: shop.position ? [{
-        positionId: shop.position.id,
+      position: shop.position ? {
+        id: shop.position.id,
         position_no: shop.position.position_no,
-        partId: shop.part.id,
-        part_name: shop.part.name,
-      }] : [],
+      } : {},
+      part: shop.part ? {
+        id: shop.part.id,
+        name: shop.part.name,
+      } : {},
     }
-
+    if (!ShopResponseSchema.safeParse(response).success) {
+      return errorResponse('Invalid response data', 500)
+    }
     return successResponse(response)
   } catch (error) {
     console.error('Error fetching shop:', error)
@@ -70,7 +79,11 @@ export async function GET(
   }
 }
 
-// 删除商家
+/**
+ * @desc: 删除商铺
+ * @params: { id: string }
+ * @response: { message: string }
+ */
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -110,4 +123,4 @@ export async function DELETE(
     console.error('Error deleting shop:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}

@@ -1,8 +1,13 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
-import { PositionMarkRequestSchema } from '@/lib/schema/part'
+import { PositionMarkRequestSchema } from '@/lib/schema/position'
 
+/**
+ * @desc: 标记铺位
+ * @body: PositionMarkRequest
+ * @response: { message: string }
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

@@ -3,6 +3,10 @@ import prisma from '@/lib/prisma'
 import { DashboardStatsResponseSchema } from '@/lib/schema/dashboard'
 import { AuditLog } from '@prisma/client'
 
+/**
+ * @desc: 获取仪表盘统计数据
+ * @response: DashboardStatsResponse
+ */
 export async function GET() {
   try {
     // 获取总数统计

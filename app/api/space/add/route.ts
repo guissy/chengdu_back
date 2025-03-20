@@ -4,6 +4,11 @@ import prisma from '@/lib/prisma'
 import { SpaceAddRequestSchema } from '@/lib/schema/space'
 import { SpaceType, SpaceState, SpaceSite, SpaceStability } from '@prisma/client'
 
+/**
+ * @desc: 添加新空间
+ * @body: SpaceAddRequest
+ * @response: { id: string, type: string, count: number, state: string, shop: { id: string, shop_no: string } }
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

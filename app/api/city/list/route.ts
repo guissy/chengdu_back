@@ -1,8 +1,12 @@
 import { ResponseFactory } from '@/lib/api/response_pb'
 import prisma from '@/lib/prisma'
 import { CityListResponseSchema } from '@/lib/schema/location'
-import { successResponse, errorResponse } from '@/lib/api/response';
+import { errorResponse, successResponse } from '@/lib/api/response';
 
+/**
+ * @desc: 获取所有可用城市的列表
+ * @response: CityListResponse
+ */
 export async function GET() {
   try {
     const cities = await prisma.city.findMany({

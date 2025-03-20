@@ -2,9 +2,8 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { IoMdImage } from 'react-icons/io';
-import toast from 'react-hot-toast';
 import { FiArrowLeft, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import client from "@/lib/api/client";
 import Button from '@/components/ui/button';
@@ -13,7 +12,11 @@ import { useSpaceStore } from '@/features/space/space-store';
 import SpaceFormDialog from '@/features/space/components/space-form-dialog';
 import DeleteSpaceDialog from '@/features/space/components/delete-space-dialog';
 import SpaceStateToggle from '@/features/space/components/space-state-toggle';
-import { Space } from '@prisma/client';
+import { z } from 'zod';
+import { SpaceListResponseSchema } from '@/lib/schema/space';
+
+type Space = NonNullable<z.infer<typeof SpaceListResponseSchema>['data']>['list'][number];
+
 
 // Enums from schema
 enum SpaceType {
@@ -95,7 +98,7 @@ const SpaceDetail: React.FC<Props> = ({ params }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const { openEditDialog, openDeleteDialog } = useSpaceStore();
   const queryClient = useQueryClient();
-  
+
   const { data: space, isLoading, error } = useQuery({
     queryKey: ["space", id],
     queryFn: async () => {
@@ -106,7 +109,7 @@ const SpaceDetail: React.FC<Props> = ({ params }) => {
           },
         },
       });
-      return res.data;
+      return res.data?.data as unknown as Space;
     },
     enabled: !!id,
   });

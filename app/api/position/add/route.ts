@@ -1,12 +1,12 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
-import { PositionAddRequestSchema } from '@/lib/schema/part'
+import { PositionAddRequestSchema } from '@/lib/schema/position'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+
     // 验证请求参数
     const requestResult = PositionAddRequestSchema.safeParse(body)
     if (!requestResult.success) {
@@ -65,4 +65,4 @@ export async function POST(request: NextRequest) {
     console.error('Error creating position:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}

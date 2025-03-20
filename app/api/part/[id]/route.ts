@@ -7,6 +7,11 @@ const paramsSchema = z.object({
   id: z.string(),
 })
 
+/**
+ * @desc: 获取分区详情
+ * @params: { id: string }
+ * @response: PartDetail
+ */
 
 // 获取分区详情
 export async function GET(

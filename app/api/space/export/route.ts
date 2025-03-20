@@ -5,6 +5,11 @@ import { SpaceExportRequestSchema } from '@/lib/schema/space'
 import { SpaceType, SpaceState, SpaceSite, SpaceStability, Space, Shop } from '@prisma/client'
 import * as XLSX from 'xlsx'
 
+/**
+ * @desc: 导出空间数据
+ * @body: SpaceExportRequest
+ * @response: Buffer
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

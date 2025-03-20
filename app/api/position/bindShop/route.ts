@@ -1,8 +1,13 @@
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
-import { PositionBindShopRequestSchema } from '@/lib/schema/part'
+import { PositionBindShopRequestSchema } from '@/lib/schema/position'
 
+/**
+ * @desc: 绑定铺位和商铺
+ * @body: PositionBindShopRequest
+ * @response: { message: string }
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

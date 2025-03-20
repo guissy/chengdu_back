@@ -3,10 +3,15 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { DistrictListRequestSchema, DistrictListResponseSchema } from '@/lib/schema/location'
 
+/**
+ * @desc: 获取城市下属区县列表
+ * @body: DistrictListRequest
+ * @response: DistrictListResponse
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+
     // 验证请求参数
     const requestResult = DistrictListRequestSchema.safeParse(body)
     if (!requestResult.success) {
@@ -41,4 +46,4 @@ export async function POST(request: NextRequest) {
     console.error('Error fetching districts:', error)
     return errorResponse('Internal Server Error', 500)
   }
-} 
+}

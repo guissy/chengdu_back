@@ -3,6 +3,11 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { ShopListRequestSchema, ShopListResponseSchema } from '@/lib/schema/shop'
 
+/**
+ * @desc: 获取商铺列表
+ * @query: ShopListRequest
+ * @response: ShopListResponse
+ */
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams

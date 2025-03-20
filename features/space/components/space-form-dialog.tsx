@@ -10,7 +10,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from "@/lib/api/client";
 import { useSpaceStore } from '../space-store';
 import TextArea from '@/components/ui/textarea';
-import { PostSpaceAddData, PostSpaceUpdateData } from '@/service/types.gen';
 
 // 表单验证 schema
 export const spaceSchema = z.object({
@@ -101,26 +100,30 @@ const SpaceFormDialog = ({ mode }: SpaceFormDialogProps) => {
 
 
   const addSpaceMutation = useMutation({
-    mutationFn: (data: PostSpaceAddData) => 
-      client.POST("/api/space/add", { body: data.body }),
+    mutationFn: (data) =>
+      // @ts-ignore
+      client.POST("/api/space/add", { body: data }),
   });
 
   const updateSpaceMutation = useMutation({
-    mutationFn: (data: PostSpaceUpdateData) => 
-      client.POST("/api/space/update", { body: data.body }),
+    mutationFn: (data) =>
+      // @ts-ignore
+      client.POST("/api/space/update", { body: data }),
   });
 
   const onSubmit = async (data: FormValues) => {
     try {
       setIsSubmitting(true);
       if (mode === 'add' && currentSpace?.shopId) {
+        // @ts-ignore
         await addSpaceMutation.mutateAsync({
-          body: { ...data, shopId: currentSpace.shopId} as PostSpaceAddData['body'],
+          ...data, shopId: currentSpace.shopId,
         });
         toast.success('广告位添加成功');
       } else if (currentSpace) {
+        // @ts-ignore
         await updateSpaceMutation.mutateAsync({
-          body: {...data, id: currentSpace.id} as PostSpaceUpdateData['body'],
+          ...data, id: currentSpace.id,
         });
         queryClient.invalidateQueries({
           queryKey: ["space", currentSpace.id],
