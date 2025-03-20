@@ -6,14 +6,14 @@ import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/table';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { FiEdit2, FiPlus, FiTrash2 } from 'react-icons/fi';
+import { City, District } from '@prisma/client';
 import { useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import client from "@/lib/api/client";
-import { DistrictListResponseSchema } from '@/lib/schema/location';
+import { ListResponse } from '@/types/api';
 
-type District = NonNullable<z.infer<typeof DistrictListResponseSchema>['data']>['list'][number];
 const columnHelper = createColumnHelper<District>();
 
 const districtFormSchema = z.object({
@@ -171,7 +171,7 @@ export default function DistrictList() {
           )}
         </div>
       </div>
-      <DataTable<District>
+      <DataTable
         columns={columns}
         data={districts || []}
         loading={isLoadingDistricts}

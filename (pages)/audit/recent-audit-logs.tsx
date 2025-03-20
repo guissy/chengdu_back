@@ -9,6 +9,8 @@ import { useToast } from '@/components/ui/useToast';
 import AuditLogDetailDrawer from './detail-drawer';
 import { targetTypeMap } from './table';
 import client from '@/lib/api/client';
+import { components } from '@/lib/api/schema';
+type AuditLog = components["schemas"]["AuditLog"];
 
 // 操作类型映射
 const operationTypeMap = {
@@ -39,6 +41,7 @@ const RecentAuditLogs = ({
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["auditLog", "recent"],
     queryFn: () => client.GET(`/api/auditLog`, { params: { query: { page: 1, pageSize: limit } } }),
+    select: (data) => data?.data?.data?.list || [],
   });
 
   // 处理数据加载错误
@@ -56,9 +59,9 @@ const RecentAuditLogs = ({
   const { data: detailData, isError: isDetailError, error: detailError } = useQuery({
     // ...getAuditLogByIdOptions({ path: { id: detailLog?.id || '' } }),
     queryKey: ["auditLog", "detail", detailLog?.id],
-    queryFn: () => client.GET(`/api/auditLog/{id}`, { params: { path: { id: detailLog?.id || '' } } }),
+    queryFn: () => client.GET('/api/auditLog/{id}', { params: { path: { id: detailLog?.id || '' } } }),
     enabled: !!detailLog?.id && selectedLog?.id !== detailLog?.id,
-    select: (data) => data.data,
+    select: (data) => data.data?.data,
   });
 
   // 当详情数据加载成功时，设置选中的日志并打开详情对话框
@@ -97,9 +100,9 @@ const RecentAuditLogs = ({
           <div className="flex justify-center py-6">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
           </div>
-        ) : data?.data?.items?.length ? (
+        ) : data?.length ? (
           <div className="space-y-4">
-            {data.data.items.map((log) => (
+            {data.map((log) => (
               <div key={log.id} className="border rounded-md p-3 shadow-sm ">
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex items-center gap-2">

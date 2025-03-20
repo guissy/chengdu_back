@@ -15,7 +15,8 @@ import { DataTable } from "@/components/ui/table";
 import PageHeader from "@/components/ui/page-header";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import client from "@/lib/api/client";
-import { City, CBD, District } from "@prisma/client";
+import { CBD } from "@prisma/client";
+import { CBDListResponseSchema } from "@/lib/schema/location";
 
 const cbdFormSchema = z.object({
   name: z.string().min(1, "商圈名称不能为空"),
@@ -23,8 +24,14 @@ const cbdFormSchema = z.object({
   addr: z.string().optional(),
 });
 
+
+type CBDListResponse = z.infer<typeof CBDListResponseSchema>;
+type CBDItem = NonNullable<CBDListResponse['data']>['list'][number];
 type CbdFormValues = z.infer<typeof cbdFormSchema>;
-const columnHelper = createColumnHelper<CBD>();
+
+
+
+const columnHelper = createColumnHelper<CBDItem>();
 
 const CbdList: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState<string>("");
@@ -45,26 +52,25 @@ const CbdList: React.FC = () => {
   });
 
   // Fetch cities data
-  const { data: cities, isLoading: isLoadingCities } = useQuery({
+const { data: cities, isLoading: isLoadingCities } = useQuery({
     queryKey: ["cityList"],
     queryFn: async () => {
-      const res = await client.GET<ListResponse<City>>("/api/city/list", {});
-      return res.data?.list || [];
+      const res = await client.GET("/api/city/list", {});
+      return res.data?.data?.list || [];
     }
   });
 
   // Fetch districts data based on selected city
-  const { data: districtList, isLoading: isLoadingDistricts } = useQuery({
+  const { data: districts, isLoading: isLoadingDistricts } = useQuery({
     queryKey: ["districtList", selectedCity],
     queryFn: async () => {
-      const res = await client.POST<ListResponse<District>>("/api/district/list", {
+      const res = await client.POST("/api/district/list", {
         body: { parentId: selectedCity }
       });
-      return res;
+      return res.data?.data?.list || [];
     },
     enabled: !!selectedCity,
   });
-  const districts = useMemo(() => districtList?.data?.list, [districtList]);
 
   // Fetch CBDs data based on selected district
   const {
@@ -74,10 +80,10 @@ const CbdList: React.FC = () => {
   } = useQuery({
     queryKey: ["cbdList", selectedDistrict],
     queryFn: async () => {
-      const res = await client.POST<ListResponse<CBD>>("/api/cbd/list", {
+      const res = await client.POST("/api/cbd/list", {
         body: { districtId: selectedDistrict }
       });
-      return res.data?.list || [];
+      return res.data?.data?.list || [];
     },
     enabled: !!selectedDistrict,
   });
@@ -224,7 +230,7 @@ const CbdList: React.FC = () => {
         </div>
       ),
     }),
-  ] as ColumnDef<CBD>[];
+  ] as ColumnDef<CBDItem>[];
 
   return (
     <div className="space-y-6">
@@ -265,7 +271,7 @@ const CbdList: React.FC = () => {
                   <option value="" disabled>
                     选择城市
                   </option>
-                  {cities?.map((city: City) => (
+                  {cities?.map((city) => (
                     <option key={city.id} value={city.id}>
                       {city.name}
                     </option>
@@ -300,7 +306,7 @@ const CbdList: React.FC = () => {
                   <option value="" disabled>
                     选择区域
                   </option>
-                  {districts?.map((district: District) => (
+                  {districts?.map((district) => (
                     <option key={district.id} value={district.id}>
                       {district.name}
                     </option>
@@ -313,7 +319,7 @@ const CbdList: React.FC = () => {
       </div>
 
 
-      <DataTable<CBD>
+      <DataTable<CBDItem>
         columns={columns}
         data={cbds || []}
         loading={isLoading}

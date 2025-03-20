@@ -40,17 +40,23 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
   const { data: shop, isLoading: isLoadingShop } = useQuery({
     queryKey: ["shop", id],
     queryFn: async () => {
-      const res = await client.GET<Shop>(`/api/shop/${id}`, {});
+      const res = await client.GET(`/api/shop/{id}`, {
+        params: {
+          path: {
+            id,
+          },
+        },
+      });
       return res.data;
     },
     enabled: !!id,
   });
 
   // 获取广告位列表
-  const { data, isLoading: isLoadingSpaces } = useQuery({
+  const { data: spacesData, isLoading: isLoadingSpaces } = useQuery({
     queryKey: ["spaceList", id],
     queryFn: async () => {
-      const res = await client.POST<ListResponse<Space>>("/api/space/list", {
+      const res = await client.POST("/api/space/list", {
         body: {
           shopId: id!,
         }
@@ -59,7 +65,6 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
     },
     enabled: !!id,
   });
-  const spacesData = useMemo(() => data?.data?.list || [], [data]);
 
   // 广告位列定义
   const columnHelper = createColumnHelper<Space>();

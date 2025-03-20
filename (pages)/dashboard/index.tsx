@@ -57,7 +57,7 @@ const Dashboard = () => {
                   <div className="text-sm font-medium text-base-content/70">
                     {stat.title}
                   </div>
-                  <div className="text-2xl font-semibold">{stat.value}</div>
+                  <div className="text-2xl font-semibold">{stat.value as number}</div>
                 </div>
               </div>
             </div>

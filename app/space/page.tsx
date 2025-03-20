@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from 'react'
 import SpaceList from '@/(pages)/space/list'
-import LoadingSpinner from '@/components/ui/loading-spinner.tsx';
+import LoadingSpinner from '@/components/ui/loading-spinner';
 
 // export const metadata = {
 //   title: '广告位管理 - Business System',

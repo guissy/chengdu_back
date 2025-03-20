@@ -67,26 +67,30 @@ const PositionDetail = ({ params }: PositionDetailProps) => {
   const { data: position, isLoading: isLoadingPosition } = useQuery({
     queryKey: ["position", id],
     queryFn: async () => {
-      const res = await client.GET<Position>(`/api/position/${id}`, {});
+      const res = await client.GET('/api/position/{id}', {
+        params: {
+          path: {
+            id,
+          },
+        },
+      });
       return res.data;
     },
     enabled: !!id,
   });
 
-  const { data, isLoading: isLoadingSpaces } = useQuery({
+  const { data: spacesData, isLoading: isLoadingSpaces } = useQuery({
     queryKey: ["spaceList", position?.shopId],
     queryFn: async () => {
-      const res = await client.POST<ListResponse<Space>>("/api/space/list", {
+      const res = await client.POST("/api/space/list", {
         body: {
           shopId: position?.shopId as string,
         }
       });
-      return res;
+      return res.data?.data?.list || [];
     },
     enabled: !!position?.shopId,
   });
-  const spacesData = useMemo(() => data?.data?.list, [data])
-
 
 
   const handleBack = () => {

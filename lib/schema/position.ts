@@ -5,6 +5,7 @@ import { BusinessHoursSchema } from './base';
 
 // 铺位基础字段
 const positionBaseFields = {
+  id: z.string().describe('铺位ID'),
   position_no: z.string().describe('铺位编号'),
   total_space: z.number().default(0).describe('广告位总数'),
   put_space: z.number().default(0).describe('已投放广告位总数'),
@@ -20,7 +21,6 @@ const positionBaseFields = {
 
 // 铺位模型
 export const PositionSchema = z.object({
-  id: z.string(),
   partId: z.string().describe('分区id'),
   shopId: z.string().nullable(),
   createdAt: z.date(),
@@ -37,7 +37,6 @@ export const PositionListRequestSchema = z.object({
 export const PositionListResponseSchema = BaseResponseSchema.extend({
   data: z.object({
     list: z.array(z.object({
-      positionId: z.string(),
       shopId: z.string().nullable(),
       shop_no: z.string().nullable(),
       ...positionBaseFields,

@@ -66,7 +66,7 @@ const SpaceListPage = () => {
           shopId: '',
         },
       });
-      return (res?.data?.data?.list || []);
+      return (res?.data?.list || []) as Space[];
     },
   });
 

@@ -5,7 +5,10 @@ import { FiInfo } from 'react-icons/fi';
 import { DataTable } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { AuditLog } from '@prisma/client';
+// import { AuditLog } from '@prisma/client';
+import { components } from '@/lib/api/schema';
+
+type AuditLog = components["schemas"]["AuditLog"];
 
 // 操作类型映射
 const operationTypeMap = {

@@ -1,9 +1,12 @@
 import { format } from 'date-fns';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
-import LogChangesTable from '@/(pages)/dashboard/LogChangesTable.tsx';
-import { AuditLog } from '@prisma/client';
+import LogChangesTable from '@/(pages)/dashboard/LogChangesTable';
+// import { AuditLog } from '@prisma/client';
 import { targetTypeMap } from './table';
+import { components } from '@/lib/api/schema';
+
+type AuditLog = components["schemas"]["AuditLog"];
 
 // 操作类型映射
 const operationTypeMap = {

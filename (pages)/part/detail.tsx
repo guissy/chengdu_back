@@ -13,8 +13,12 @@ import { FiArrowLeft, FiEdit2, FiPlus, FiTrash2 } from 'react-icons/fi';
 import DataTable from '@/components/ui/table';
 import EditPartDialog from '@/features/part/components/edit-part-dialog';
 import client from "@/lib/api/client";
-import { Part, Position } from '@prisma/client';
+import { PartListResponseSchema } from '@/lib/schema/part';
+import { z } from 'zod';
+import { PositionListResponseSchema } from '@/lib/schema/position';
 
+type Position = NonNullable<z.infer<typeof PositionListResponseSchema>['data']>['list'][number];
+type Part = NonNullable<z.infer<typeof PartListResponseSchema>['data']>['list'][number];
 interface PartDetailProps {
   params: {
     id: string;
@@ -31,7 +35,13 @@ const PartDetail = ({ params }: PartDetailProps) => {
   const { data: partData, isLoading: isLoadingPart } = useQuery({
     queryKey: ["part", params.id],
     queryFn: async () => {
-      const res = await client.GET(`/api/part/${params.id}`);
+      const res = await client.GET(`/api/part/{id}`, {
+        params: {
+          path: {
+            id: params.id
+          }
+        }
+      });
       return res.data;
     },
     enabled:!!params.id,
@@ -77,7 +87,7 @@ const PartDetail = ({ params }: PartDetailProps) => {
 
   // 处理铺位行点击
   const handlePositionClick = (position: Position) => {
-    router.push(`/position/${position.positionId}`);
+    router.push(`/position/${position.id}`);
   };
 
   // 铺位表格列定义
@@ -86,10 +96,10 @@ const PartDetail = ({ params }: PartDetailProps) => {
       header: '铺位编号',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('shop_no', {
-      header: '商家编号',
-      cell: (info) => info.getValue() || '-',
-    }),
+    // columnHelper.accessor('shop_no', {
+    //   header: '商家编号',
+    //   cell: (info) => info.getValue() || '-',
+    // }),
     columnHelper.accessor('total_space', {
       header: '广告位总数',
       cell: (info) => info.getValue(),
@@ -125,7 +135,7 @@ const PartDetail = ({ params }: PartDetailProps) => {
             icon={<FiEdit2 className="h-4 w-4" />}
             onClick={(e) => {
               e.stopPropagation();
-              router.push(`/position/${info.row.original.positionId}`);
+              router.push(`/position/${info.row.original.id}`);
             }}
           >
             详情

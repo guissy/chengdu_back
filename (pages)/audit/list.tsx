@@ -13,15 +13,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useToast } from "@/components/ui/useToast";
-// import { getAuditLogByIdOptions, getAuditLogOptions } from '@/service/@tanstack/react-query.gen.ts';
 // import { AuditLog } from '@prisma/client';
 import AuditLogTable from "./table";
 import AuditLogDetailDrawer from "./detail-drawer";
 import Link from "next/link";
 import PageHeader from "@/components/ui/page-header";
-import { AuditLog } from "@prisma/client";
+// import { AuditLog } from "@prisma/client";
 import client from "@/lib/api/client";
+import { PageResponse } from "@/types/api";
+import { components } from '@/lib/api/schema';
 
+type AuditLog = components["schemas"]["AuditLog"];
 // 操作类型选项
 const operationTypeOptions = [
   { value: "", label: "全部类型" },
@@ -67,10 +69,23 @@ const AuditLogList = () => {
     isError,
     error,
   } = useQuery({
-    ...getAuditLogOptions({
-      query: filters,
-    }),
-    select: (data) => (data.data?.items || []) as AuditLog[],
+    // ...getAuditLogOptions({
+    //   query: filters,
+    // }),
+    queryKey: ["auditLogs", filters],
+    queryFn: () =>
+      client.GET("/api/auditLog", {
+        query: {
+          page: filters.page,
+          pageSize: filters.pageSize,
+          operationType: filters.operationType,
+          targetType: filters.targetType,
+          startDate: filters.startDate,
+          endDate: filters.endDate,
+          keyword: filters.keyword,
+        },
+      }),
+    select: (data) => (data?.data?.data?.list || []),
     placeholderData: keepPreviousData,
   });
 

@@ -4,37 +4,6 @@ package business_system;
 
 import "google/protobuf/timestamp.proto";
 
-// 城市信息
-message City {
-  string id = 1;
-  string name = 2;
-  google.protobuf.Timestamp created_at = 3;
-  google.protobuf.Timestamp updated_at = 4;
-}
-
-message CityList {
-  repeated City list = 1;
-}
-
-// 区域信息
-message District {
-  string id = 1;
-  string name = 2;
-  string city_id = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp updated_at = 5;
-}
-
-// 商圈信息
-message CBD {
-  string id = 1;
-  string name = 2;
-  optional string addr = 3; // 可选字段，与 Prisma 的 addr? 一致
-  string district_id = 4;
-  google.protobuf.Timestamp created_at = 5;
-  google.protobuf.Timestamp updated_at = 6;
-}
-
 // 物业分区信息
 message Part {
   string id = 1;
@@ -127,31 +96,6 @@ message Space {
   optional string construction_attention = 14;
   google.protobuf.Timestamp created_at = 15;
   google.protobuf.Timestamp updated_at = 16;
-}
-
-// 审计日志
-message AuditLog {
-  string id = 1;
-  OperationType operation_type = 2;
-  OperationTarget target_type = 3;
-  string target_id = 4;
-  string target_name = 5;
-  string content = 6;
-  string operator_id = 7;
-  string operator_name = 8;
-  google.protobuf.Timestamp operation_time = 9;
-  map<string, string> details = 10; // Prisma 使用 Json，转为 map
-  optional string ip_address = 11;
-  optional string user_agent = 12;
-}
-
-// 审计日志列表响应
-message AuditLogList {
-  repeated AuditLog items = 1;
-  int32 total = 2;
-  int32 page = 3;
-  int32 page_size = 4;
-  int32 total_pages = 5;
 }
 
 // 枚举定义（与 Prisma 保持一致）
@@ -267,22 +211,3 @@ enum SpaceStability {
   TEMPORARY = 4;  // 临时
 }
 
-enum OperationType {
-  OPERATION_TYPE_UNSPECIFIED = 0;
-  BROWSE = 1; // 浏览
-  CREATE = 2; // 新增
-  UPDATE = 3; // 编辑
-  DELETE = 4; // 删除
-}
-
-enum OperationTarget {
-  OPERATION_TARGET_UNSPECIFIED = 0;
-  cbd = 1;      // 商圈
-  PART = 2;     // 分区
-  POSITION = 3; // 铺位
-  SHOP = 4;     // 商家
-  SPACE = 5;    // 广告位
-  DASHBOARD = 6; // 仪表盘
-  CITY = 7;     // 城市
-  DISTRICT = 8; // 区域
-}

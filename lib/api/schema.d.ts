@@ -103,7 +103,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/city/cityList": {
+    "/api/city/list": {
         parameters: {
             query?: never;
             header?: never;
@@ -530,7 +530,7 @@ export interface paths {
                             code?: number;
                             data?: {
                                 list: {
-                                    positionId: string;
+                                    id: string;
                                     position_no: string;
                                     shopId: null | string;
                                     shop_no: null | string;
@@ -1882,7 +1882,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/dashboard/": {
+    "/api/dashboard": {
         parameters: {
             query?: never;
             header?: never;
@@ -2081,7 +2081,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auditLog/": {
+    "/api/auditLog": {
         parameters: {
             query?: never;
             header?: never;
@@ -2116,7 +2116,7 @@ export interface paths {
                         "application/json": {
                             code?: number;
                             data?: {
-                                items: {
+                                list: {
                                     id: string;
                                     operationType: string;
                                     targetType: string;
@@ -2441,7 +2441,7 @@ export interface components {
     parameters: never;
     requestBodies: never;
     headers: never;
-    pathItems: never;
+    pathlist: never;
 }
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;

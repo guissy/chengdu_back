@@ -30,12 +30,12 @@ const PartListPage = () => {
   const { data: partList, isLoading } = useQuery({
     queryKey: ["partList", filterCbdId],
     queryFn: async () => {
-      const res = await client.POST<ListResponse<Part>>("/api/part/list", {
+      const res = await client.POST("/api/part/list", {
         body: {
           cbdId: filterCbdId,
         }
       });
-      return res.data?.list || [];
+      return res.data?.data?.list || [];
     }
   });
 

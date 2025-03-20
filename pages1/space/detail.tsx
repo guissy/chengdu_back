@@ -106,7 +106,7 @@ const SpaceDetail: React.FC<Props> = ({ params }) => {
           },
         },
       });
-      return res.data;
+      return res.data?.data;
     },
     enabled: !!id,
   });
