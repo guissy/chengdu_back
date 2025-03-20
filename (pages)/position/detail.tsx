@@ -147,7 +147,7 @@ const PositionDetail = ({ params }: PositionDetailProps) => {
       />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="card bg-base-100 shadow">
+        <div className="card bg-base-100 shadow" data-cy="card-base">
           <div className="card-body">
             <h2 className="card-title">基本信息</h2>
             <div className="space-y-4">
@@ -179,7 +179,7 @@ const PositionDetail = ({ params }: PositionDetailProps) => {
           </div>
         </div>
 
-        <div className="card bg-base-100 shadow">
+        <div className="card bg-base-100 shadow" data-cy="card-count">
           <div className="card-body">
             <h2 className="card-title">统计信息</h2>
             <div className="stats stats-vertical shadow">

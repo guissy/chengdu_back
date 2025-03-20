@@ -172,7 +172,7 @@ const SpaceDetail: React.FC<Props> = ({ params }) => {
           }
         />
         {/* Shop info card */}
-        <div className="card bg-base-100 shadow-xl mb-6">
+        <div className="card bg-base-100 shadow-xl mb-6" data-cy="space-base-card">
           <div className="card-body">
             <h2 className="card-title flex justify-between">
               <span>{space.shop?.trademark}{space.shop?.branch ? ` (${space.shop?.branch})` : ''}</span>

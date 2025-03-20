@@ -25,8 +25,7 @@ export const SpaceResponseSchema = z.object({
     trademark: z.string(),
     branch: z.string(),
     type_tag: z.string(),
-    // name: z.string(),
-  }),
+  }).optional(),
 });
 
 // 广告位列表请求

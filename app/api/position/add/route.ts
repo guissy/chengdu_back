@@ -3,6 +3,11 @@ import { successResponse, errorResponse } from '@/lib/api/response'
 import prisma from '@/lib/prisma'
 import { PositionAddRequestSchema } from '@/lib/schema/position'
 
+/**
+ * @desc: 添加新铺位
+ * @body: PositionAddRequest
+ */
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

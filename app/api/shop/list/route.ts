@@ -57,12 +57,15 @@ export async function GET(request: NextRequest) {
     // 转换数据格式
     const list = shops.map(shop => ({
       ...shop,
-      positions: shop.position ? [{
-        positionId: shop.position.id,
+      position: shop.position ? {
+        id: shop.position.id,
         position_no: shop.position.position_no,
-        partId: shop.part.id,
-        part_name: shop.part.name,
-      }] : [],
+        photo: shop.position.photo,
+      } : undefined,
+      part: shop.part ? {
+        id: shop.part.id,
+        name: shop.part.name,
+      } : undefined,
     }))
 
     const response = { list }

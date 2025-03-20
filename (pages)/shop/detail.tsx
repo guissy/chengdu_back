@@ -66,11 +66,12 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
           shopId: id!,
         }
       });
+      console.log(`☞☞☞ 9527 %c res =`, 'color:red;font-size:16px', res,  'detail');
       return res.data?.data?.list! as unknown as Space[] ?? [];
     },
-    enabled: !!id,
+    // enabled: !!id,
   });
-
+console.log(`☞☞☞ 9527 %c spacesData =`, 'color:red;font-size:16px', spacesData,  'detail');
   // 广告位列定义
   const columnHelper = createColumnHelper<Space>();
   const columns = useMemo(() => [
@@ -174,7 +175,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
       />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div className="card bg-base-100 shadow">
+        <div className="card bg-base-100 shadow" data-cy="base-card">
           <div className="card-body">
             <h2 className="card-title">基本信息</h2>
             <div className="divider my-1"></div>
@@ -375,6 +376,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
                   <img
                     src={photo}
                     alt={`商家照片 ${index + 1}`}
+                    data-cy="environment-photo"
                     className="h-full w-full object-cover"
                   />
                 </div>

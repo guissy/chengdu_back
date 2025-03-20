@@ -11,7 +11,7 @@ import FormDialog from '@/components/ui/form-dialog';
 import client from "@/lib/api/client";
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { ShopAddRequestSchema, ShopListResponseSchema } from '@/lib/schema/shop';
+import { ShopListResponseSchema } from '@/lib/schema/shop';
 
 type Shop = NonNullable<z.infer<typeof ShopListResponseSchema>['data']>['list'][number];
 

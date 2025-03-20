@@ -46,7 +46,7 @@ export function DataTable<TData, TValue = unknown>({
   const [sortingState, setSortingState] = useState<SortingState>([]);
 
   const table = useReactTable({
-    data,
+    data: data ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     state: {
@@ -109,20 +109,20 @@ export function DataTable<TData, TValue = unknown>({
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={columns.length} className="text-center py-4">
+                  <td colSpan={columns?.length} className="text-center py-4">
                     <div className="flex justify-center">
                       <span className="loading loading-spinner loading-md"></span>
                     </div>
                   </td>
                 </tr>
-              ) : table.getRowModel().rows.length === 0 ? (
+              ) : table.getRowModel().rows?.length === 0 ? (
                 <tr>
-                  <td colSpan={columns.length} className="text-center py-4">
+                  <td colSpan={columns?.length} className="text-center py-4">
                     没有找到数据
                   </td>
                 </tr>
               ) : (
-                table.getRowModel().rows.map((row) => (
+                table.getRowModel().rows?.map((row) => (
                   <tr
                     key={row.id}
                     className={onRowClick ? 'cursor-pointer hover:bg-base-200' : ''}
@@ -147,9 +147,9 @@ export function DataTable<TData, TValue = unknown>({
             显示第 {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} 至{' '}
             {Math.min(
               (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
-              table.getFilteredRowModel().rows.length
+              table.getFilteredRowModel().rows?.length
             )}{' '}
-            条，共 {table.getFilteredRowModel().rows.length} 条
+            条，共 {table.getFilteredRowModel().rows?.length} 条
           </div>
           <div className="flex items-center space-x-6 lg:space-x-8">
             <div className="flex items-center space-x-2">

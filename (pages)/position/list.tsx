@@ -181,6 +181,7 @@ const PositionListPage = () => {
               value={filterPartId}
               onChange={(e) => setFilterPartId(e.target.value)}
               fullWidth
+              data-cy="part-select"
             />
           </div>
           <div className="w-full md:w-64">

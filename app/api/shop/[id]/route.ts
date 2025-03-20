@@ -43,34 +43,22 @@ export async function GET(
 
     // 转换数据格式
     const response = {
-      id: shop.id,
-      shop_no: shop.shop_no,
-      // name: shop.name,
-      contact_name: shop.contact_name,
-      contact_phone: shop.contact_phone,
-      business_type: shop.business_type,
-      trademark: shop.trademark,
-      branch: shop.branch,
-      average_expense: shop.average_expense,
-      total_area: shop.total_area,
-      customer_area: shop.customer_area,
-      clerk_count: shop.clerk_count,
-      business_hours: shop.business_hours,
-      rest_days: shop.rest_days,
-      shop_description: shop.shop_description,
-      verified: shop.verified,
-      displayed: shop.displayed,
+      ...shop,
       position: shop.position ? {
         id: shop.position.id,
         position_no: shop.position.position_no,
-      } : {},
+        photo: shop.position.photo,
+      } : undefined,
       part: shop.part ? {
         id: shop.part.id,
         name: shop.part.name,
-      } : {},
+      } : undefined,
     }
-    if (!ShopResponseSchema.safeParse(response).success) {
-      return errorResponse('Invalid response data', 500)
+    
+    // 优化验证逻辑，避免重复调用safeParse
+    const validateResult = ShopResponseSchema.safeParse(response)
+    if (!validateResult.success) {
+      return errorResponse('Invalid response data', 500, validateResult.error)
     }
     return successResponse(response)
   } catch (error) {

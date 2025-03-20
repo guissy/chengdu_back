@@ -80,11 +80,11 @@ const shopPosition = {
     put_space: true,
     total_space: true,
     photo: true
-  }),
+  }).optional(),
   part: PartSchema.pick({
     id: true,
     name: true,
-  }),
+  }).optional(),
 }
 
 // 商家模型

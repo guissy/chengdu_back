@@ -37,20 +37,9 @@ export async function GET(
 
     // 转换数据格式
     const response = {
-      positionId: position.id,
-      position_no: position.position_no,
+      ...position,
       shopId: position.shop?.id || null,
       shop_no: position.shop?.shop_no || null,
-      total_space: position.total_space,
-      put_space: position.put_space,
-      price_base: position.price_base,
-      verified: position.verified,
-      displayed: position.displayed,
-      type: position.type,
-      type_tag: position.type_tag,
-      photo: position.photo,
-      remark: position.remark,
-      business_hours: position.business_hours,
     }
 
     return successResponse(response)
