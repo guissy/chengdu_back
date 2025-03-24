@@ -5,9 +5,9 @@ import { toast } from 'react-hot-toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 import { usePositionStore } from '@/features/position/position-store';
-import FormDialog from '@/components/ui/form-dialog';
+import {FormDialog} from "chengdu_ui";
 import client from "@/lib/api/client";
-import Select from '@/components/ui/select';
+import {Select} from "chengdu_ui";
 
 interface FormValues {
   shopId: string;

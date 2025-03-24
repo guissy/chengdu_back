@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from 'react'
 import DistrictList from '@/(pages)/district/list'
-import LoadingSpinner from '@/components/ui/loading-spinner';
+import {LoadingSpinner} from 'chengdu_ui';
 
 // export const metadata = {
 //   title: '行政区划 - Business System',

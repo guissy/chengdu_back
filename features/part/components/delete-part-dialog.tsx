@@ -4,7 +4,7 @@ import { usePartStore } from '../part-store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from "@/lib/api/client";
 import { useRouter } from 'next/navigation';
-import ConfirmDialog from '@/components/ui/confirm-dialog';
+import {ConfirmDialog} from "chengdu_ui";
 
 const DeletePartDialog = () => {
   const { isDeleteDialogOpen, closeDeleteDialog, currentPart } = usePartStore();

@@ -2,15 +2,15 @@
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import PageHeader from '@/components/ui/page-header';
-import { Button } from '@/components/ui/button';
+import {PageHeader} from "chengdu_ui";
+import { Button } from "chengdu_ui";
 import { useQuery } from '@tanstack/react-query';
 import DeletePartDialog from '@/features/part/components/delete-part-dialog';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
 import { usePartStore } from '@/features/part/part-store';
 import { FiArrowLeft, FiEdit2, FiPlus, FiTrash2 } from 'react-icons/fi';
-import DataTable from '@/components/ui/table';
+import {DataTable} from "chengdu_ui";
 import EditPartDialog from '@/features/part/components/edit-part-dialog';
 import client from "@/lib/api/client";
 import { PartListResponseSchema } from '@/lib/schema/part';

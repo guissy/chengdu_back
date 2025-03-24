@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { DataTable } from '@/components/ui/table';
+import { DataTable } from "chengdu_ui";
 
 // 变更明细类型定义
 type ChangeDetail = {

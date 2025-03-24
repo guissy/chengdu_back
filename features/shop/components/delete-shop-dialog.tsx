@@ -3,7 +3,7 @@ import { toast } from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useShopStore } from '@/features/shop/shop-store';
 import { useRouter } from 'next/navigation';
-import ConfirmDialog from '@/components/ui/confirm-dialog';
+import {ConfirmDialog} from "chengdu_ui";
 import client from "@/lib/api/client";
 
 const DeleteShopDialog = () => {

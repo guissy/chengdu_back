@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
-import Input from '@/components/ui/input';
-import Select from '@/components/ui/select';
+import {Input} from "chengdu_ui";
+import {Select} from "chengdu_ui";
 import { usePartStore } from '../part-store';
 import { useMutation } from '@tanstack/react-query';
 import client from "@/lib/api/client";
 import { z } from 'zod';
-import FormDialog from '@/components/ui/form-dialog';
+import {FormDialog} from "chengdu_ui";
 import { PartAddRequestSchema } from '@/lib/schema/part';
 
 // 表单验证模式

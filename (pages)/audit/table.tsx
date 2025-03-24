@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { FiInfo } from 'react-icons/fi';
-import { DataTable } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { DataTable } from "chengdu_ui";
+import { Button } from "chengdu_ui";
+import { Badge } from "chengdu_ui";
 // import { AuditLog } from '@prisma/client';
 import { components } from '@/lib/api/schema';
 

@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'react-hot-toast';
-import Input from '@/components/ui/input';
+import {Input} from "chengdu_ui";
 import { usePartStore } from '../part-store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from "@/lib/api/client";
-import FormDialog from '@/components/ui/form-dialog';
+import {FormDialog} from "chengdu_ui";
 import { PartUpdateRequestSchema } from '@/lib/schema/part';
 
 // 表单验证模式

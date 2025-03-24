@@ -1,6 +1,6 @@
 import { FiGrid, FiLayout, FiMap, FiMapPin, FiMonitor, FiShoppingBag, FiTag } from 'react-icons/fi';
 import Link from 'next/link';
-import PageHeader from '@/components/ui/page-header';
+import {PageHeader} from "chengdu_ui";
 import { useQuery } from '@tanstack/react-query';
 import client from '@/lib/api/client';
 import RecentAuditLogs from '@/(pages)/audit/recent-audit-logs';

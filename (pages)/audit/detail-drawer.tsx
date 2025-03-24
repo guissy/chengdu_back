@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from 'chengdu_ui';
+import { Badge } from "chengdu_ui";
 import LogChangesTable from '@/(pages)/dashboard/LogChangesTable';
 // import { AuditLog } from '@prisma/client';
 import { targetTypeMap } from './table';

@@ -2,22 +2,22 @@
 import { useEffect, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { FiActivity, FiFilter, FiRefreshCw } from "react-icons/fi";
-import { Button } from "@/components/ui/button";
-import Input from "@/components/ui/input";
-import Select from "@/components/ui/select";
+import { Button } from "chengdu_ui";
+import {Input} from "chengdu_ui";
+import {Select} from "chengdu_ui";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { useToast } from "@/components/ui/useToast";
+} from "chengdu_ui';
+import { useToast } from "chengdu_ui";
 // import { AuditLog } from '@prisma/client';
 import AuditLogTable from "./table";
 import AuditLogDetailDrawer from "./detail-drawer";
 import Link from "next/link";
-import PageHeader from "@/components/ui/page-header";
+import {PageHeader} from "chengdu_ui";
 // import { AuditLog } from "@prisma/client";
 import client from "@/lib/api/client";
 import { PageResponse } from "@/types/api";

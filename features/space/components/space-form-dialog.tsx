@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import { z } from 'zod';
-import Input from '@/components/ui/input';
-import Select from '@/components/ui/select';
-import FormDialog from '@/components/ui/form-dialog';
+import {Input} from "chengdu_ui";
+import {Select} from "chengdu_ui";
+import {FormDialog} from "chengdu_ui";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from "@/lib/api/client";
 import { useSpaceStore } from '../space-store';
-import TextArea from '@/components/ui/textarea';
+import {TextArea} from "chengdu_ui";
 
 // 表单验证 schema
 export const spaceSchema = z.object({

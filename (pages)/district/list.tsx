@@ -1,9 +1,9 @@
 "use client";
 
 import { useQuery } from '@tanstack/react-query';
-import PageHeader from '@/components/ui/page-header';
-import { Button } from '@/components/ui/button';
-import { DataTable } from '@/components/ui/table';
+import {PageHeader} from "chengdu_ui";
+import { Button } from "chengdu_ui";
+import { DataTable } from "chengdu_ui";
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { FiEdit2, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useEffect, useMemo, useState } from 'react';

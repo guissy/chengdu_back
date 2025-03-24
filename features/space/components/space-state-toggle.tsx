@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-import Button from '@/components/ui/button';
+import {Button} from "chengdu_ui";
 import client from '@/lib/api/client';
 import {  SpaceState } from '@prisma/client';
 import { SpaceListResponseSchema } from '@/lib/schema/space';

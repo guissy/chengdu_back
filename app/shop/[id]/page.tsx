@@ -1,7 +1,7 @@
 "use client";
 import { Suspense, use } from 'react'
 import ShopDetail from '@/(pages)/shop/detail'
-import LoadingSpinner from '@/components/ui/loading-spinner';
+import {LoadingSpinner} from 'chengdu_ui';
 
 // export const metadata = {
 //   title: '商家详情 - Business System',

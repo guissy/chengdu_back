@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'chengdu_ui';
+import { Badge } from "chengdu_ui";
+import { Button } from "chengdu_ui";
 import { FiInfo } from 'react-icons/fi';
-import { useToast } from '@/components/ui/useToast';
+import { useToast } from "chengdu_ui";
 import AuditLogDetailDrawer from './detail-drawer';
 import { targetTypeMap } from './table';
 import client from '@/lib/api/client';

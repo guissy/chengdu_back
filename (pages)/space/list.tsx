@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { FiEdit2, FiFilter, FiPlus, FiSearch } from 'react-icons/fi';
-import PageHeader from '@/components/ui/page-header';
-import Button from '@/components/ui/button';
-import Input from '@/components/ui/input';
-import Select from '@/components/ui/select';
-import DataTable from '@/components/ui/table';
+import {PageHeader} from "chengdu_ui";
+import {Button} from "chengdu_ui";
+import {Input} from "chengdu_ui";
+import {Select} from "chengdu_ui";
+import {DataTable} from "chengdu_ui";
 import { useQuery } from '@tanstack/react-query';
 import { useSpaceStore } from '@/features/space/space-store';
 import SpaceFormDialog from '@/features/space/components/space-form-dialog';

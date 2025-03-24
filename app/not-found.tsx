@@ -1,9 +1,9 @@
 "use client";
-// import Button from "@/components/ui/button";
+// import {Button} from "chengdu_ui";
 import Link from "next/link";
 // import { Suspense } from "react";
 // import { FiArrowLeft } from "react-icons/fi";
-// import LoadingSpinner from '@/components/ui/loading-spinner';
+// import {LoadingSpinner} from 'chengdu_ui';
 
 // export const metadata = {
 //   title: "404 Not Found - Business System",

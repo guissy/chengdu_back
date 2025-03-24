@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import client from "@/lib/api/client";
 import { usePositionStore } from '@/features/position/position-store';
 import { useRouter } from 'next/navigation';
-import ConfirmDialog from '@/components/ui/confirm-dialog';
+import {ConfirmDialog} from "chengdu_ui";
 
 const DeletePositionDialog = () => {
   const { isDeleteDialogOpen, closeDeleteDialog, currentPosition } = usePositionStore();
