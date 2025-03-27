@@ -5,13 +5,7 @@ import { FiActivity, FiFilter, FiRefreshCw } from "react-icons/fi";
 import { Button } from "chengdu_ui";
 import {Input} from "chengdu_ui";
 import {Select} from "chengdu_ui";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "chengdu_ui';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "chengdu_ui";
 import { useToast } from "chengdu_ui";
 // import { AuditLog } from '@prisma/client';
 import AuditLogTable from "./table";
